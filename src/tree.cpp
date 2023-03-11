@@ -1,10 +1,10 @@
-#include <main.h>
-
 #include <tree.h>
+#include <functionality.h>
+using namespace std;
 
 int add_element(flight*& root, const flight& data) {
     flight* new_joint = new flight{};
-    strcpy(new_joint->number, data.number);
+    strcpy_s(new_joint->number, data.number);
     new_joint->company = data.company;
     new_joint->departure = data.departure;
     new_joint->arriving = data.arriving;
@@ -15,8 +15,6 @@ int add_element(flight*& root, const flight& data) {
 
     flight* current_joint = root;
     flight* prev_joint = nullptr;
-    int cur_number = 0;
-    int new_number = std::stoi(data.number);
     
     if (root == nullptr) {
         root = new_joint;
@@ -24,14 +22,13 @@ int add_element(flight*& root, const flight& data) {
     else {
         while (current_joint != nullptr) { // перемещение до решающего узла
             prev_joint = current_joint;
-            cur_number = std::stoi(current_joint->number);
-            if (new_number < cur_number) {
+            if (strcmp(new_joint->number, current_joint->number) < 0) {
                 current_joint = current_joint->left;
             }
-            else if (new_number > cur_number) {
+            else if (strcmp(new_joint->number, current_joint->number) > 0) {
                 current_joint = current_joint->right;
             }
-            else if (current_joint->left != nullptr && std::stoi((current_joint->left)->number) == new_number) {
+            else if (strcmp((current_joint->left)->number, new_joint->number) == 0) {
                 return 1; // уже существует
             }
             else {
@@ -41,12 +38,11 @@ int add_element(flight*& root, const flight& data) {
         if (current_joint == nullptr) { //решающий узел
             current_joint = prev_joint;
         }
-        cur_number = std::stoi(current_joint->number);
         new_joint->prev = current_joint;
-        if (new_number < cur_number) {
+        if (strcmp(new_joint->number, current_joint->number) < 0) {
             current_joint->left = new_joint;
         }
-        else if (new_number > cur_number) {
+        else if (strcmp(new_joint->number, current_joint->number) > 0) {
             current_joint->right = new_joint;
         }
         /* если новые данные такие же, как у решающего узла, 
@@ -80,69 +76,45 @@ int add_element(flight*& root, const flight& data) {
     return 0;
 }
 
-int delete_element(flight*& root, const int number) {
+int delete_element(flight*& root, const char* number) {
     if (root == nullptr) {
         return 1;
     }
     flight* current_joint = root;
     flight* prev_joint = nullptr;
     flight* maxleft = nullptr;
-    int cur_number = 0;
     while (current_joint != nullptr) { // дойти до узла(или пустоты) после искомого узла
         prev_joint = current_joint;
-        cur_number = std::stoi(current_joint->number);
-        if (number < cur_number) {
+        if (strcmp(number, current_joint->number) < 0) {
             current_joint = current_joint->left;
         }
-        else if (number > cur_number) {
+        else if (strcmp(number, current_joint->number) > 0) {
             current_joint = current_joint->right;
         }
-        else if (current_joint->left != nullptr && std::stoi((current_joint->left)->number) == number) {
-            current_joint = current_joint->left;
+        else if (current_joint->left != nullptr && strcmp(((current_joint->left)->number), number) == 0) {
+            return 1; // уже существует
         }
         else {
             break;
         }
     }
     current_joint = prev_joint; //рассмотреть нужный удаляемый узел
-    if (number != std::stoi(current_joint->number)) {
+    if (strcmp(number, current_joint->number) != 0) {
         return 2; // не найдено
     }
     else {
-        maxleft = find_maxleft(current_joint); //левый максимум поддерева
-        if (maxleft == nullptr) { //если правой ветви в левом поддереве нет
+        maxleft = find_maxleft(current_joint); //максимум левого поддерева
+        if (maxleft == nullptr) { //если левой ветви нет
             if (current_joint->prev != nullptr) { //если удаляемый не корень
                 prev_joint = current_joint->prev;
-                if (number < std::stoi(prev_joint->number)) {
-                    prev_joint->left = current_joint->left;
-                    if (current_joint->left != nullptr) {
-                        (current_joint->left)->prev = prev_joint;
-                        (current_joint->left)->right = current_joint->right;
-                        if (current_joint->right != nullptr) {
-                            (current_joint->right)->prev = current_joint->left;
-                        }
-                    }
+                if (strcmp(number, prev_joint->number) < 0) {
+                    prev_joint->left = current_joint->right;
                 }
-                else if (number > std::stoi(prev_joint->number)) {
-                    prev_joint->right = current_joint->left;
-                    if (current_joint->left != nullptr) {
-                        (current_joint->left)->prev = prev_joint;
-                        (current_joint->left)->right = current_joint->right;
-                        if (current_joint->right != nullptr) {
-                            (current_joint->right)->prev = current_joint->left;
-                        }
-                    }
+                else if (strcmp(number, prev_joint->number) > 0) {
+                    prev_joint->right = current_joint->right;
                 }
-                else { // data==prev
-                    prev_joint->left = current_joint->left;
-                    if (current_joint->left != nullptr) {
-                        (current_joint->left)->prev = prev_joint;
-                        (current_joint->left)->right = current_joint->right;
-                        if (current_joint->right != nullptr) {
-                            (current_joint->right)->prev = current_joint->left;
-                        }
-                    }
-                    
+                if (current_joint->right != nullptr) {
+                    (current_joint->right)->prev = prev_joint;
                 }
                 delete current_joint;
                 current_joint = nullptr;
@@ -152,42 +124,33 @@ int delete_element(flight*& root, const int number) {
                 root = nullptr;
             }
         }
-        else { // если правая ветвь в левом поддереве есть
-            prev_joint = maxleft->prev; // родительский узел максимума
-            
+        else { // если левая ветвь есть
             if (maxleft->left != nullptr) { // если у левого максимума есть левая ветвь
-                prev_joint->right = maxleft->left;
-                (maxleft->left)->prev = prev_joint;
+                if (maxleft->prev != nullptr && maxleft->prev != current_joint) { // если у заменяющего есть предок
+                    (maxleft->prev)->right = maxleft->left;
+                    (maxleft->left)->prev = maxleft->prev;
+                    maxleft->left = nullptr;
+                }
             }
             
             maxleft->right = current_joint->right;
+            if (current_joint->right != nullptr) {
+                (current_joint->right)->prev = maxleft;
+            }
             prev_joint = current_joint->prev; // родительский узел удаляемого узла
             if (prev_joint != nullptr) { //если удаляемый не корень
-                if (number < std::stoi(prev_joint->number)) {
+                if (strcmp(number, prev_joint->number) < 0) {
                     prev_joint->left = maxleft;
                 }
-                else if (number > std::stoi(prev_joint->number)) {
+                else if (strcmp(number, prev_joint->number) > 0) {
                     prev_joint->right = maxleft;
                 }
-                else {
-                    prev_joint->left = maxleft;
-                }
             }
-            if (maxleft->prev != nullptr) { // если у заменяющего есть предок
-                if (number < std::stoi(maxleft->prev->number)) {
-                    (maxleft->prev)->left = maxleft->left;
-                }
-                else if (number > std::stoi(maxleft->prev->number)) {
-                    (maxleft->prev)->right = maxleft->left;
-                }
-                else {
-                    (maxleft->prev)->left = maxleft->left;
-                }
+            if (maxleft->prev != current_joint) {
+                maxleft->left = current_joint->left;
+                (maxleft->prev)->right = nullptr;
             }
-            maxleft->left = current_joint->left;
             maxleft->prev = current_joint->prev;
-            delete current_joint;
-            current_joint = nullptr;
             if(maxleft->left != nullptr) {
                 (maxleft->left)->prev = maxleft;
             }
@@ -197,6 +160,8 @@ int delete_element(flight*& root, const int number) {
             if (maxleft->prev == nullptr) {
                 root = maxleft;
             }
+            delete current_joint;
+            current_joint = nullptr;
         }
     }
     height_recalculation(root);
@@ -207,39 +172,41 @@ int delete_element(flight*& root, const int number) {
     return 0;
 }
 
-bool is_exists(const flight* subroot, const std::string number) {
+bool is_exists(const flight* subroot, const string& number) {
     if (subroot != nullptr) {
-        if (is_exists(subroot->left, number)) {
+        string nb = number;
+        if (number.find('-') != string::npos) {
+            nb.erase(3, 1);
+        }
+        if (is_exists(subroot->left, nb)) {
             return true;
         }
-        if (strcmp(subroot->number, number.c_str()) == 0) {
+        if (strcmp(subroot->number, nb.c_str()) == 0) {
             return true;
         }
-        if (is_exists(subroot->right, number)) {
+        if (is_exists(subroot->right, nb)) {
             return true;
         }
     }
     return false;
 }
 
-flight* find_element(flight* root, const int number) {
+flight* find_element(flight* root, const char* number) {
     flight* prev_joint = nullptr;
     flight* current_joint = root;
-    int cur_number = 0;
     if (root == nullptr) {
         return nullptr;
     }
     else {
         while (current_joint != nullptr) { // перемещение до нужного узла
             prev_joint = current_joint;
-            cur_number = std::stoi(current_joint->number);
-            if (number < cur_number) {
+            if (strcmp(number, current_joint->number) < 0) {
                 current_joint = current_joint->left;
             }
-            else if (number > cur_number) {
+            else if (strcmp(number, current_joint->number) > 0) {
                 current_joint = current_joint->right;
             }
-            else if (current_joint->left != nullptr && std::stoi((current_joint->left)->number) == number) {
+            else if (current_joint->left != nullptr && strcmp((current_joint->left)->number, number) == 0) {
                 current_joint = current_joint->left;
             }
             else { // найден самый левый нужный узел
@@ -249,14 +216,14 @@ flight* find_element(flight* root, const int number) {
         if (current_joint == nullptr) { //если нужный узел - лист, то перемещаемся из пустоты в него
             current_joint = prev_joint;
         }
-        if (std::stoi(current_joint->number) != number) {
+        if (strcmp(current_joint->number, number) != 0) {
             return nullptr;
         }
     }
     return current_joint;
 }
 
-bool find_elements_bytext(flight* subroot, found_flights*& ffl, const std::string text) { //обратный
+bool find_elements_bytext(flight* subroot, found_flights*& ffl, const string text) { //обратный
     if (subroot != nullptr) {
         bool ret = find_elements_bytext(subroot->left, ffl, text);
         ret = find_elements_bytext(subroot->right, ffl, text);
@@ -275,7 +242,6 @@ flight* find_maxleft(flight* subroot) {
     if (subroot == nullptr) {
         return nullptr;
     }
-    int data = std::stoi(subroot->number);
     flight* current_joint = subroot;
     current_joint = current_joint->left;
     if (current_joint == nullptr) {
@@ -291,7 +257,6 @@ flight* find_minright(flight* subroot) {
     if (subroot == nullptr) {
         return nullptr;
     }
-    int data = std::stoi(subroot->number);
     flight* current_joint = subroot;
     current_joint = current_joint->right;
     if (current_joint == nullptr) {
@@ -306,52 +271,17 @@ flight* find_minright(flight* subroot) {
     return current_joint;
 }
 
-void output_flights(const flight* const subroot) {
+void output_tree_height(flight* subroot, long int n, const int direction, bool changed) {
     if (subroot != nullptr) {
-        char* nmbr = new char[8]{};
-        char* source = (char*)subroot->number;
+        const int num_middle = ((int)log10(subroot->height) + 1 + 7) / 2;
+        const int branch_lengh = 8;
         // углубление максимально вправо
-        output_flights(subroot->left); 
-        //вывод листа
-        strncpy(nmbr, source, 3);
-        nmbr[3] = '-'; nmbr[4] = source[3];
-        nmbr[5] = source[4]; nmbr[6] = source[5]; nmbr[7] = '\0';
-        std::cout << std::setw(20) << std::left << "Рейс №" << nmbr << std::endl;
-        std::cout << std::setw(20) << std::left << "Компания: " << subroot->company << std::endl;
-        std::cout << std::setw(20) << std::left << "Отправляется из: " << subroot->departure << std::endl;
-        std::cout << std::setw(20) << std::left << "В: " << subroot->arriving << std::endl;
-        std::cout << std::setw(20) << std::left << "Время отправления: " << subroot->dep_time << std::endl;
-        std::cout << std::setw(20) << std::left << "Время прибытия: " << subroot->arv_time << std::endl;
-        std::cout << std::setw(20) << std::left << "Всего " << subroot->places << " мест, из которых " << subroot->free << " свободно." << std::endl;
-        // после углубления вправо просматриваем уже левые поддеревья
-        output_flights(subroot->right); 
-        delete[] nmbr;
-    }
-}
-
-void output_flights_height(flight *subroot) {
-    if (subroot != nullptr) {
-        // углубление максимально вправо
-        output_flights_height(subroot->left); 
+        output_tree_height(subroot->right, n + branch_lengh + num_middle, 2, (bool)(direction != 2));
         //вывод высоты подкорня
-        std::cout << "Рейс №" << subroot->number << std::endl;
-        std::cout << subroot->height << std::endl;
-        // после углубления вправо просматриваем уже левые поддеревья
-        output_flights_height(subroot->right); 
-    }
-}
 
-void output_tree_height(flight *subroot, long int n, const int direction, bool changed) {
-    if (subroot != nullptr) {
-        const int num_middle = ((int)log10(subroot->height) + 7) / 2;
-        const int branch_lengh = 5;
-        // углубление максимально вправо
-        output_tree_height(subroot->right, n + branch_lengh + num_middle, 2, (bool)(direction != 2)); 
-        //вывод высоты подкорня
-        
         for (long i = 0; i < n; i++) {
             if (i < n - branch_lengh) {
-                if (i == n - branch_lengh*2 - num_middle && changed) {
+                if (i == n - branch_lengh * 2 - num_middle && changed) {
                     std::cout << '|';
                 }
                 else {
@@ -370,9 +300,9 @@ void output_tree_height(flight *subroot, long int n, const int direction, bool c
                 }
             }
         }
-        std::cout << "№" << subroot->number << ' ' << subroot->height << std::endl;
+        std::cout << "№" << subroot->number << '*' << subroot->height << std::endl;
         // после углубления вправо просматриваем уже левые поддеревья
-        output_tree_height(subroot->left, n + branch_lengh + num_middle, 1, (bool)(direction != 1)); 
+        output_tree_height(subroot->left, n + branch_lengh + num_middle, 1, (bool)(direction != 1));
     }
 }
 
@@ -411,7 +341,7 @@ bool tree_accuracy(flight* subroot) {
             else if (subroot->right == subroot) {
                 return false;
             }
-            else if (std::stoi((subroot->right)->number) < std::stoi(subroot->number)) {
+            else if (strcmp((subroot->right)->number, subroot->number) < 0) {
                 return false;
             }
         }
@@ -422,7 +352,7 @@ bool tree_accuracy(flight* subroot) {
             else if (subroot->left == subroot) {
                 return false;
             }
-            else if (std::stoi((subroot->left)->number) > std::stoi(subroot->number)) {
+            else if (strcmp((subroot->left)->number, subroot->number) > 0) {
                 return false;
             }
         }
@@ -446,10 +376,10 @@ void SmallLeftRotate(flight*& root) {
     rightTree->prev = root->prev;
     root->prev = nullptr;
     if (root->prev != nullptr) {
-        if (std::stoi(root->number) < std::stoi((root->prev)->number)) {
+        if (strcmp(root->number, (root->prev)->number) < 0) {
             (root->prev)->left = rightTree;
         }
-        else if (std::stoi(root->number) > std::stoi((root->prev)->number)) {
+        else if (strcmp(root->number, (root->prev)->number) > 0) {
             (root->prev)->right = rightTree;
         }
         else {
@@ -478,10 +408,10 @@ void SmallRightRotate(flight*& root) {
     root->prev = nullptr;
     root->prev = leftTree;
     if (rootprev != nullptr) {
-        if (std::stoi(root->number) < std::stoi(rootprev->number)) {
+        if (strcmp(root->number, rootprev->number) < 0) {
             rootprev->left = leftTree;
         }
-        else if (std::stoi(root->number) > std::stoi(rootprev->number)) {
+        else if (strcmp(root->number, rootprev->number) > 0) {
             rootprev->right = leftTree;
         }
         else {
@@ -584,7 +514,7 @@ void FullBalance(flight*& subroot) {
         //height_recalculation(subroot);
         //output_tree(to_root(subroot), 0, 0);
         //cout <<  endl;
-        //std::this_thread::sleep_for(100ms);
+        //this_thread::sleep_for(100ms);
         //cout << "1" << flush;
     }
 }
@@ -626,100 +556,27 @@ flight* to_root(flight* subroot) {
     }
 }
 
-bool is_num_correct(const std::string number, const int num_size) {
-    if (number.length() > num_size) {
-        return false;
-    }
-    for (int i=0; i< num_size; i++) {
-        if (!isdigit(number[i])) {
-            if (number[i] == '-' && i == 3) {
-                continue;
-            }
-            return false;
-        }
-    }
-    return true;
-}
-
-bool compare_fragments(const std::string& line, const std::string& need) { // Боуэра Мура
-    if (need.length() > line.length()) {
-        return false;
-    }
-    int st = 0;
-    int c2 = 0;
-    int i = 0;
-    int s1 = 0;
-    int nlen = need.length();
-    int* stopsymb = new int[nlen]{};
-    // формирование таблицы смещений
-    for (int c1 = nlen - 2; c1 >= 0; c1--) { // сравнение текущего с правой от него частью слова
-        if (need[c1] == need[nlen - 1] && stopsymb[nlen - 1] == 0) { // если символ в конце слова есть и в другом его месте
-            stopsymb[nlen - 1] = nlen - c1 - 1;
-            stopsymb[c1] =       nlen - c1 - 1;
-            continue;
-        }
-        for (c2 = c1 + 1; c2 < nlen; c2++) { // если символ уже был просчитан ранее
-            if (need[c2] == need[c1]) {
-                stopsymb[c1] = stopsymb[c2];
-                break;
-            }
-        }
-        if (c2 == nlen && stopsymb[c1] == 0) { // ...иначе запись расстояния до конца слова
-            stopsymb[c1] = nlen - c1 - 1;
-        }
-    }
-    //for (int y = 0; y < nlen; y++) {
-    //    std::cout << stopsymb[y] << ' ';
-    //} 
-    //std::cout << std::endl << std::endl;
-    while (st < line.length() - nlen) {
-        i = 0;
-        //std::cout << st << std::endl;
-        for (i = nlen - 1; i >= 0; i--) { // сравнение с конца слова
-            if (line[i + st] != need[i]) { // если не совпало
-                for (s1 = 0; s1 < nlen; s1++) { // ищется несовпавший в предложении символ в таблице
-                    if (line[i + st] == need[s1]) {
-                        break;
-                    }
-                } 
-                if (s1 < nlen) { // если такой символ есть в таблице
-                    st += stopsymb[s1];
-                }
-                else {
-                    st += nlen;
-                }
-                break;
-            }
-        }
-        if (i == -1) {
-            delete[] stopsymb;
-            return true;
-        }
-    }
-    delete[] stopsymb;
-    return false;
-}
-
 void push_back(found_flights *& ffl, flight*& fl) {
     if (fl == nullptr) {
         return;
     }
     found_flights* new_ffl = new found_flights;
+    new_ffl->fl = new flight;
     found_flights* cur_ffl = ffl;
     copy_element(*fl, new_ffl->fl);
     if (ffl == nullptr) {
         ffl = new_ffl;
     }
     else {
-        while (ffl->next != nullptr) {
-            cur_ffl = ffl->next;
+        while (cur_ffl->next != nullptr) {
+            cur_ffl = cur_ffl->next;
         }
-        ffl->next = new_ffl;
+        cur_ffl->next = new_ffl;
     }
 }
 
 void copy_element(const flight& orig, flight*& cfl) {
-    strcpy(cfl->number, orig.number);
+    strcpy_s(cfl->number, orig.number);
     cfl->company = orig.company;
     cfl->departure = orig.departure;
     cfl->arriving = orig.arriving;
@@ -729,6 +586,32 @@ void copy_element(const flight& orig, flight*& cfl) {
     cfl->free = orig.free;
 }
 
+void output_flights(const flight* const subroot) {
+    if (subroot != nullptr) {
+        char* nmbr = new char[8] {};
+        char* source = (char*)subroot->number;
+        // углубление максимально вправо
+        output_flights(subroot->left);
+        //вывод листа
+        strncpy_s(nmbr, 8, source, 3);
+        nmbr[3] = '-'; nmbr[4] = source[3];
+        nmbr[5] = source[4]; nmbr[6] = source[5]; nmbr[7] = '\0';
+        cout << left << setw(2) << "+-" << setfill('-') << setw(43) << right << '+' << setfill(' ') << endl;
+        cout << setw(22) << left << "| Рейс №" << setw(22) << nmbr << '|' << endl;
+        cout << setw(22) << left << "| Компания " << setw(22) << subroot->company << '|' << endl;
+        cout << setw(22) << left << "| Отправляется из: " << setw(22) << subroot->departure << '|' << endl;
+        cout << setw(22) << left << "| В: " << setw(22) << subroot->arriving << '|' << endl;
+        cout << setw(22) << left << "| Время отправления: " << setw(22) << subroot->dep_time << '|' << endl;
+        cout << setw(22) << left << "| Время прибытия: " << setw(22) << subroot->arv_time << '|' << endl;
+        cout << setw(22) << left << "| Всего " << setw(4) << subroot->places << setw(18) << " мест," << '|' << endl;
+        cout << setw(22) << left << "| из которых " << setw(4) << subroot->free << setw(18) << " свободно." << '|' << endl;
+        cout << left << setw(2) << "+-" << setfill('-') << setw(43) << right << '+' << setfill(' ') << endl;
+        // после углубления вправо просматриваем уже левые поддеревья
+        output_flights(subroot->right);
+        delete[] nmbr;
+    }
+}
+
 void output_flights(found_flights* a) {
     if (a == nullptr) {
         return;
@@ -736,18 +619,21 @@ void output_flights(found_flights* a) {
     found_flights* b = a;
     char* nmbr = new char[8]{};
     while(b != nullptr) {
-        strncpy(nmbr, a->fl->number, 3);
-        nmbr[3] = '-'; nmbr[4] = a->fl->number[3];
-        nmbr[5] = a->fl->number[4]; nmbr[6] = a->fl->number[5];
-        std::cout << std::setw(20) << std::left << "Рейс №" << nmbr << std::endl;
-        std::cout << std::setw(20) << std::left << "Компания: " << a->fl->company << std::endl;
-        std::cout << std::setw(20) << std::left << "Отправляется из: " << a->fl->departure << std::endl;
-        std::cout << std::setw(20) << std::left << "В: " << a->fl->arriving << std::endl;
-        std::cout << std::setw(20) << std::left << "Время отправления: " << a->fl->dep_time << std::endl;
-        std::cout << std::setw(20) << std::left << "Время прибытия: " << a->fl->arv_time << std::endl;
-        std::cout << std::setw(20) << std::left << "Всего " << a->fl->places << " мест, из которых " 
-        << a->fl->free << " свободно." << std::endl << std::endl;
+        strncpy_s(nmbr, 8, b->fl->number, 3);
+        nmbr[3] = '-'; nmbr[4] = b->fl->number[3];
+        nmbr[5] = b->fl->number[4]; nmbr[6] = b->fl->number[5]; nmbr[7] = '\0';
+        cout << left << setw(2)  << "+-" << setfill('-') << setw(43) << right << '+' << setfill(' ') << endl;
+        cout << setw(22) << left << "| Рейс №" << setw(22) << nmbr << '|' << endl;
+        cout << setw(22) << left << "| Компания " << setw(22) << b->fl->company << '|' << endl;
+        cout << setw(22) << left << "| Отправляется из: " << setw(22) << b->fl->departure << '|' << endl;
+        cout << setw(22) << left << "| В: " << setw(22) << b->fl->arriving << '|' << endl;
+        cout << setw(22) << left << "| Время отправления: " << setw(22) << b->fl->dep_time << '|' << endl;
+        cout << setw(22) << left << "| Время прибытия: " << setw(22) << b->fl->arv_time << '|' << endl;
+        cout << setw(22) << left << "| Всего " << setw(4) << b->fl->places << setw(18) << " мест," << '|' << endl;
+        cout << setw(22) << left << "| из которых " << setw(4) << b->fl->free << setw(18) << " свободно." << '|' << endl;
+        cout << left << setw(2)  << "+-" << setfill('-') << setw(43) << right << '+' << setfill(' ') << endl;
         b = b->next;
     }
     delete[] nmbr;
 }
+

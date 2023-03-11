@@ -1,50 +1,50 @@
+#define STRINGIFY(x) #x
+#define EXPAND(x) STRINGIFY(x)
 #include <iostream>
 #include <menu.h>
 using namespace std;
 
-int menu(passenger*& sheet, flight*& flights, ticket_trade*& tickets, int sheet_size) {
+int menu(database* const DB) {
     int hashed = 0;
     int num = 0;
     bool cycle = true;
-    const int passnum_size = 11; //NNNN-NNNNNN  
-    const int avianum_size = 7; // AAA-NNN
     menu_help();
     while (cycle) {
         cout << "Введите команду:" << endl;
         while(input_int(num)) {
-            cout << "Ошибка ввода. Попробуйте заново: ";
+            cout << "[X] Ошибка ввода. Попробуйте заново: ";
         }
         switch(num) {
             case 1: {
-                menu_pass(sheet, flights, tickets, sheet_size, passnum_size);
+                menu_pass(DB);
                 menu_help();
                 break;
             }
             case 2: {
-                menu_avia(sheet, flights, tickets, sheet_size, passnum_size);
+                menu_avia(DB);
                 menu_help();
                 break;
             }
             case 3: { //reg ticket
-                menu_reg_ticket(tickets, sheet, flights, passnum_size, sheet_size);
+                menu_reg_ticket(DB);
                 break;
             }
             case 4: { // refund ticket
-                menu_ref_ticket(tickets, sheet, flights, passnum_size, sheet_size);
+                menu_ref_ticket(DB);
                 break;
             }
             case 5: {
-                show_list(tickets, passnum_size, avianum_size);
+                menu_show_tickets(DB); 
             }
             case 6: {
                 menu_help();
                 break;
             }
             case 7: {
-                menu_load_data(sheet, flights, tickets, sheet_size, passnum_size);
+                menu_load_data(DB);
                 break;
             }
-            case 8: {
+            case 0: {
                 cout << "Вы уверены, что хотите выйти? (1 - да, 2 - нет)" << endl;
                 int ex_des = 0;
                 while(input_int(ex_des)) {
@@ -80,10 +80,10 @@ void menu_help() {
     cout << "5 - вывести список всех билетов;" << endl;
     cout << "6 - помощь по командам;" << endl;
     cout << "7 - загрузка всех данных из файла;" << endl;
-    cout << "8 - выход из меню;" << endl;
+    cout << "0 - выход из меню;" << endl;
 }
 
-int menu_reg_ticket(ticket_trade*& tickets, passenger*& sheet, flight*& flights, const int passnum_size, const int sheet_size) {
+int menu_reg_ticket(database* const DB) {
     while (true) {
         cout << "Добавление информации о покупке билета." << endl;
         cout << "Введите паспорт покупателя в формате \"NNNN-NNNNNN\":" << endl;
@@ -95,15 +95,15 @@ int menu_reg_ticket(ticket_trade*& tickets, passenger*& sheet, flight*& flights,
             cout << "Возвращение в меню." << endl;
             break;
         }
-        if (!is_key_correct(pass, passnum_size)) {
-            cout << "Пасспорт введён неверно. Попробуйте заново" << endl;
-            cout << "или введите \"/\" для выхода в меню." << endl;
+        if (!is_key_correct(pass, DB->passnum_size)) {
+            cout << "|\\/| Пасспорт введён неверно. Попробуйте заново" << endl;
+            cout << "|/\\| или введите \"/\" для выхода в меню." << endl;
             cin.clear();
             cin.ignore(cin.rdbuf()->in_avail(),'\n');
             continue;
         }
-        else if (!is_pass_exists(sheet, pass, passnum_size, sheet_size)) {
-            cout << "Такой пассажир не зарегистрирован." << endl;
+        else if (!is_pass_exists(DB, pass)) {
+            cout << "[X] Такой пассажир не зарегистрирован." << endl;
             continue;
         }
         pass.erase(4, 1);
@@ -112,34 +112,35 @@ int menu_reg_ticket(ticket_trade*& tickets, passenger*& sheet, flight*& flights,
         cin.clear();
         cin.ignore(cin.rdbuf()->in_avail(),'\n');
         getline(cin, avia);
-        while (!is_num_correct(avia, 7)) {
-            cout << "Номер авиарейса введён неверно. Попробуйте заново" << endl;
-            cout << "или введите \"/\" для выхода в меню." << endl;
+        while (!is_avianum_correct(avia, DB->avianum_size)) {
+            cout << "|\\/| Номер авиарейса введён неверно. Попробуйте заново" << endl;
+            cout << "|/\\| или введите \"/\" для выхода в меню." << endl;
             cin.clear();
             cin.ignore(cin.rdbuf()->in_avail(),'\n');
             getline(cin, avia);
         }
-        if (!is_exists(flights, avia)) {
-            cout << "Такой авирейс не зарегистрирован." << endl;
+        if (!is_exists(DB->flights, avia)) {
+            cout << "[X] Такой авирейс не зарегистрирован." << endl;
             continue;
         }
         avia.erase(3, 1); // AAANNN
-        if (!is_copy(tickets, pass, avia)) {
-            push_ticket(tickets, pass, avia);
+        if (!is_copy(DB->tickets, pass, avia)) {
+            push_ticket(DB->tickets, pass, avia);
             cout << "Информация о покупке билета добавлена." << endl;
-            sort(tickets);
+            sort(DB->tickets);
         }
         else {
-            cout << "Такой билет уже зарегистрирован." << endl;
+            cout << "[X] Такой билет уже зарегистрирован." << endl;
         }
         break;
     }
     return 0;
 }
 
-int menu_ref_ticket(ticket_trade*& tickets, passenger*& sheet, flight*& flights, const int passnum_size, const int sheet_size) {
-    if (is_list_empty(tickets)) {
+int menu_ref_ticket(database* const DB) {
+    if (is_list_empty(DB->tickets)) {
         cout << "База данных с билетами пуста. Операция не выполнена." << endl;
+        return 1;
     }
     while (true) {
         cout << "Возврат билета." << endl;
@@ -153,83 +154,87 @@ int menu_ref_ticket(ticket_trade*& tickets, passenger*& sheet, flight*& flights,
             cout << "Возвращение в меню." << endl;
             break;
         }
-        if (!is_key_correct(pass, passnum_size)) {
-            cout << "Пасспорт введён неверно. Попробуйте заново" << endl;
-            cout << "или введите \"/\" для выхода в меню." << endl;
+        if (!is_key_correct(pass, DB->passnum_size)) {
+            cout << "|\\/| Пасспорт введён неверно. Попробуйте заново" << endl;
+            cout << "|/\\| или введите \"/\" для выхода в меню." << endl;
             cin.clear();
             cin.ignore(cin.rdbuf()->in_avail(),'\n');
             continue;
         }
-        else if (!is_pass_exists(sheet, pass, passnum_size, sheet_size)) {
-            cout << "Такой пассажир не зарегистрирован." << endl;
-            continue;
-        }
+        //else if (!is_pass_exists(sheet, pass, passnum_size, sheet_size)) {
+        //    cout << "Такой пассажир не зарегистрирован." << endl;
+        //    continue;
+        //}
         pass.erase(4, 1);
         cout << "Введите номер авиарейса в формате \"AAA-NNN\":" << endl;
         string avia;
         cin.clear();
         cin.ignore(cin.rdbuf()->in_avail(),'\n');
         getline(cin, avia);
-        while (!is_num_correct(avia, 7)) {
+        while (!is_avianum_correct(avia, DB->avianum_size)) {
             cout << "Номер авиарейса введён неверно. Попробуйте заново." << endl;
             cin.clear();
             cin.ignore(cin.rdbuf()->in_avail(),'\n');
             getline(cin, avia);
         }
-        if (!is_exists(flights, avia)) {
-            cout << "Такой авирейс не зарегистрирован." << endl;
-            continue;
-        }
+        //if (!is_exists(flights, avia)) {
+        //    cout << "Такой авирейс не зарегистрирован." << endl;
+        //    continue;
+        //}
         avia.erase(3, 1); // AAANNN
-        flag = pop_ticket(tickets, pass, avia);
+        flag = pop_ticket(DB->tickets, pass, avia);
         if (flag == 0) {
             cout << "Билет удалён из базы." << endl;
-            sort(tickets);
+            sort(DB->tickets);
         }
         else if (flag == 2){
-            cout << "Такого билета не зарегестрировано." << endl;
+            cout << "[X] Такого билета не зарегестрировано." << endl;
         }
         break;
     }
     return 0;
 }
 
-int menu_load_data(passenger*& sheet, flight*& flights, ticket_trade*& tickets, 
-                   int sheet_size, const int passnum_size) {
-    
-    int flag = 0;
-    cout << "Загрузка данных из файла." << endl;
-    char buff[512]{};
-    GetModuleFileNameA(NULL, buff, 512);
-    string path(buff);
-    path.erase(path.rfind('\\') + 1, 9);
-    ifstream file;
-    cout << path << endl;
-    file.open(path + "_passengers.txt");
-    if (!file.is_open()) {
-        cout << "Файл 1 не найден." << endl;
-        flag = 1;
+void menu_show_tickets(const database* const DB) {
+    if (DB->tickets == nullptr) {
+        cout << "Список билетов пуст. Операция не выполнена." << endl;
     }
     else {
-        flag = load_pass(file, sheet, sheet_size, passnum_size);
+        cout << "Список билетов:" << endl;
+        show_list(DB->tickets, DB->passnum_size, DB->avianum_size);
+    }
+}
+
+int menu_load_data(database* const DB) {
+    int flag = 0;
+    cout << "Загрузка данных из файла." << endl;
+    string path = EXPAND(UNITTESTPRJ);
+    path.erase(0, 1);
+    path.erase(path.length() - 2);
+    ifstream file;
+    //cout << path << endl;
+    file.open(path + "_passengers.txt");
+    if (!file.is_open()) {
+        cout << "[X] Файл 1 не найден." << endl;
+    }
+    else {
+        flag = load_pass(file, DB);
     }
     file.close();
     file.open(path + "_flights.txt");
     if (!file.is_open()) {
-        cout << "Файл 2 не найден." << endl;
-        flag = 1;
+        cout << "[X] Файл 2 не найден." << endl;
     }
     else {
-        flag = load_avia(file, flights);
+        flag = load_avia(file, DB);
     }
     file.close();
     file.open(path + "_tickets.txt");
     if (!file.is_open()) {
-        cout << "Файл 3 не найден." << endl;
-        flag = 1;
+        cout << "[X] Файл 3 не найден." << endl;
     }
     else {
-        flag = load_tickets(file, tickets, passnum_size);
+        flag = load_tickets(file, DB);
     }
     file.close();
     if (!flag) {
@@ -238,7 +243,7 @@ int menu_load_data(passenger*& sheet, flight*& flights, ticket_trade*& tickets,
     return 0;
 }
 
-int load_pass(ifstream& file, passenger*& sheet, int sheet_size, const int passnum_size) {
+int load_pass(ifstream& file, database* const DB) {
     int hashed = 0;
     bool something_read = false;
     int i = 0;
@@ -258,29 +263,37 @@ int load_pass(ifstream& file, passenger*& sheet, int sheet_size, const int passn
         if (i != 4) {
             continue;
         }
-        else if (!is_key_correct(data[0], passnum_size) ||
+        else if (!is_key_correct(data[0], DB->passnum_size) ||
+                !validate_name(data[1].substr(0, data[1].rfind(' '))) ||
+                !validate_date(data[1].substr(data[1].rfind(' ') + 1)) ||
+                !validate_name(data[2]) ||
                 !validate_date(data[3])) {
             file.clear();
             file.ignore(file.rdbuf()->in_avail(), '@');
             continue;
         }
         data[0].erase(4, 1);
-        hashed = hash_key(data[0], passnum_size, sheet_size);
+        hashed = hash_key(data[0], DB->passnum_size, DB->sheet_size);
         int o = 1;
-        //cout << (sheet[hashed] == nullptr) << endl;
-        while (strcmp(sheet[hashed].passport, "\0") != 0) {
-            hashed += 3*o + 7*pow(o, 2);
-            hashed %= sheet_size;
+        //cout << (DB->passengers[hashed] == nullptr) << endl;
+        while (strcmp(DB->passengers[hashed].passport, data[0].c_str()) != 0 &&
+                strcmp(DB->passengers[hashed].passport, "\0") != 0) {
+            hashed += 3*o + 7*(int)pow(o, 2);
+            hashed %= DB->sheet_size;
             o++;
-            if (o == sheet_size) {
+            if (o == DB->sheet_size) {
                 break;
             }
         }
-        if (o < sheet_size) {
-            strcpy(sheet[hashed].passport, data[0].c_str());
-            sheet[hashed].issuance = data[1];
-            sheet[hashed].fio = data[2];
-            strcpy(sheet[hashed].birth, data[3].c_str());
+        if (o < DB->sheet_size) {
+            if (strcmp(DB->passengers[hashed].passport, data[0].c_str()) == 0) {
+                //cout << "Такой пассажир уже существует." << endl;
+                break;
+            }
+            strcpy_s(DB->passengers[hashed].passport, data[0].c_str());
+            DB->passengers[hashed].issuance = data[1];
+            DB->passengers[hashed].fio = data[2];
+            strcpy_s(DB->passengers[hashed].birth, data[3].c_str());
             something_read = true;
         }
     }
@@ -289,7 +302,7 @@ int load_pass(ifstream& file, passenger*& sheet, int sheet_size, const int passn
     return 0;
 }
 
-int load_avia(ifstream& file, flight*& flights) {
+int load_avia(ifstream& file, database* const DB) {
     string* data = new string[8]{};
     bool something_read = false;
     int i = 0;
@@ -308,14 +321,25 @@ int load_avia(ifstream& file, flight*& flights) {
         if (i != 8) {
             continue;
         }
-        else if (!is_num_correct(data[0], 7) || !is_number(data[6]) || !is_number(data[7])) {
+        else if (!is_avianum_correct(data[0], DB->avianum_size) || 
+            !validate_name(data[2]) ||
+            !validate_name(data[3]) ||
+            !validate_dateNtime(data[4]) ||
+            !validate_dateNtime(data[5]) ||
+            !is_number(data[6]) || 
+            !is_number(data[7])) {
+            file.clear();
+            file.ignore(file.rdbuf()->in_avail(), '@');
+            continue;
+        }
+        else if (is_exists(DB->flights, (const string)data[0])) {
             file.clear();
             file.ignore(file.rdbuf()->in_avail(), '@');
             continue;
         }
         data[0].erase(3, 1);
         flight* f = new flight;
-        strcpy(f->number, data[0].c_str());
+        strcpy_s(f->number, data[0].c_str());
         f->company = data[1];
         f->departure = data[2];
         f->arriving = data[3];
@@ -323,7 +347,8 @@ int load_avia(ifstream& file, flight*& flights) {
         f->arv_time = data[5];
         f->places = stoi(data[6]);
         f->free = stoi(data[7]);
-        add_element(flights, *f);
+        add_element(DB->flights, *f);
+        delete f;
         something_read = true;
     }
     delete[] data;
@@ -331,7 +356,7 @@ int load_avia(ifstream& file, flight*& flights) {
     return 0;
 }
 
-int load_tickets(ifstream& file, ticket_trade*& tickets, const int passnum_size) {
+int load_tickets(ifstream& file, database* const DB) {
     bool something_read = false;
     int i = 0;
     string* data = new string[3]{};
@@ -350,24 +375,28 @@ int load_tickets(ifstream& file, ticket_trade*& tickets, const int passnum_size)
         if (i != 3) {
             continue;
         }
-        else if (!is_key_correct(data[0], passnum_size) || !is_num_correct(data[1], 7)) {
+        else if (!is_key_correct(data[0], DB->passnum_size) || 
+                !is_avianum_correct(data[1], DB->avianum_size) ||
+                data[2].length() != 9 ||
+                !is_number(data[2]) ||
+                is_exists(DB->tickets, data[2])) {
             file.clear();
             file.ignore(file.rdbuf()->in_avail(), '@');
             continue;
         }
         data[0].erase(4, 1);
         data[1].erase(3, 1);
-        push_ticket_ff(tickets, data[0], data[1], data[2]);
+        push_ticket_ff(DB->tickets, data[0], data[1], data[2]);
         something_read = true;
     }
     delete[] data;
     //show_list(tickets, passnum_size, 7);
-    sort(tickets);
+    sort(DB->tickets);
     if(!something_read) return 1;
     return 0;
 }
 
-int menu_pass(passenger*& sheet, flight*& flights, ticket_trade*& tickets, int sheet_size,  const int passnum_size) {
+int menu_pass(database* const DB) {
     int hashed = 0;
     int num = 0;
     bool cycle = true;
@@ -376,7 +405,7 @@ int menu_pass(passenger*& sheet, flight*& flights, ticket_trade*& tickets, int s
     while (cycle) {
         cout << "Введите команду:" << endl;
         while(input_int(num)) {
-            cout << "Ошибка ввода. Попробуйте заново: ";
+            cout << "[X] Ошибка ввода. Попробуйте заново: ";
         }
         switch(num) {
             case 0: {
@@ -385,23 +414,23 @@ int menu_pass(passenger*& sheet, flight*& flights, ticket_trade*& tickets, int s
                 break;
             }
             case 1: {
-                menu_add_psg(sheet, sheet_size, passnum_size);
+                menu_add_psg(DB);
                 break;
             }
             case 2: {
-                menu_del_psg(sheet, sheet_size, passnum_size);
+                menu_del_psg(DB);
                 break;
             }
             case 3: { //find passport
-                menu_find_num_psg(sheet, sheet_size, passnum_size);
+                menu_find_num_psg(DB);
                 break;
             }
             case 4: { // find fio
-                menu_find_fio_psg(sheet, sheet_size, passnum_size);
+                menu_find_fio_psg(DB);
                 break;
             }
             case 5: {
-                menu_show_psg(sheet, sheet_size, passnum_size);
+                menu_show_psg(DB);
                 break;
             }
             case 6: {
@@ -409,11 +438,11 @@ int menu_pass(passenger*& sheet, flight*& flights, ticket_trade*& tickets, int s
                 cout << "(1 - да, 2 - нет)" << endl;
                 int ex_des = 0;
                 while(input_int(ex_des)) {
-                    cout << "Ошибка ввода. Попробуйте заново: ";
+                    cout << "[X] Ошибка ввода. Попробуйте заново: ";
                 }
                 if (ex_des == 1) {
                     cout << "Очистка." << endl;
-                    clear_sheet(sheet, sheet_size);
+                    clear_sheet(DB->passengers, DB->sheet_size);
                 }
                 else if (ex_des == 2) {
                     cout << "Возвращение в меню." << endl;
@@ -447,11 +476,10 @@ void menu_help_psg() {
     cout << "7 - помощь по командам;" << endl;
 }
 
-int menu_avia(passenger*& sheet, flight*& flights, ticket_trade*& tickets, int sheet_size, const int passnum_size) {
+int menu_avia(database* const DB) {
     int hashed = 0;
     int num = 0;
     bool cycle = true;
-    int avianum_size = 7;
 
     menu_help_avr();
     while (cycle) {
@@ -466,23 +494,23 @@ int menu_avia(passenger*& sheet, flight*& flights, ticket_trade*& tickets, int s
                 break;
             }
             case 1: {
-                menu_add_avr(flights, avianum_size);
+                menu_add_avr(DB);
                 break;
             }
             case 2: {
-                menu_del_avr(flights, avianum_size);
+                menu_del_avr(DB);
                 break;
             }
             case 3: { //find passport
-                menu_find_num_avr(flights, avianum_size);
+                menu_find_num_avr(DB);
                 break;
             }
             case 4: { // find fio
-                menu_find_dest_avr(flights, avianum_size);
+                menu_find_dest_avr(DB);
                 break;
             }
             case 5: {
-                menu_show_avr(flights, avianum_size);
+                menu_show_avr(DB);
                 break;
             }
             case 6: {
@@ -494,7 +522,7 @@ int menu_avia(passenger*& sheet, flight*& flights, ticket_trade*& tickets, int s
                 }
                 if (ex_des == 1) {
                     cout << "Очистка." << endl;
-                    clear_flights(flights);
+                    clear_flights(DB->flights);
                 }
                 else if (ex_des == 2) {
                     cout << "Возвращение в меню." << endl;
@@ -506,9 +534,13 @@ int menu_avia(passenger*& sheet, flight*& flights, ticket_trade*& tickets, int s
             }
             case 7: {
                 menu_help_avr();
+                break;
             }
-            case 8: {
-                output_tree_height(flights, 0, 1);
+            case 15: {
+                cout << endl;
+                output_tree_height(DB->flights, 0, 1);
+                cout << tree_accuracy(DB->flights) << endl;
+                break;
             }
             default: {
                 cout << "Команда не распознана." << endl;
@@ -546,7 +578,7 @@ int input_int(int& num) {
     return 0;
 }
 
-int menu_add_psg(passenger*& sheet, int size, const int passnum_size) {
+int menu_add_psg(database* const DB) {
     int hashed = 0;
     while (true) {
         cout << "Добавление. Введите паспорт в формате \"NNNN-NNNNNN\":" << endl;
@@ -554,52 +586,68 @@ int menu_add_psg(passenger*& sheet, int size, const int passnum_size) {
         cin.clear();
         cin.ignore(cin.rdbuf()->in_avail(),'\n');
         getline(cin, inp);
-        if (is_key_correct(inp, passnum_size)) {
+        if (strcmp(inp.c_str(), "/") == 0) {
+            cout << "Возвращение в меню." << endl;
+            break;
+        }
+        if (is_key_correct(inp, DB->passnum_size)) {
             inp.erase(4, 1);
-            hashed = hash_key(inp, passnum_size, size);
+            hashed = hash_key(inp, DB->passnum_size, DB->sheet_size);
             int o = 1;
-            while (strcmp(sheet[hashed].passport, "\0") != 0) {
-                hashed += 3*o + 7*pow(o, 2);
-                hashed %= size;
+            while (strcmp(DB->passengers[hashed].passport, inp.c_str()) != 0 &&
+                    strcmp(DB->passengers[hashed].passport, "\0") != 0) {
+                hashed += 3*o + 7 * (int)pow(o, 2);
+                hashed %= DB->sheet_size;
                 o++;
-                if (o == size) {
+                if (o == DB->sheet_size) {
                     break;
                 }
             }
-            if (o < size) {
-                if (is_pass_exists(sheet, inp, passnum_size, size)) {
+            if (o < DB->sheet_size) {
+                if (strcmp(DB->passengers[hashed].passport, inp.c_str()) == 0) {
                     cout << "Такой пассажир уже существует." << endl;
                     break;
                 }
-                strcpy(sheet[hashed].passport, inp.c_str());
+                strcpy_s(DB->passengers[hashed].passport, inp.c_str());
                 string longinp;
-                //cout << sheet[hashed].passport << endl;
-                cout << "Введите место и дату выдачи паспорта:" << endl;
+                //cout << DB->passengers[hashed].passport << endl;
+                cout << "Введите место и дату выдачи паспорта." << endl;
+                cout << "Дата от места выдачи должна отделяться пробелом:" << endl;
                 getline(cin, longinp);
-                longinp.resize(128);
-                sheet[hashed].issuance = longinp;
-                //cout << sheet[hashed].passport << endl;
+                while (!validate_name(longinp.substr(0, longinp.rfind(' '))) ||
+                       !validate_date(longinp.substr(longinp.rfind(' ') + 1))) {
+                    cout << "[X] Ошибка ввода. Попробуйте заново:" << endl;
+                    getline(cin, longinp);
+                }
+                DB->passengers[hashed].issuance = longinp;
+                //cout << DB->passengers[hashed].passport << endl;
                 cout << "Введите ФИО пассажира:" << endl;
                 getline(cin, longinp);
                 format_fio(longinp);
-                sheet[hashed].fio = longinp;
+                while (!validate_name(longinp)) {
+                    cout << "[X] Ошибка ввода. Попробуйте заново:" << endl;
+                    getline(cin, longinp);
+                    format_fio(longinp);
+                }
+                DB->passengers[hashed].fio = longinp;
                 
                 cout << "Введите дату рождения пассажира (DD.MM.YYYY):" << endl;
                 getline(cin, longinp);
                 while(!validate_date(longinp)) {
-                    cout << "Дата рождения введена неверно. попробуйте заново:" << endl;
+                    cout << "[X] Дата рождения введена неверно. попробуйте заново:" << endl;
                     getline(cin, longinp);
                 }
-                strcpy(sheet[hashed].birth, longinp.c_str());
+                strcpy_s(DB->passengers[hashed].birth, longinp.c_str());
                 cout << "Пассажир добавлен." << endl;
             }
             else {
-                cout << "Не удалось добавить пассажира." << endl;
+                cout << "[X] Не удалось добавить пассажира." << endl;
             }
             break;
         }
         else {
-            cout << "Паспорт введён неверно. Попробуйте заново." << endl;
+            cout << "|\\/| Паспорт введён неверно. Попробуйте заново" << endl;
+            cout << "|/\\| или введите \"/\" для выхода в меню:" << endl;
             cin.clear();
             cin.ignore(cin.rdbuf()->in_avail(),'\n');
             continue;
@@ -608,55 +656,8 @@ int menu_add_psg(passenger*& sheet, int size, const int passnum_size) {
     return 0;
 }
 
-int menu_del_psg(passenger*& sheet, int size, const int passnum_size) {
+int menu_del_psg(database* const DB) {
     cout << "Удаление. Введите паспорт:" << endl;
-    int hashed = 0;
-    while (true) {
-        string inp;
-        cin.clear();
-        cin.ignore(cin.rdbuf()->in_avail(),'\n');
-        getline(cin, inp);
-        if (is_key_correct(inp, passnum_size)) {
-            inp.erase(4, 1);
-            hashed = hash_key(inp, passnum_size, size);
-            if (strcmp(sheet[hashed].passport, inp.c_str()) == 0) {
-                char emptys[12]{};
-                strcpy(sheet[hashed].passport, (const char*)emptys);
-                cout << "Пассажир удалён." << endl;
-            }
-            else {
-                int o = 1;
-                while (strcmp(sheet[hashed].passport, "\0") != 0) {
-                    hashed += 3*o + 7*pow(o, 2);
-                    hashed %= size;
-                    o++;
-                    if (o == size) {
-                        break;
-                    }
-                }
-                if (o < size && strcmp(sheet[hashed].passport, inp.c_str()) == 0) {
-                    char emptys[12]{};
-                    strcpy(sheet[hashed].passport, (const char*)emptys);
-                    cout << "Пассажир удалён." << endl;
-                }
-                else {
-                    cout << "Не удалось удалить пассажира." << endl;
-                }
-            }
-            break;
-        }
-        else {
-            cout << "Паспорт пассажира введён неверно. Попробуйте заново." << endl;
-            cin.clear();
-            cin.ignore(cin.rdbuf()->in_avail(),'\n');
-            continue;
-        }
-    }
-    return 0;
-}
-
-int menu_find_num_psg(passenger* sheet, int size, const int passnum_size) {
-    cout << "Поиск. Введите номер паспорта пассажира:" << endl;
     int hashed = 0;
     while (true) {
         string inp;
@@ -667,37 +668,40 @@ int menu_find_num_psg(passenger* sheet, int size, const int passnum_size) {
             cout << "Возвращение в меню." << endl;
             break;
         }
-        if (is_key_correct(inp, passnum_size)) {
+        if (is_key_correct(inp, DB->passnum_size)) {
             inp.erase(4, 1);
-            hashed = hash_key(inp, passnum_size, size);
-            int o = 1;
-            while (hashed < size && strcmp(sheet[hashed].passport, inp.c_str()) != 0) {
-                hashed += 3*o + 7*pow(o, 2);
-                hashed %= size;
-                o++;
-                if (o == size) {
-                    break;
-                }
-            }
-            if (o < size) {
-                cout << "Пассажир найден(" << hashed << "). Информация о нём:" << endl;
-                cout << "Паспорт №" << sheet[hashed].passport << endl;
-                cout << "Выдан " << sheet[hashed].issuance << endl;
-                cout << sheet[hashed].fio << endl;
-                cout << "Дата рождения " <<sheet[hashed].birth << endl;
-                cout << "Возвращение в меню." << endl;
-                break;
+            hashed = hash_key(inp, DB->passnum_size, DB->sheet_size);
+            if (strcmp(DB->passengers[hashed].passport, inp.c_str()) == 0) {
+                char emptys[12]{};
+                strcpy_s(DB->passengers[hashed].passport, (const char*)emptys);
+                cout << "Пассажир удалён вместе с его билетами." << endl;
+                del_tickets_byPass(DB->tickets, inp.c_str());
             }
             else {
-                cout << "Не удалось найти пассажира. Попробуйте заново"<< endl;
-                cout << "или введите \"/\" для выхода в меню:" << endl;
-                cin.clear();
-                cin.ignore(cin.rdbuf()->in_avail(),'\n');
-                continue;
+                int o = 1;
+                while (strcmp(DB->passengers[hashed].passport, inp.c_str()) != 0 &&
+                    strcmp(DB->passengers[hashed].passport, "\0") != 0) {
+                    hashed += 3 * o + 7 * (int)pow(o, 2);
+                    hashed %= DB->sheet_size;
+                    o++;
+                    if (o == DB->sheet_size) {
+                        break;
+                    }
+                }
+                if (o < DB->sheet_size && strcmp(DB->passengers[hashed].passport, inp.c_str()) == 0) {
+                    char emptys[12]{};
+                    strcpy_s(DB->passengers[hashed].passport, (const char*)emptys);
+                    cout << "Пассажир удалён." << endl;
+                }
+                else {
+                    cout << "[X] Не удалось удалить пассажира." << endl;
+                }
             }
+            break;
         }
         else {
-            cout << "Паспорт введён неверно. Попробуйте заново." << endl;
+            cout << "|\\/| Паспорт пассажира введён неверно. Попробуйте заново" << endl;
+            cout << "|/\\| или введите \"/\" для выхода в меню:" << endl;
             cin.clear();
             cin.ignore(cin.rdbuf()->in_avail(),'\n');
             continue;
@@ -706,9 +710,63 @@ int menu_find_num_psg(passenger* sheet, int size, const int passnum_size) {
     return 0;
 }
 
-int menu_find_fio_psg(passenger* sheet, int size, const int passnum_size) {
-    cout << "Поиск. Введите ФИО пассажира:" << endl;
+int menu_find_num_psg(database* const DB) {
+    cout << "Поиск. Введите номер паспорта пассажира:" << endl;
     int hashed = 0;
+    char* passport = new char[DB->passnum_size + 1] {};
+    while (true) {
+        string inp;
+        cin.clear();
+        cin.ignore(cin.rdbuf()->in_avail(),'\n');
+        getline(cin, inp);
+        if (strcmp(inp.c_str(), "/") == 0) {
+            cout << "Возвращение в меню." << endl;
+            break;
+        }
+        if (is_key_correct(inp, DB->passnum_size)) {
+            inp.erase(4, 1);
+            hashed = hash_key(inp, DB->passnum_size, DB->sheet_size);
+            int o = 1;
+            while (hashed < DB->sheet_size && strcmp(DB->passengers[hashed].passport, inp.c_str()) != 0) {
+                hashed += 3*o + 7 * (int)pow(o, 2);
+                hashed %= DB->sheet_size;
+                o++;
+                if (o == DB->sheet_size) {
+                    break;
+                }
+            }
+            if (o < DB->sheet_size) {
+                cout << "Пассажир найден(№" << hashed << "). Информация о нём:" << endl;
+                extend_passport(DB->passengers[hashed].passport, passport, DB->passnum_size);
+                cout << setw(16) << left << "Паспорт №" << passport << endl;
+                cout << setw(16) << left << "Выдан " << DB->passengers[hashed].issuance << endl;
+                cout << setw(16) << left << "Ф.И.О. " << DB->passengers[hashed].fio << endl;
+                cout << setw(16) << left << "Дата рождения " <<DB->passengers[hashed].birth << endl;
+                cout << setw(16) << left << "Возвращение в меню." << endl;
+                break;
+            }
+            else {
+                cout << "|\\/| Не удалось найти пассажира. Попробуйте заново"<< endl;
+                cout << "|/\\| или введите \"/\" для выхода в меню:" << endl;
+                cin.clear();
+                cin.ignore(cin.rdbuf()->in_avail(),'\n');
+                continue;
+            }
+        }
+        else {
+            cout << "[X] Паспорт введён неверно. Попробуйте заново." << endl;
+            cin.clear();
+            cin.ignore(cin.rdbuf()->in_avail(),'\n');
+            continue;
+        }
+    }
+    delete[] passport;
+    return 0;
+}
+
+int menu_find_fio_psg(database* const DB) {
+    char* passport = new char[DB->passnum_size + 1]{};
+    cout << "Поиск. Введите ФИО пассажира:" << endl;
     while (true) {
         string inp;
         cin.clear();
@@ -720,46 +778,58 @@ int menu_find_fio_psg(passenger* sheet, int size, const int passnum_size) {
         }
         format_fio(inp);
         int i = 0;
-        for (i = 0; i < size; i++) { 
-            if (strcmp(sheet[i].fio.c_str(), inp.c_str()) == 0) {
+        for (i = 0; i < DB->sheet_size; i++) {
+            if (strcmp(DB->passengers[i].fio.c_str(), inp.c_str()) == 0) {
                 break;
             }
         }
-        if (i < size) {
-            cout << "Пассажир найден(" << i << "). Информация о нём:" << endl;
-            cout << "Паспорт №" << sheet[i].passport << endl;
-            cout << "Выдан " << sheet[i].issuance << endl;
-            cout << sheet[i].fio << endl;
-            cout << "Дата рождения " <<sheet[i].birth << endl;
-            cout << "Возвращение в меню." << endl;
+        if (i < DB->sheet_size) {
+            cout << "Пассажир найден(№" << i << "). Информация о нём:" << endl;
+            extend_passport(DB->passengers[i].passport, passport, DB->passnum_size);
+            cout << setw(16) << left << "Паспорт №" << passport << endl;
+            cout << setw(16) << left << "Выдан " << DB->passengers[i].issuance << endl;
+            cout << setw(16) << left << "Ф.И.О. " << DB->passengers[i].fio << endl;
+            cout << setw(16) << left << "Дата рождения: " << DB->passengers[i].birth << endl;
+            cout << setw(16) << left << "Возвращение в меню." << endl;
+            
             break;
         }
         else {
-            cout << "Не удалось найти пассажира. Попробуйте заново"<< endl;
-            cout << "или введите \"/\" для выхода в меню:" << endl;
+            cout << "|\\/| Не удалось найти пассажира. Попробуйте заново"<< endl;
+            cout << "|/\\| или введите \"/\" для выхода в меню:" << endl;
             cin.clear();
             cin.ignore(cin.rdbuf()->in_avail(),'\n');
             continue;
         }
     }
+    delete[] passport;
     return 0;
 }
 
-void menu_show_psg(passenger* sheet, int size, const int passnum_size) {
-    cout << "Таблица: " << endl;
-    bool not_empty = false;
-    for (int i = 0; i< size; i++) {
-        if (strcmp(sheet[i].passport, "\0") != 0) {
-            cout << i << ": " << extend_passport(sheet[i].passport, passnum_size) << " " << sheet[i].issuance << " " << sheet[i].fio << endl;
-            not_empty = true;
+void menu_show_psg(database* const DB) {
+    if (!is_sheet_empty(DB->passengers, DB->sheet_size)) {
+        cout << "Таблица пассажиров: " << endl;
+        char* passport = new char[DB->passnum_size + 1]{};
+        for (int i = 0; i < DB->sheet_size; i++) {
+            if (strcmp(DB->passengers[i].passport, "\0") != 0) {
+                extend_passport(DB->passengers[i].passport, passport, DB->passnum_size);
+                cout << left << setw(2) << "+-" << setfill('-') << setw(29) << right << '<' << setfill(' ') << endl;
+                cout << left << setw(2) << "|" << setw(16) << "Паспорт №" << passport << endl;
+                cout << left << setw(2) << "|" << setw(16) << "Выдан " << DB->passengers[i].issuance << endl;
+                cout << left << setw(2) << "|" << setw(16) << "Ф.И.О. " << DB->passengers[i].fio << endl;
+                cout << left << setw(2) << "|" << setw(16) << "Дата рождения: " << DB->passengers[i].birth << endl;
+            }
         }
+        cout << left << setw(2) << "+-" << setfill('-') << setw(29) << right << '<' << setfill(' ') << endl;
+        delete[] passport;
     }
-    if (!not_empty) {
-        cout << "...пуста." << endl;
+    else {
+        cout << "Таблица пассажиров пуста." << endl;
     }
+    cout << "Возвращение в меню." << endl;
 }
 
-int menu_add_avr(flight*& flights, const int number_size) {
+int menu_add_avr(database* const DB) {
     while (true) {
         cout << "Добавление. Введите номер рейса в формате \"NNN-NNN\":" << endl;
         string inp;
@@ -770,10 +840,10 @@ int menu_add_avr(flight*& flights, const int number_size) {
             cout << "Возвращение в меню." << endl;
             break;
         }
-        if (is_num_correct(inp, number_size)) {
-            if (is_exists(flights, inp)) {
-                cout << "Такой рейс уже существует. Попробуйте заново" << endl;
-                cout << "или введите \"/\" для выхода в меню:" << endl;
+        if (is_avianum_correct(inp, DB->avianum_size)) {
+            if (is_exists(DB->flights, (const string)inp)) {
+                cout << "|\\/| Такой рейс уже существует. Попробуйте заново" << endl;
+                cout << "|/\\| или введите \"/\" для выхода в меню:" << endl;
                 cin.clear();
                 cin.ignore(cin.rdbuf()->in_avail(),'\n');
                 continue;
@@ -782,44 +852,57 @@ int menu_add_avr(flight*& flights, const int number_size) {
             flight* newflight = new flight;
             int places = 0;
             inp.erase(3, 1);
-            strcpy(newflight->number, inp.c_str());
+            strcpy_s(newflight->number, inp.c_str());
             cout << "Введите компанию рейса:" << endl;
             getline(cin, longinp);
-            longinp.resize(128);
+            longinp.shrink_to_fit();
             newflight->company = longinp;
             cout << "Введите место отправления рейса:" << endl;
             getline(cin, longinp);
-            longinp.resize(128);
+            longinp.shrink_to_fit();
             newflight->departure = longinp;
             cout << "Введите место прибытия рейса:" << endl;
             getline(cin, longinp);
-            longinp.resize(128);
+            longinp.shrink_to_fit();
             newflight->arriving = longinp;
             cout << "Введите время отправления рейса:" << endl;
             getline(cin, longinp);
-            longinp.resize(128);
+            while (!validate_dateNtime(longinp)) {
+                cout << "[X] Время отправления введено неверно. Попробуйте заново:" << endl;
+                cin.clear();
+                cin.ignore(cin.rdbuf()->in_avail(), '\n');
+                getline(cin, longinp);
+            }
+            longinp.shrink_to_fit();
             newflight->dep_time = longinp;
-            cout << "Введите время прибытия рейса:" << endl;
+            cout << "Введите время прибытия рейса (DD.MM.YYYY HH:MM):" << endl;
             getline(cin, longinp);
-            longinp.resize(128);
+            while (!validate_dateNtime(longinp)) {
+                cout << "[X] Время прибытия введено неверно. Попробуйте заново:" << endl;
+                cin.clear();
+                cin.ignore(cin.rdbuf()->in_avail(), '\n');
+                getline(cin, longinp);
+            }
+            longinp.shrink_to_fit();
             newflight->arv_time = longinp;
             cout << "Введите количество мест в самолёте:" << endl;
             while(input_int(places)) {
-                cout << "Ошибка ввода. Попробуйте заново: ";
+                cout << "[X] Ошибка ввода. Попробуйте заново: ";
             }
             newflight->places = places;
             cout << "Введите количество свободных мест:" << endl;
             while(input_int(places) || places > newflight->places) {
-                cout << "Ошибка ввода. Попробуйте заново: ";
+                cout << "[X] Ошибка ввода. Попробуйте заново: ";
             }
             newflight->free = places;
-            add_element(flights, *newflight);
+            add_element(DB->flights, *newflight);
+            delete newflight;
             cout << "Авиарейс добавлен." << endl;
             break;
         }
         else {
-            cout << "Номер введён неверно. Попробуйте заново" << endl;
-            cout << "или введите \"/\" для выхода в меню:" << endl;
+            cout << "|\\/| Номер введён неверно. Попробуйте заново" << endl;
+            cout << "|/\\| или введите \"/\" для выхода в меню:" << endl;
             cin.clear();
             cin.ignore(cin.rdbuf()->in_avail(),'\n');
             continue;
@@ -828,8 +911,8 @@ int menu_add_avr(flight*& flights, const int number_size) {
     return 0;
 }
 
-int menu_del_avr(flight*& flights, const int number_size) {
-    if (flights == nullptr) {
+int menu_del_avr(database* const DB) {
+    if (DB->flights == nullptr) {
         cout << "Список авиарейсов пуст. Операция не выполнена." << endl;
         return 1;
     }
@@ -843,15 +926,17 @@ int menu_del_avr(flight*& flights, const int number_size) {
             cout << "Возвращение в меню." << endl;
             break;
         }
-        if (is_num_correct(inp, number_size)) {
-            inp.erase(3, 1);
-            if (delete_element(flights, stoi(inp)) == 2) {
-                cout << "Авиарейс не найден. Попробуйте заново" << endl;
-                cout << "или введите \"/\" для выхода в меню:" << endl;
+        if (is_avianum_correct(inp, DB->avianum_size)) {
+            if (delete_element(DB->flights, inp.erase(3, 1).c_str()) == 2) {
+                cout << "|\\/| Авиарейс не найден. Попробуйте заново" << endl;
+                cout << "|/\\| или введите \"/\" для выхода в меню:" << endl;
                 continue;
             }
             else {
                 cout << "Авиарейс удалён." << endl;
+                cout << "«Уважаемые пассажиры. Рейс №" << inp << " отмененён."
+                    " За дополнительной информацией обращайтесь к представителю авиакомпании.»" << endl;
+                del_tickets_byAvr(DB->tickets, inp.c_str());
                 break;
             }
         }
@@ -859,8 +944,8 @@ int menu_del_avr(flight*& flights, const int number_size) {
     return 0;
 }
 
-int menu_find_num_avr(flight* flights, const int number_size) {
-    if (flights == nullptr) {
+int menu_find_num_avr(database* const DB) {
+    if (DB->flights == nullptr) {
         cout << "Список авиарейсов пуст. Операция не выполнена." << endl;
         return 1;
     }
@@ -874,13 +959,13 @@ int menu_find_num_avr(flight* flights, const int number_size) {
             cout << "Возвращение в меню." << endl;
             break;
         }
-        if (is_num_correct(inp, number_size)) {
+        if (is_avianum_correct(inp, DB->avianum_size)) {
             flight* found = nullptr;
             inp.erase(3, 1);
-            found = find_element(flights, stoi(inp));
+            found = find_element(DB->flights, inp.c_str());
             if (found == nullptr) {
-                cout << "Авиарейс не найден. Попробуйте заново" << endl;
-                cout << "или введите \"/\" для выхода в меню:" << endl;
+                cout << "|\\/| Авиарейс не найден. Попробуйте заново" << endl;
+                cout << "|/\\| или введите \"/\" для выхода в меню:" << endl;
                 cin.clear();
                 cin.ignore(cin.rdbuf()->in_avail(),'\n');
                 continue;
@@ -898,14 +983,18 @@ int menu_find_num_avr(flight* flights, const int number_size) {
             }
         }
         else {
-
+            cout << "|\\/| Номер введён неверно. Попробуйте заново" << endl;
+            cout << "|/\\| или введите \"/\" для выхода в меню:" << endl;
+            cin.clear();
+            cin.ignore(cin.rdbuf()->in_avail(), '\n');
+            continue;
         }
     }
     return 0;
 }
 
-int menu_find_dest_avr(flight* flights, const int number_size) {
-    if (flights == nullptr) {
+int menu_find_dest_avr(database* const DB) {
+    if (DB->flights == nullptr) {
         cout << "Список авиарейсов пуст. Операция не выполнена." << endl;
         return 1;
     }
@@ -920,15 +1009,16 @@ int menu_find_dest_avr(flight* flights, const int number_size) {
             break;
         }
         found_flights* found = nullptr;
-        find_elements_bytext(flights, found, inp);
+        find_elements_bytext(DB->flights, found, inp);
         if (found == nullptr) {
-            cout << "Авиарейс не найден. Попробуйте заново" << endl;
-            cout << "или введите \"/\" для выхода в меню:" << endl;
+            cout << "|\\/| Авиарейс не найден. Попробуйте заново" << endl;
+            cout << "|/\\| или введите \"/\" для выхода в меню:" << endl;
             cin.clear();
             cin.ignore(cin.rdbuf()->in_avail(),'\n');
             continue;
         }
         else {
+            cout << "Авиарейс(ы) с указанными фрагментами названия аэропорта прибытия:" << endl;
             output_flights(found);
             break;
         }
@@ -936,13 +1026,14 @@ int menu_find_dest_avr(flight* flights, const int number_size) {
     return 0;
 }
 
-void menu_show_avr(flight* flights, const int number_size) {
-    if (flights == nullptr) {
+void menu_show_avr(database* const DB) {
+    if (DB->flights == nullptr) {
         cout << "Список авиарейсов пуст. Операция не выполнена." << endl;
     }
     else {
         cout << "Авиарейсы:" << endl;
-        output_flights(flights);
+        output_flights(DB->flights);
+        cout << boolalpha << tree_accuracy(DB->flights) << endl;
     }
 }
 

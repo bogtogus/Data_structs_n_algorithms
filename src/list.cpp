@@ -5,31 +5,38 @@ void clear_list(ticket_trade*& head) {
     if (head == nullptr) {
         return;
     }
-    ticket_trade* prev_ticket = head;
-    ticket_trade* cur_ticket = prev_ticket->next;
-    while (cur_ticket != head) {
-        delete prev_ticket;
-        prev_ticket = cur_ticket;
-        cur_ticket = prev_ticket->next;
+    ticket_trade* cur_ticket = head;
+    ticket_trade* next_ticket = cur_ticket->next;
+    while (next_ticket != head) {
+        delete cur_ticket;
+        cur_ticket = next_ticket;
+        next_ticket = cur_ticket->next;
     }
+    delete cur_ticket;
 }
 
-void show_list(ticket_trade* head, const int pass_size, const int num_size) {
+void show_list(ticket_trade* head, const int pass_size, const int avianum_size) {
     if (head == nullptr) {
         return;
     }
     ticket_trade* cur_ticket = head;
+    char* passport = new char[pass_size + 1]{};
+    char* flight = new char[avianum_size + 1]{};
     do {
         cout << setfill('-') << '/' << setw(33) << '\\' << setfill(' ') << endl;
         cout << setw(22) << left << "¦ Билет №";
         cout << setw(11) << right << cur_ticket->ticket << setw(1) << '|' << endl;
         cout << setw(22) << left << "¦ Паспорт покупателя: "; 
-        cout << setw(11) << right << extend_passport(cur_ticket->passport, pass_size) << setw(1) << '|'<< endl;
+        extend_passport(cur_ticket->passport, passport, pass_size);
+        cout << setw(11) << right << passport << setw(1) << '|'<< endl;
         cout << setw(22) << left << "¦ Рейс №";
-        cout << setw(11) << right << extend_flight(cur_ticket->flight_number, num_size) << setw(1) << '|' << endl;
+        extend_flight(cur_ticket->flight_number, flight, avianum_size);
+        cout << setw(11) << right << flight << setw(1) << '|' << endl;
         cout << setfill('-') << '\\'<< setw(33) << '/' << setfill(' ') << endl;
         cur_ticket = cur_ticket->next;
     } while (cur_ticket != head);
+    delete[] passport;
+    delete[] flight;
 }
 
 int pop_ticket(ticket_trade*& head, const string passport, const string flight) {
@@ -44,25 +51,31 @@ int pop_ticket(ticket_trade*& head, const string passport, const string flight) 
         prev = current;
         current = current->next;
     }
-    if (current->next != head &&
+    if (current->next == head &&
             (current->passport != passport ||
             current->flight_number != flight)) {
         return 2;
     }
-    prev->next = current->next;
+    if (prev != nullptr) {
+        prev->next = current->next;
+    }
+    else {
+        head = nullptr;
+    }
     delete current;
     return 0;
 }
 
 void push_ticket(ticket_trade*& head, const string passport, const string flight) {
     ticket_trade* p = new ticket_trade{};
-    strcpy(p->passport, passport.c_str());
-    strcpy(p->flight_number, flight.c_str());
+    strcpy_s(p->passport, passport.c_str());
+    strcpy_s(p->flight_number, flight.c_str());
     ticket_trade* current = head;
     char* temp = nullptr;
     if (head == nullptr) {
         temp = encode_ticket(1);
-        strcpy(p->ticket, temp);
+        //cout << &temp << endl;
+        strcpy_s(p->ticket, temp);
         delete[] temp;
         head = p;
         p->next = p;
@@ -73,7 +86,8 @@ void push_ticket(ticket_trade*& head, const string passport, const string flight
             current = current->next;
         }
         temp = encode_ticket(decode_ticket(current->ticket) + 1);
-        strcpy(p->ticket, temp);
+        //cout << &temp << endl;
+        strcpy_s(p->ticket, temp);
         delete[] temp;
         p->next = current->next;
         current->next = p;
@@ -82,11 +96,11 @@ void push_ticket(ticket_trade*& head, const string passport, const string flight
 
 void push_ticket_ff(ticket_trade*& head, const std::string passport, const std::string flight, const std::string tnum) {
     ticket_trade* p = new ticket_trade{};
-    strcpy(p->passport, passport.c_str());
-    strcpy(p->flight_number, flight.c_str());
+    strcpy_s(p->passport, passport.c_str());
+    strcpy_s(p->flight_number, flight.c_str());
     ticket_trade* current = head;
     if (head == nullptr) {
-        strcpy(p->ticket, tnum.c_str());
+        strcpy_s(p->ticket, tnum.c_str());
         head = p;
         p->next = p;
     }
@@ -94,7 +108,7 @@ void push_ticket_ff(ticket_trade*& head, const std::string passport, const std::
         while (current->next != head) {
             current = current->next;
         }
-        strcpy(p->ticket, tnum.c_str());
+        strcpy_s(p->ticket, tnum.c_str());
         p->next = current->next;
         current->next = p;
     }
@@ -129,6 +143,7 @@ bool is_exists(ticket_trade*& head, const string number) {
     if (strcmp(cur_ticket->ticket, number.c_str()) == 0) {
         return true;
     }
+    cur_ticket = cur_ticket->next;
     while (cur_ticket != head) {
         if (strcmp(cur_ticket->ticket, number.c_str()) == 0) {
             return true;
@@ -147,6 +162,7 @@ bool is_copy(ticket_trade*& head, const string passport, string flight) {
             strcmp(cur_ticket->flight_number, flight.c_str()) == 0) {
         return true;
     }
+    cur_ticket = cur_ticket->next;
     while (cur_ticket != head) {
         if (strcmp(cur_ticket->passport, passport.c_str()) == 0 && 
                 strcmp(cur_ticket->flight_number, flight.c_str())) {
@@ -209,4 +225,78 @@ void sort(ticket_trade*& head) {
     }
     current->next = head;
     delete[] pointers_array;
+}
+
+void del_tickets_byAvr(ticket_trade*& head, const char* number) {
+    ticket_trade* prev = nullptr;
+    ticket_trade* new_head = nullptr;
+    ticket_trade* current = head;
+    if (head == nullptr) {
+        return;
+    }
+    else if (head->next == head) {
+        delete head;
+        head = nullptr;
+    }
+    else {
+        while (strcmp(head->flight_number, number) == 0) { // удаление пока в голове списка нужное число
+            prev = head;
+            new_head = head->next;
+            current = current->next;
+            while (current->next != head) { // замена зацикливающего(конечного) указателя на новый
+                current = current->next;
+            }
+            current->next = new_head;
+            delete head;
+            head = new_head;
+        }
+        prev = current;
+        current = current->next;
+        while (current != head) {
+            if (strcmp(current->flight_number, number) == 0) {
+                prev->next = current->next;
+                delete current;
+                current = prev;
+            }
+            prev = current;
+            current = current->next;
+        }
+    }
+}
+
+void del_tickets_byPass(ticket_trade*& head, const char* passport) {
+    ticket_trade* prev = nullptr;
+    ticket_trade* new_head = nullptr;
+    ticket_trade* current = head;
+    if (head == nullptr) {
+        return;
+    }
+    else if (head->next == head) {
+        delete head;
+        head = nullptr;
+    }
+    else {
+        while (strcmp(head->passport, passport) == 0) { // удаление пока в голове списка нужное число
+            prev = head;
+            new_head = head->next;
+            current = current->next;
+            while (current->next != head) { // замена зацикливающего(конечного) указателя на новый
+                current = current->next;
+            }
+            current->next = new_head;
+            delete head;
+            head = new_head;
+        }
+        prev = current;
+        current = current->next;
+        while (current != head) {
+            if (strcmp(current->passport, passport) == 0) {
+                prev->next = current->next;
+                delete current;
+                current = prev;
+            }
+            prev = current;
+            current = current->next;
+        }
+    }
 }

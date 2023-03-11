@@ -1,4 +1,5 @@
 #pragma once
+#include <main.h>
 
 struct flight {
     char number[7]{}; // AAANNN (AAA-NNN)
@@ -21,12 +22,12 @@ struct found_flights {
 };
 
 int add_element(flight*& root, const flight& data);
-int delete_element(flight*& root, const int number);
-bool is_exists(const flight* root, const  std::string number);
+int delete_element(flight*& root, const char* number);
+bool is_exists(const flight* root, const  std::string& number);
 void output_flights(const flight* const);
 void output_flights(found_flights*);
-void output_tree_height(flight *subroot, long int n, const int direction, bool changed=false);
-flight* find_element(flight*, const int);
+void output_tree_height(flight* subroot, long int n, const int direction, bool changed=false);
+flight* find_element(flight*, const char*);
 bool find_elements_bytext(flight* root, found_flights*&, const  std::string text);
 flight* find_maxleft(flight*);
 flight* find_minright(flight*);
@@ -41,7 +42,5 @@ int height_recalculation(flight*&);
 bool is_tree_empty(const flight* const);
 bool is_balanced(const flight*);
 flight* to_root(flight*);
-bool is_num_correct(const std::string, const int);
-bool compare_fragments(const std::string&, const std::string&);
 void push_back(found_flights *&, flight*&);
 void copy_element(const flight&, flight*&);
