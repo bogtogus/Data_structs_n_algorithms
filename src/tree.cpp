@@ -20,7 +20,7 @@ int add_element(flight*& root, const flight& data) {
         root = new_joint;
     }
     else {
-        while (current_joint != nullptr) { // перемещение до решающего узла
+        while (current_joint != nullptr) { // РїРµСЂРµРјРµС‰РµРЅРёРµ РґРѕ СЂРµС€Р°СЋС‰РµРіРѕ СѓР·Р»Р°
             prev_joint = current_joint;
             if (strcmp(new_joint->number, current_joint->number) < 0) {
                 current_joint = current_joint->left;
@@ -29,13 +29,13 @@ int add_element(flight*& root, const flight& data) {
                 current_joint = current_joint->right;
             }
             else if (strcmp((current_joint->left)->number, new_joint->number) == 0) {
-                return 1; // уже существует
+                return 1; // СѓР¶Рµ СЃСѓС‰РµСЃС‚РІСѓРµС‚
             }
             else {
                 break;
             }
         }
-        if (current_joint == nullptr) { //решающий узел
+        if (current_joint == nullptr) { //СЂРµС€Р°СЋС‰РёР№ СѓР·РµР»
             current_joint = prev_joint;
         }
         new_joint->prev = current_joint;
@@ -45,8 +45,8 @@ int add_element(flight*& root, const flight& data) {
         else if (strcmp(new_joint->number, current_joint->number) > 0) {
             current_joint->right = new_joint;
         }
-        /* если новые данные такие же, как у решающего узла, 
-        то к новому узлу привязывается всё левое поддерево решающего узла, если оно есть */
+        /* РµСЃР»Рё РЅРѕРІС‹Рµ РґР°РЅРЅС‹Рµ С‚Р°РєРёРµ Р¶Рµ, РєР°Рє Сѓ СЂРµС€Р°СЋС‰РµРіРѕ СѓР·Р»Р°, 
+        С‚Рѕ Рє РЅРѕРІРѕРјСѓ СѓР·Р»Сѓ РїСЂРёРІСЏР·С‹РІР°РµС‚СЃСЏ РІСЃС‘ Р»РµРІРѕРµ РїРѕРґРґРµСЂРµРІРѕ СЂРµС€Р°СЋС‰РµРіРѕ СѓР·Р»Р°, РµСЃР»Рё РѕРЅРѕ РµСЃС‚СЊ */
         else { 
             new_joint->left = current_joint->left;
             new_joint->prev = current_joint;
@@ -60,7 +60,7 @@ int add_element(flight*& root, const flight& data) {
 
         current_joint = new_joint;
         int u = current_joint->height;
-        while (current_joint != nullptr) { //подсчёт высоты обратным проходом
+        while (current_joint != nullptr) { //РїРѕРґСЃС‡С‘С‚ РІС‹СЃРѕС‚С‹ РѕР±СЂР°С‚РЅС‹Рј РїСЂРѕС…РѕРґРѕРј
             if (u > current_joint->height) {
                 current_joint->height = u;
             }
@@ -83,7 +83,7 @@ int delete_element(flight*& root, const char* number) {
     flight* current_joint = root;
     flight* prev_joint = nullptr;
     flight* maxleft = nullptr;
-    while (current_joint != nullptr) { // дойти до узла(или пустоты) после искомого узла
+    while (current_joint != nullptr) { // РґРѕР№С‚Рё РґРѕ СѓР·Р»Р°(РёР»Рё РїСѓСЃС‚РѕС‚С‹) РїРѕСЃР»Рµ РёСЃРєРѕРјРѕРіРѕ СѓР·Р»Р°
         prev_joint = current_joint;
         if (strcmp(number, current_joint->number) < 0) {
             current_joint = current_joint->left;
@@ -92,20 +92,20 @@ int delete_element(flight*& root, const char* number) {
             current_joint = current_joint->right;
         }
         else if (current_joint->left != nullptr && strcmp(((current_joint->left)->number), number) == 0) {
-            return 1; // уже существует
+            return 1; // СѓР¶Рµ СЃСѓС‰РµСЃС‚РІСѓРµС‚
         }
         else {
             break;
         }
     }
-    current_joint = prev_joint; //рассмотреть нужный удаляемый узел
+    current_joint = prev_joint; //СЂР°СЃСЃРјРѕС‚СЂРµС‚СЊ РЅСѓР¶РЅС‹Р№ СѓРґР°Р»СЏРµРјС‹Р№ СѓР·РµР»
     if (strcmp(number, current_joint->number) != 0) {
-        return 2; // не найдено
+        return 2; // РЅРµ РЅР°Р№РґРµРЅРѕ
     }
     else {
-        maxleft = find_maxleft(current_joint); //максимум левого поддерева
-        if (maxleft == nullptr) { //если левой ветви нет
-            if (current_joint->prev != nullptr) { //если удаляемый не корень
+        maxleft = find_maxleft(current_joint); //РјР°РєСЃРёРјСѓРј Р»РµРІРѕРіРѕ РїРѕРґРґРµСЂРµРІР°
+        if (maxleft == nullptr) { //РµСЃР»Рё Р»РµРІРѕР№ РІРµС‚РІРё РЅРµС‚
+            if (current_joint->prev != nullptr) { //РµСЃР»Рё СѓРґР°Р»СЏРµРјС‹Р№ РЅРµ РєРѕСЂРµРЅСЊ
                 prev_joint = current_joint->prev;
                 if (strcmp(number, prev_joint->number) < 0) {
                     prev_joint->left = current_joint->right;
@@ -119,14 +119,14 @@ int delete_element(flight*& root, const char* number) {
                 delete current_joint;
                 current_joint = nullptr;
             }
-            else {// если одинокий корень
+            else {// РµСЃР»Рё РѕРґРёРЅРѕРєРёР№ РєРѕСЂРµРЅСЊ
                 delete current_joint;
                 root = nullptr;
             }
         }
-        else { // если левая ветвь есть
-            if (maxleft->left != nullptr) { // если у левого максимума есть левая ветвь
-                if (maxleft->prev != nullptr && maxleft->prev != current_joint) { // если у заменяющего есть предок
+        else { // РµСЃР»Рё Р»РµРІР°СЏ РІРµС‚РІСЊ РµСЃС‚СЊ
+            if (maxleft->left != nullptr) { // РµСЃР»Рё Сѓ Р»РµРІРѕРіРѕ РјР°РєСЃРёРјСѓРјР° РµСЃС‚СЊ Р»РµРІР°СЏ РІРµС‚РІСЊ
+                if (maxleft->prev != nullptr && maxleft->prev != current_joint) { // РµСЃР»Рё Сѓ Р·Р°РјРµРЅСЏСЋС‰РµРіРѕ РµСЃС‚СЊ РїСЂРµРґРѕРє
                     (maxleft->prev)->right = maxleft->left;
                     (maxleft->left)->prev = maxleft->prev;
                     maxleft->left = nullptr;
@@ -137,8 +137,8 @@ int delete_element(flight*& root, const char* number) {
             if (current_joint->right != nullptr) {
                 (current_joint->right)->prev = maxleft;
             }
-            prev_joint = current_joint->prev; // родительский узел удаляемого узла
-            if (prev_joint != nullptr) { //если удаляемый не корень
+            prev_joint = current_joint->prev; // СЂРѕРґРёС‚РµР»СЊСЃРєРёР№ СѓР·РµР» СѓРґР°Р»СЏРµРјРѕРіРѕ СѓР·Р»Р°
+            if (prev_joint != nullptr) { //РµСЃР»Рё СѓРґР°Р»СЏРµРјС‹Р№ РЅРµ РєРѕСЂРµРЅСЊ
                 if (strcmp(number, prev_joint->number) < 0) {
                     prev_joint->left = maxleft;
                 }
@@ -218,7 +218,7 @@ flight* find_element(flight* root, const char* number) {
         return nullptr;
     }
     else {
-        while (current_joint != nullptr) { // перемещение до нужного узла
+        while (current_joint != nullptr) { // РїРµСЂРµРјРµС‰РµРЅРёРµ РґРѕ РЅСѓР¶РЅРѕРіРѕ СѓР·Р»Р°
             prev_joint = current_joint;
             if (strcmp(number, current_joint->number) < 0) {
                 current_joint = current_joint->left;
@@ -229,11 +229,11 @@ flight* find_element(flight* root, const char* number) {
             else if (current_joint->left != nullptr && strcmp((current_joint->left)->number, number) == 0) {
                 current_joint = current_joint->left;
             }
-            else { // найден самый левый нужный узел
+            else { // РЅР°Р№РґРµРЅ СЃР°РјС‹Р№ Р»РµРІС‹Р№ РЅСѓР¶РЅС‹Р№ СѓР·РµР»
                 break;
             }
         }
-        if (current_joint == nullptr) { //если нужный узел - лист, то перемещаемся из пустоты в него
+        if (current_joint == nullptr) { //РµСЃР»Рё РЅСѓР¶РЅС‹Р№ СѓР·РµР» - Р»РёСЃС‚, С‚Рѕ РїРµСЂРµРјРµС‰Р°РµРјСЃСЏ РёР· РїСѓСЃС‚РѕС‚С‹ РІ РЅРµРіРѕ
             current_joint = prev_joint;
         }
         if (strcmp(current_joint->number, number) != 0) {
@@ -243,7 +243,7 @@ flight* find_element(flight* root, const char* number) {
     return current_joint;
 }
 
-bool find_elements_bytext(flight* subroot, found_flights*& ffl, const string text) { //обратный
+bool find_elements_bytext(flight* subroot, found_flights*& ffl, const string text) { //РѕР±СЂР°С‚РЅС‹Р№
     if (subroot != nullptr) {
         bool ret = find_elements_bytext(subroot->left, ffl, text);
         ret = find_elements_bytext(subroot->right, ffl, text);
@@ -295,9 +295,9 @@ void output_tree_height(flight* subroot, long int n, const int direction, bool c
     if (subroot != nullptr) {
         const int num_middle = ((int)log10(subroot->height) + 1 + 7) / 2;
         const int branch_lengh = 8;
-        // углубление максимально вправо
+        // СѓРіР»СѓР±Р»РµРЅРёРµ РјР°РєСЃРёРјР°Р»СЊРЅРѕ РІРїСЂР°РІРѕ
         output_tree_height(subroot->right, n + branch_lengh + num_middle, 2, (bool)(direction != 2));
-        //вывод высоты подкорня
+        //РІС‹РІРѕРґ РІС‹СЃРѕС‚С‹ РїРѕРґРєРѕСЂРЅСЏ
 
         for (long i = 0; i < n; i++) {
             if (i < n - branch_lengh) {
@@ -320,18 +320,18 @@ void output_tree_height(flight* subroot, long int n, const int direction, bool c
                 }
             }
         }
-        std::cout << "№" << subroot->number << '*' << subroot->height << std::endl;
-        // после углубления вправо просматриваем уже левые поддеревья
+        std::cout << "в„–" << subroot->number << '*' << subroot->height << std::endl;
+        // РїРѕСЃР»Рµ СѓРіР»СѓР±Р»РµРЅРёСЏ РІРїСЂР°РІРѕ РїСЂРѕСЃРјР°С‚СЂРёРІР°РµРј СѓР¶Рµ Р»РµРІС‹Рµ РїРѕРґРґРµСЂРµРІСЊСЏ
         output_tree_height(subroot->left, n + branch_lengh + num_middle, 1, (bool)(direction != 1));
     }
 }
 
 void clear_flights(flight*& subroot) {
     if (subroot != nullptr) {
-        clear_flights(subroot->right); // углубление максимально вправо
-        clear_flights(subroot->left); // после углубления вправо просматриваем уже левые поддеревья
-        /* Когда обе функции завершают работу(то есть очищены все поддеревья, или функции пришли к листу),
-        то удаляем корень поддерева */
+        clear_flights(subroot->right); // СѓРіР»СѓР±Р»РµРЅРёРµ РјР°РєСЃРёРјР°Р»СЊРЅРѕ РІРїСЂР°РІРѕ
+        clear_flights(subroot->left); // РїРѕСЃР»Рµ СѓРіР»СѓР±Р»РµРЅРёСЏ РІРїСЂР°РІРѕ РїСЂРѕСЃРјР°С‚СЂРёРІР°РµРј СѓР¶Рµ Р»РµРІС‹Рµ РїРѕРґРґРµСЂРµРІСЊСЏ
+        /* РљРѕРіРґР° РѕР±Рµ С„СѓРЅРєС†РёРё Р·Р°РІРµСЂС€Р°СЋС‚ СЂР°Р±РѕС‚Сѓ(С‚Рѕ РµСЃС‚СЊ РѕС‡РёС‰РµРЅС‹ РІСЃРµ РїРѕРґРґРµСЂРµРІСЊСЏ, РёР»Рё С„СѓРЅРєС†РёРё РїСЂРёС€Р»Рё Рє Р»РёСЃС‚Сѓ),
+        С‚Рѕ СѓРґР°Р»СЏРµРј РєРѕСЂРµРЅСЊ РїРѕРґРґРµСЂРµРІР° */
         delete subroot;
         subroot = nullptr;
     }
@@ -340,16 +340,16 @@ void clear_flights(flight*& subroot) {
 bool tree_accuracy(flight* subroot) {
     bool accuracy = true;
     if (subroot != nullptr) {
-        accuracy = tree_accuracy(subroot->right); // углубление максимально вправо
+        accuracy = tree_accuracy(subroot->right); // СѓРіР»СѓР±Р»РµРЅРёРµ РјР°РєСЃРёРјР°Р»СЊРЅРѕ РІРїСЂР°РІРѕ
         if (!accuracy) {
             return false;
         }
-        accuracy = tree_accuracy(subroot->left); // после углубления вправо просматриваем уже левые поддеревья
+        accuracy = tree_accuracy(subroot->left); // РїРѕСЃР»Рµ СѓРіР»СѓР±Р»РµРЅРёСЏ РІРїСЂР°РІРѕ РїСЂРѕСЃРјР°С‚СЂРёРІР°РµРј СѓР¶Рµ Р»РµРІС‹Рµ РїРѕРґРґРµСЂРµРІСЊСЏ
         if (!accuracy) {
             return false;
         }
-        /* Когда обе функции завершают работу(то есть проверены все поддеревья),
-        то проверяем корень поддерева */
+        /* РљРѕРіРґР° РѕР±Рµ С„СѓРЅРєС†РёРё Р·Р°РІРµСЂС€Р°СЋС‚ СЂР°Р±РѕС‚Сѓ(С‚Рѕ РµСЃС‚СЊ РїСЂРѕРІРµСЂРµРЅС‹ РІСЃРµ РїРѕРґРґРµСЂРµРІСЊСЏ),
+        С‚Рѕ РїСЂРѕРІРµСЂСЏРµРј РєРѕСЂРµРЅСЊ РїРѕРґРґРµСЂРµРІР° */
         if (subroot->prev == subroot) {
             return false;
         }
@@ -446,13 +446,13 @@ void Balance(flight*& root) {
         return;
     }
     int delta = delta_height(root->left, root->right);
-    if (abs(delta) < 2) { // если балансировать не надо
-        height_recalculation(root); // но до этого дерево могло в последний раз сбалансироваться
+    if (abs(delta) < 2) { // РµСЃР»Рё Р±Р°Р»Р°РЅСЃРёСЂРѕРІР°С‚СЊ РЅРµ РЅР°РґРѕ
+        height_recalculation(root); // РЅРѕ РґРѕ СЌС‚РѕРіРѕ РґРµСЂРµРІРѕ РјРѕРіР»Рѕ РІ РїРѕСЃР»РµРґРЅРёР№ СЂР°Р· СЃР±Р°Р»Р°РЅСЃРёСЂРѕРІР°С‚СЊСЃСЏ
         return;
     }
     flight* q = nullptr;
     flight* s = nullptr;
-    if (delta > 0) { // левое поддерево выше правого (левое определённо существует) БОЛЬШОЕПРАВОЕ
+    if (delta > 0) { // Р»РµРІРѕРµ РїРѕРґРґРµСЂРµРІРѕ РІС‹С€Рµ РїСЂР°РІРѕРіРѕ (Р»РµРІРѕРµ РѕРїСЂРµРґРµР»С‘РЅРЅРѕ СЃСѓС‰РµСЃС‚РІСѓРµС‚) Р‘РћР›Р¬РЁРћР•РџР РђР’РћР•
         q = root->left;
         s = q->right;
         if (s != nullptr) {
@@ -469,7 +469,7 @@ void Balance(flight*& root) {
             SmallRightRotate(root);
         }
     }
-    else if (delta < 0) { // правое поддерево выше левого БОЛЬШОЕЛЕВОЕ
+    else if (delta < 0) { // РїСЂР°РІРѕРµ РїРѕРґРґРµСЂРµРІРѕ РІС‹С€Рµ Р»РµРІРѕРіРѕ Р‘РћР›Р¬РЁРћР•Р›Р•Р’РћР•
         q = root->right;
         s = q->left;
         if (s != nullptr) {
@@ -488,7 +488,7 @@ void Balance(flight*& root) {
     height_recalculation(root);
     //flight* current_joint = root;
     //int u = current_joint->height;
-    //while (current_joint != nullptr) { //подсчёт высоты обратным проходом
+    //while (current_joint != nullptr) { //РїРѕРґСЃС‡С‘С‚ РІС‹СЃРѕС‚С‹ РѕР±СЂР°С‚РЅС‹Рј РїСЂРѕС…РѕРґРѕРј
     //    if (u > current_joint->height) {
     //        current_joint->height = u;
     //    }
@@ -610,23 +610,23 @@ void output_flights(const flight* const subroot) {
     if (subroot != nullptr) {
         char* nmbr = new char[8] {};
         char* source = (char*)subroot->number;
-        // углубление максимально вправо
+        // СѓРіР»СѓР±Р»РµРЅРёРµ РјР°РєСЃРёРјР°Р»СЊРЅРѕ РІРїСЂР°РІРѕ
         output_flights(subroot->left);
-        //вывод листа
+        //РІС‹РІРѕРґ Р»РёСЃС‚Р°
         strncpy_s(nmbr, 8, source, 3);
         nmbr[3] = '-'; nmbr[4] = source[3];
         nmbr[5] = source[4]; nmbr[6] = source[5]; nmbr[7] = '\0';
         cout << left << setw(2) << "+-" << setfill('-') << setw(43) << right << '+' << setfill(' ') << endl;
-        cout << setw(22) << left << "| Рейс №" << setw(22) << nmbr << '|' << endl;
-        cout << setw(22) << left << "| Компания " << setw(22) << subroot->company << '|' << endl;
-        cout << setw(22) << left << "| Отправляется из: " << setw(22) << subroot->departure << '|' << endl;
-        cout << setw(22) << left << "| В: " << setw(22) << subroot->arriving << '|' << endl;
-        cout << setw(22) << left << "| Время отправления: " << setw(22) << subroot->dep_time << '|' << endl;
-        cout << setw(22) << left << "| Время прибытия: " << setw(22) << subroot->arv_time << '|' << endl;
-        cout << setw(22) << left << "| Всего " << setw(4) << subroot->places << setw(18) << " мест," << '|' << endl;
-        cout << setw(22) << left << "| из которых " << setw(4) << subroot->free << setw(18) << " свободно." << '|' << endl;
+        cout << setw(22) << left << "| Р РµР№СЃ в„–" << setw(22) << nmbr << '|' << endl;
+        cout << setw(22) << left << "| РљРѕРјРїР°РЅРёСЏ " << setw(22) << subroot->company << '|' << endl;
+        cout << setw(22) << left << "| РћС‚РїСЂР°РІР»СЏРµС‚СЃСЏ РёР·: " << setw(22) << subroot->departure << '|' << endl;
+        cout << setw(22) << left << "| Р’: " << setw(22) << subroot->arriving << '|' << endl;
+        cout << setw(22) << left << "| Р’СЂРµРјСЏ РѕС‚РїСЂР°РІР»РµРЅРёСЏ: " << setw(22) << subroot->dep_time << '|' << endl;
+        cout << setw(22) << left << "| Р’СЂРµРјСЏ РїСЂРёР±С‹С‚РёСЏ: " << setw(22) << subroot->arv_time << '|' << endl;
+        cout << setw(22) << left << "| Р’СЃРµРіРѕ " << setw(4) << subroot->places << setw(18) << " РјРµСЃС‚," << '|' << endl;
+        cout << setw(22) << left << "| РёР· РєРѕС‚РѕСЂС‹С… " << setw(4) << subroot->free << setw(18) << " СЃРІРѕР±РѕРґРЅРѕ." << '|' << endl;
         cout << left << setw(2) << "+-" << setfill('-') << setw(43) << right << '+' << setfill(' ') << endl;
-        // после углубления вправо просматриваем уже левые поддеревья
+        // РїРѕСЃР»Рµ СѓРіР»СѓР±Р»РµРЅРёСЏ РІРїСЂР°РІРѕ РїСЂРѕСЃРјР°С‚СЂРёРІР°РµРј СѓР¶Рµ Р»РµРІС‹Рµ РїРѕРґРґРµСЂРµРІСЊСЏ
         output_flights(subroot->right);
         delete[] nmbr;
     }
@@ -643,14 +643,14 @@ void output_flights(found_flights* const a) {
         nmbr[3] = '-'; nmbr[4] = b->fl->number[3];
         nmbr[5] = b->fl->number[4]; nmbr[6] = b->fl->number[5]; nmbr[7] = '\0';
         cout << left << setw(2)  << "+-" << setfill('-') << setw(43) << right << '+' << setfill(' ') << endl;
-        cout << setw(22) << left << "| Рейс №" << setw(22) << nmbr << '|' << endl;
-        cout << setw(22) << left << "| Компания " << setw(22) << b->fl->company << '|' << endl;
-        cout << setw(22) << left << "| Отправляется из: " << setw(22) << b->fl->departure << '|' << endl;
-        cout << setw(22) << left << "| В: " << setw(22) << b->fl->arriving << '|' << endl;
-        cout << setw(22) << left << "| Время отправления: " << setw(22) << b->fl->dep_time << '|' << endl;
-        cout << setw(22) << left << "| Время прибытия: " << setw(22) << b->fl->arv_time << '|' << endl;
-        cout << setw(22) << left << "| Всего " << setw(4) << b->fl->places << setw(18) << " мест," << '|' << endl;
-        cout << setw(22) << left << "| из которых " << setw(4) << b->fl->free << setw(18) << " свободно." << '|' << endl;
+        cout << setw(22) << left << "| Р РµР№СЃ в„–" << setw(22) << nmbr << '|' << endl;
+        cout << setw(22) << left << "| РљРѕРјРїР°РЅРёСЏ " << setw(22) << b->fl->company << '|' << endl;
+        cout << setw(22) << left << "| РћС‚РїСЂР°РІР»СЏРµС‚СЃСЏ РёР·: " << setw(22) << b->fl->departure << '|' << endl;
+        cout << setw(22) << left << "| Р’: " << setw(22) << b->fl->arriving << '|' << endl;
+        cout << setw(22) << left << "| Р’СЂРµРјСЏ РѕС‚РїСЂР°РІР»РµРЅРёСЏ: " << setw(22) << b->fl->dep_time << '|' << endl;
+        cout << setw(22) << left << "| Р’СЂРµРјСЏ РїСЂРёР±С‹С‚РёСЏ: " << setw(22) << b->fl->arv_time << '|' << endl;
+        cout << setw(22) << left << "| Р’СЃРµРіРѕ " << setw(4) << b->fl->places << setw(18) << " РјРµСЃС‚," << '|' << endl;
+        cout << setw(22) << left << "| РёР· РєРѕС‚РѕСЂС‹С… " << setw(4) << b->fl->free << setw(18) << " СЃРІРѕР±РѕРґРЅРѕ." << '|' << endl;
         cout << left << setw(2)  << "+-" << setfill('-') << setw(43) << right << '+' << setfill(' ') << endl;
         b = b->next;
     }

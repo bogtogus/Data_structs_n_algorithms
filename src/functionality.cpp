@@ -27,7 +27,7 @@ bool is_number(const std::string& s) {
     return (!s.empty() && it == s.end());
 }
 
-bool compare_fragments(const std::string& line, const std::string& need) { // Боуэра Мура
+bool compare_fragments(const std::string& line, const std::string& need) { // Р‘РѕСѓСЌСЂР° РњСѓСЂР°
     if (need.length() > line.length() || need.length() == 0) {
         return false;
     }
@@ -37,15 +37,15 @@ bool compare_fragments(const std::string& line, const std::string& need) { // Бо
     int s1 = 0;
     int nlen = need.length();
     int* stopsymb = new int[nlen] {};
-    for (int c1 = nlen - 2; c1 >= 0; c1--) { // построение таблицы с конца слова
-        if (need[c1] == need[nlen - 1] && stopsymb[nlen - 1] == 0) { // если символ в конце слова есть и в другом его месте
+    for (int c1 = nlen - 2; c1 >= 0; c1--) { // РїРѕСЃС‚СЂРѕРµРЅРёРµ С‚Р°Р±Р»РёС†С‹ СЃ РєРѕРЅС†Р° СЃР»РѕРІР°
+        if (need[c1] == need[nlen - 1] && stopsymb[nlen - 1] == 0) { // РµСЃР»Рё СЃРёРјРІРѕР» РІ РєРѕРЅС†Рµ СЃР»РѕРІР° РµСЃС‚СЊ Рё РІ РґСЂСѓРіРѕРј РµРіРѕ РјРµСЃС‚Рµ
             stopsymb[nlen - 1] = nlen - c1 - 1;
             stopsymb[c1] = nlen - c1 - 1;
             continue;
         }
-        for (c2 = c1 + 1; c2 < nlen; c2++) { // если символ уже вычислялся
+        for (c2 = c1 + 1; c2 < nlen; c2++) { // РµСЃР»Рё СЃРёРјРІРѕР» СѓР¶Рµ РІС‹С‡РёСЃР»СЏР»СЃСЏ
             if (need[c2] == need[c1]) {
-                stopsymb[c1] = stopsymb[c2]; // то записываем число в самом правом вхождении
+                stopsymb[c1] = stopsymb[c2]; // С‚Рѕ Р·Р°РїРёСЃС‹РІР°РµРј С‡РёСЃР»Рѕ РІ СЃР°РјРѕРј РїСЂР°РІРѕРј РІС…РѕР¶РґРµРЅРёРё
                 break;
             }
         }
@@ -63,14 +63,14 @@ bool compare_fragments(const std::string& line, const std::string& need) { // Бо
     while (st <= line.length() - nlen) {
         i = 0;
         //cout << st << endl;
-        for (i = nlen - 1; i >= 0; i--) { // сравнение с конца слова
-            if (line[i + st] != need[i]) { // если не совпало
-                for (s1 = 0; s1 < nlen; s1++) { // ищется несовпавший в предложении символ в таблице
+        for (i = nlen - 1; i >= 0; i--) { // СЃСЂР°РІРЅРµРЅРёРµ СЃ РєРѕРЅС†Р° СЃР»РѕРІР°
+            if (line[i + st] != need[i]) { // РµСЃР»Рё РЅРµ СЃРѕРІРїР°Р»Рѕ
+                for (s1 = 0; s1 < nlen; s1++) { // РёС‰РµС‚СЃСЏ РЅРµСЃРѕРІРїР°РІС€РёР№ РІ РїСЂРµРґР»РѕР¶РµРЅРёРё СЃРёРјРІРѕР» РІ С‚Р°Р±Р»РёС†Рµ
                     if (line[i + st] == need[s1]) {
                         break;
                     }
                 }
-                if (s1 < nlen) { // если такой символ есть в таблице
+                if (s1 < nlen) { // РµСЃР»Рё С‚Р°РєРѕР№ СЃРёРјРІРѕР» РµСЃС‚СЊ РІ С‚Р°Р±Р»РёС†Рµ
                     st += stopsymb[s1];
                 }
                 else {
@@ -215,7 +215,7 @@ bool validate_dateNtime(const std::string dateNtime) {
 }
 
 bool validate_name(const std::string name, bool fio) {
-    std::string nval = "1234567890!@#№\"\';$%^:&?*(){}[]|\\/_+=`~";
+    std::string nval = "1234567890!@#в„–\"\';$%^:&?*(){}[]|\\/_+=`~";
     if (name.find_first_of(nval) != std::string::npos) {
         return false;
     }
@@ -245,9 +245,9 @@ void format_fio(std::string& fio) {
 }
 
 void downcase_word(std::string& word) {
-    int first_up = (int)'А';
-    int last_up = (int)'Я';
-    int yo_up = (int)'Ё';
+    int first_up = (int)'Рђ';
+    int last_up = (int)'РЇ';
+    int yo_up = (int)'РЃ';
     for (std::string::size_type i = 0; i < word.size(); i++) {
         if (is_letter_upper(word[i])) {
             if ((int)word[i] > 0) {
@@ -258,7 +258,7 @@ void downcase_word(std::string& word) {
                     word[i] = (char)((int)word[i] + 32);
                 }
                 else if ((int)word[0] == yo_up) {
-                    word[i] = 'ё';
+                    word[i] = 'С‘';
                 }
                 else {
                     continue;
@@ -269,23 +269,23 @@ void downcase_word(std::string& word) {
 }
 
 bool is_letter_upper(const char ch) {
-    int first_down = (int)'а';
-    int last_down = (int)'я';
-    int yo_down = (int)'ё';
+    int first_down = (int)'Р°';
+    int last_down = (int)'СЏ';
+    int yo_down = (int)'С‘';
     if ((((int)ch >= first_down && (int)ch <= last_down) ||
-        (int)ch == yo_down)) { // если расширенный символ - строчная буква или не буква
+        (int)ch == yo_down)) { // РµСЃР»Рё СЂР°СЃС€РёСЂРµРЅРЅС‹Р№ СЃРёРјРІРѕР» - СЃС‚СЂРѕС‡РЅР°СЏ Р±СѓРєРІР° РёР»Рё РЅРµ Р±СѓРєРІР°
         return false;
     }
-    else if ((islower(ch) || !isalpha(ch))) { // если ASCII - строчная буква или не буква
+    else if ((islower(ch) || !isalpha(ch))) { // РµСЃР»Рё ASCII - СЃС‚СЂРѕС‡РЅР°СЏ Р±СѓРєРІР° РёР»Рё РЅРµ Р±СѓРєРІР°
         return false;
     }
     return true;
 }
 
 char uppercase(const char ch) {
-    int first_down = (int)'а';
-    int last_down = (int)'я';
-    int yo_down = (int)'ё';
+    int first_down = (int)'Р°';
+    int last_down = (int)'СЏ';
+    int yo_down = (int)'С‘';
     if (ch > 0) {
         return toupper(ch);
     }
@@ -294,7 +294,7 @@ char uppercase(const char ch) {
             return (char)((int)ch - 32);
         }
         else if ((int)ch == yo_down) {
-            return 'Ё';
+            return 'РЃ';
         }
     }
     return ch;

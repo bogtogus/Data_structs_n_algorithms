@@ -111,11 +111,11 @@ void output_passengers(found_passengers* const a) {
     found_passengers* b = a;
     while(b != nullptr) {
         extend_passport(b->psg->passport, passport, 11);
-        std::cout << std::setw(16) << std::left << "Ïàñïîðò ¹" << passport << std::endl;
-        std::cout << std::setw(16) << std::left << "Âûäàí " << b->psg->issuance << std::endl;
-        std::cout << std::setw(16) << std::left << "Ô.È.Î. " << b->psg->fio << std::endl;
-        std::cout << std::setw(16) << std::left << "Äàòà ðîæäåíèÿ: " << b->psg->birth << std::endl;
-        std::cout << std::setw(16) << std::left << "Âîçâðàùåíèå â ìåíþ." << std::endl;  
+        std::cout << std::setw(16) << std::left << "ÐŸÐ°ÑÐ¿Ð¾Ñ€Ñ‚ â„–" << passport << std::endl;
+        std::cout << std::setw(16) << std::left << "Ð’Ñ‹Ð´Ð°Ð½ " << b->psg->issuance << std::endl;
+        std::cout << std::setw(16) << std::left << "Ð¤.Ð˜.Ðž. " << b->psg->fio << std::endl;
+        std::cout << std::setw(16) << std::left << "Ð”Ð°Ñ‚Ð° Ñ€Ð¾Ð¶Ð´ÐµÐ½Ð¸Ñ: " << b->psg->birth << std::endl;
+        std::cout << std::setw(16) << std::left << "Ð’Ð¾Ð·Ð²Ñ€Ð°Ñ‰ÐµÐ½Ð¸Ðµ Ð² Ð¼ÐµÐ½ÑŽ." << std::endl;  
         b = b->next;
     }
     delete[] passport;

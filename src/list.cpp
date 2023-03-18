@@ -25,12 +25,12 @@ void show_list(ticket_trade* head, const int pass_size, const int avianum_size) 
     char* flight = new char[avianum_size + 1]{};
     do {
         cout << setfill('-') << '/' << setw(33) << '\\' << setfill(' ') << endl;
-        cout << setw(22) << left << "¦ Билет №";
+        cout << setw(22) << left << "В¦ Р‘РёР»РµС‚ в„–";
         cout << setw(11) << right << cur_ticket->ticket << setw(1) << '|' << endl;
-        cout << setw(22) << left << "¦ Паспорт покупателя: "; 
+        cout << setw(22) << left << "В¦ РџР°СЃРїРѕСЂС‚ РїРѕРєСѓРїР°С‚РµР»СЏ: "; 
         extend_passport(cur_ticket->passport, passport, pass_size);
         cout << setw(11) << right << passport << setw(1) << '|'<< endl;
-        cout << setw(22) << left << "¦ Рейс №";
+        cout << setw(22) << left << "В¦ Р РµР№СЃ в„–";
         extend_flight(cur_ticket->flight_number, flight, avianum_size);
         cout << setw(11) << right << flight << setw(1) << '|' << endl;
         cout << setfill('-') << '\\'<< setw(33) << '/' << setfill(' ') << endl;
@@ -189,7 +189,7 @@ void sort(ticket_trade*& head) {
         return;
     }
     ticket_trade* current = head->next;
-    ticket_trade** pointers_array = nullptr; // массив указателей
+    ticket_trade** pointers_array = nullptr; // РјР°СЃСЃРёРІ СѓРєР°Р·Р°С‚РµР»РµР№
     ticket_trade* temp = nullptr;
     int k = 1;
     while (current != head) {
@@ -203,14 +203,14 @@ void sort(ticket_trade*& head) {
         current = current->next;
     }
     for (int i = 1; i < k; i++) {
-        for(int j = i; j >= 1; j--) { // сдвиг текущего элемента влево
+        for(int j = i; j >= 1; j--) { // СЃРґРІРёРі С‚РµРєСѓС‰РµРіРѕ СЌР»РµРјРµРЅС‚Р° РІР»РµРІРѕ
             if (decode_ticket(pointers_array[j]->ticket) < decode_ticket(pointers_array[j - 1]->ticket)) {
                 temp = pointers_array[j];
                 pointers_array[j] = pointers_array[j - 1];
                 pointers_array[j - 1] = temp;
             }
             else {
-                break; // элемент на своём месте
+                break; // СЌР»РµРјРµРЅС‚ РЅР° СЃРІРѕС‘Рј РјРµСЃС‚Рµ
             }
         }
         //for (int o = 0; o< k; o++) {
@@ -240,11 +240,11 @@ void del_tickets_byAvr(ticket_trade*& head, const char* number) {
         head = nullptr;
     }
     else {
-        while (strcmp(head->flight_number, number) == 0) { // удаление пока в голове списка нужное число
+        while (strcmp(head->flight_number, number) == 0) { // СѓРґР°Р»РµРЅРёРµ РїРѕРєР° РІ РіРѕР»РѕРІРµ СЃРїРёСЃРєР° РЅСѓР¶РЅРѕРµ С‡РёСЃР»Рѕ
             prev = head;
             new_head = head->next;
             current = current->next;
-            while (current->next != head) { // замена зацикливающего(конечного) указателя на новый
+            while (current->next != head) { // Р·Р°РјРµРЅР° Р·Р°С†РёРєР»РёРІР°СЋС‰РµРіРѕ(РєРѕРЅРµС‡РЅРѕРіРѕ) СѓРєР°Р·Р°С‚РµР»СЏ РЅР° РЅРѕРІС‹Р№
                 current = current->next;
             }
             current->next = new_head;
@@ -277,11 +277,11 @@ void del_tickets_byPass(ticket_trade*& head, const char* passport) {
         head = nullptr;
     }
     else {
-        while (strcmp(head->passport, passport) == 0) { // удаление пока в голове списка нужное число
+        while (strcmp(head->passport, passport) == 0) { // СѓРґР°Р»РµРЅРёРµ РїРѕРєР° РІ РіРѕР»РѕРІРµ СЃРїРёСЃРєР° РЅСѓР¶РЅРѕРµ С‡РёСЃР»Рѕ
             prev = head;
             new_head = head->next;
             current = current->next;
-            while (current->next != head) { // замена зацикливающего(конечного) указателя на новый
+            while (current->next != head) { // Р·Р°РјРµРЅР° Р·Р°С†РёРєР»РёРІР°СЋС‰РµРіРѕ(РєРѕРЅРµС‡РЅРѕРіРѕ) СѓРєР°Р·Р°С‚РµР»СЏ РЅР° РЅРѕРІС‹Р№
                 current = current->next;
             }
             current->next = new_head;

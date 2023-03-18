@@ -10,9 +10,9 @@ int menu(database* const DB) {
     bool cycle = true;
     menu_help();
     while (cycle) {
-        cout << "Ââåäèòå êîìàíäó:" << endl;
+        cout << "Ğ’Ğ²ĞµĞ´Ğ¸Ñ‚Ğµ ĞºĞ¾Ğ¼Ğ°Ğ½Ğ´Ñƒ:" << endl;
         while(input_int(num)) {
-            cout << "[X] Îøèáêà ââîäà. Ïîïğîáóéòå çàíîâî: ";
+            cout << "[X] ĞÑˆĞ¸Ğ±ĞºĞ° Ğ²Ğ²Ğ¾Ğ´Ğ°. ĞŸĞ¾Ğ¿Ñ€Ğ¾Ğ±ÑƒĞ¹Ñ‚Ğµ Ğ·Ğ°Ğ½Ğ¾Ğ²Ğ¾: ";
         }
         switch(num) {
             case 1: {
@@ -45,25 +45,25 @@ int menu(database* const DB) {
                 break;
             }
             case 0: {
-                cout << "Âû óâåğåíû, ÷òî õîòèòå âûéòè? (1 - äà, 2 - íåò)" << endl;
+                cout << "Ğ’Ñ‹ ÑƒĞ²ĞµÑ€ĞµĞ½Ñ‹, Ñ‡Ñ‚Ğ¾ Ñ…Ğ¾Ñ‚Ğ¸Ñ‚Ğµ Ğ²Ñ‹Ğ¹Ñ‚Ğ¸? (1 - Ğ´Ğ°, 2 - Ğ½ĞµÑ‚)" << endl;
                 int ex_des = 0;
                 while(input_int(ex_des)) {
-                    cout << "Îøèáêà ââîäà. Ïîïğîáóéòå çàíîâî: ";
+                    cout << "ĞÑˆĞ¸Ğ±ĞºĞ° Ğ²Ğ²Ğ¾Ğ´Ğ°. ĞŸĞ¾Ğ¿Ñ€Ğ¾Ğ±ÑƒĞ¹Ñ‚Ğµ Ğ·Ğ°Ğ½Ğ¾Ğ²Ğ¾: ";
                 }
                 if (ex_des == 1) {
-                    cout << "Âûõîä èç ìåíş." << endl;
+                    cout << "Ğ’Ñ‹Ñ…Ğ¾Ğ´ Ğ¸Ğ· Ğ¼ĞµĞ½Ñ." << endl;
                     cycle = false;
                 }
                 else if (ex_des == 2) {
-                    cout << "Âîçâğàùåíèå â ìåíş." << endl;
+                    cout << "Ğ’Ğ¾Ğ·Ğ²Ñ€Ğ°Ñ‰ĞµĞ½Ğ¸Ğµ Ğ² Ğ¼ĞµĞ½Ñ." << endl;
                 }
                 else {
-                    cout << "Êîìàíäà íå ğàñïîçíàíà. Âîçâğàùåíèå â ìåíş." << endl;
+                    cout << "ĞšĞ¾Ğ¼Ğ°Ğ½Ğ´Ğ° Ğ½Ğµ Ñ€Ğ°ÑĞ¿Ğ¾Ğ·Ğ½Ğ°Ğ½Ğ°. Ğ’Ğ¾Ğ·Ğ²Ñ€Ğ°Ñ‰ĞµĞ½Ğ¸Ğµ Ğ² Ğ¼ĞµĞ½Ñ." << endl;
                 }
                 break;
             }
             default: {
-                cout << "Êîìàíäà íå ğàñïîçíàíà." << endl;
+                cout << "ĞšĞ¾Ğ¼Ğ°Ğ½Ğ´Ğ° Ğ½Ğµ Ñ€Ğ°ÑĞ¿Ğ¾Ğ·Ğ½Ğ°Ğ½Ğ°." << endl;
             }
         }
     }
@@ -72,65 +72,65 @@ int menu(database* const DB) {
 }
 
 void menu_help() {
-    cout << "= ÌÅÍŞ =" << endl << "Êîìàíäû:" << endl;
-    cout << "1 - ïåğåéòè ê ğàçäåëó \"Ïàññàæèğû\";" << endl;
-    cout << "2 - ïåğåéòè ê ğàçäåëó \"Àâèàğåéñû\";" << endl;
-    cout << "3 - çàğåãèñòğèğîâàòü ïğîäàæó áèëåòà;" << endl;
-    cout << "4 - çàğåãèñòğèğîâàòü âîçâğàò áèëåòà;" << endl;
-    cout << "5 - âûâåñòè ñïèñîê âñåõ áèëåòîâ;" << endl;
-    cout << "6 - ïîìîùü ïî êîìàíäàì;" << endl;
-    cout << "7 - çàãğóçêà âñåõ äàííûõ èç ôàéëà;" << endl;
-    cout << "0 - âûõîä èç ìåíş;" << endl;
+    cout << "= ĞœĞ•ĞĞ® =" << endl << "ĞšĞ¾Ğ¼Ğ°Ğ½Ğ´Ñ‹:" << endl;
+    cout << "1 - Ğ¿ĞµÑ€ĞµĞ¹Ñ‚Ğ¸ Ğº Ñ€Ğ°Ğ·Ğ´ĞµĞ»Ñƒ \"ĞŸĞ°ÑÑĞ°Ğ¶Ğ¸Ñ€Ñ‹\";" << endl;
+    cout << "2 - Ğ¿ĞµÑ€ĞµĞ¹Ñ‚Ğ¸ Ğº Ñ€Ğ°Ğ·Ğ´ĞµĞ»Ñƒ \"ĞĞ²Ğ¸Ğ°Ñ€ĞµĞ¹ÑÑ‹\";" << endl;
+    cout << "3 - Ğ·Ğ°Ñ€ĞµĞ³Ğ¸ÑÑ‚Ñ€Ğ¸Ñ€Ğ¾Ğ²Ğ°Ñ‚ÑŒ Ğ¿Ñ€Ğ¾Ğ´Ğ°Ğ¶Ñƒ Ğ±Ğ¸Ğ»ĞµÑ‚Ğ°;" << endl;
+    cout << "4 - Ğ·Ğ°Ñ€ĞµĞ³Ğ¸ÑÑ‚Ñ€Ğ¸Ñ€Ğ¾Ğ²Ğ°Ñ‚ÑŒ Ğ²Ğ¾Ğ·Ğ²Ñ€Ğ°Ñ‚ Ğ±Ğ¸Ğ»ĞµÑ‚Ğ°;" << endl;
+    cout << "5 - Ğ²Ñ‹Ğ²ĞµÑÑ‚Ğ¸ ÑĞ¿Ğ¸ÑĞ¾Ğº Ğ²ÑĞµÑ… Ğ±Ğ¸Ğ»ĞµÑ‚Ğ¾Ğ²;" << endl;
+    cout << "6 - Ğ¿Ğ¾Ğ¼Ğ¾Ñ‰ÑŒ Ğ¿Ğ¾ ĞºĞ¾Ğ¼Ğ°Ğ½Ğ´Ğ°Ğ¼;" << endl;
+    cout << "7 - Ğ·Ğ°Ğ³Ñ€ÑƒĞ·ĞºĞ° Ğ²ÑĞµÑ… Ğ´Ğ°Ğ½Ğ½Ñ‹Ñ… Ğ¸Ğ· Ñ„Ğ°Ğ¹Ğ»Ğ°;" << endl;
+    cout << "0 - Ğ²Ñ‹Ñ…Ğ¾Ğ´ Ğ¸Ğ· Ğ¼ĞµĞ½Ñ;" << endl;
 }
 
 int menu_reg_ticket(database* const DB) {
     while (true) {
-        cout << "Äîáàâëåíèå èíôîğìàöèè î ïîêóïêå áèëåòà." << endl;
-        cout << "Ââåäèòå ïàñïîğò ïîêóïàòåëÿ â ôîğìàòå \"NNNN-NNNNNN\":" << endl;
+        cout << "Ğ”Ğ¾Ğ±Ğ°Ğ²Ğ»ĞµĞ½Ğ¸Ğµ Ğ¸Ğ½Ñ„Ğ¾Ñ€Ğ¼Ğ°Ñ†Ğ¸Ğ¸ Ğ¾ Ğ¿Ğ¾ĞºÑƒĞ¿ĞºĞµ Ğ±Ğ¸Ğ»ĞµÑ‚Ğ°." << endl;
+        cout << "Ğ’Ğ²ĞµĞ´Ğ¸Ñ‚Ğµ Ğ¿Ğ°ÑĞ¿Ğ¾Ñ€Ñ‚ Ğ¿Ğ¾ĞºÑƒĞ¿Ğ°Ñ‚ĞµĞ»Ñ Ğ² Ñ„Ğ¾Ñ€Ğ¼Ğ°Ñ‚Ğµ \"NNNN-NNNNNN\":" << endl;
         string pass;
         cin.clear();
         cin.ignore(cin.rdbuf()->in_avail(),'\n');
         getline(cin, pass);
         if (strcmp(pass.c_str(), "/") == 0) {
-            cout << "Âîçâğàùåíèå â ìåíş." << endl;
+            cout << "Ğ’Ğ¾Ğ·Ğ²Ñ€Ğ°Ñ‰ĞµĞ½Ğ¸Ğµ Ğ² Ğ¼ĞµĞ½Ñ." << endl;
             break;
         }
         if (!is_key_correct(pass, DB->passnum_size)) {
-            cout << "|\\/| Ïàññïîğò ââåä¸í íåâåğíî. Ïîïğîáóéòå çàíîâî" << endl;
-            cout << "|/\\| èëè ââåäèòå \"/\" äëÿ âûõîäà â ìåíş." << endl;
+            cout << "|\\/| ĞŸĞ°ÑÑĞ¿Ğ¾Ñ€Ñ‚ Ğ²Ğ²ĞµĞ´Ñ‘Ğ½ Ğ½ĞµĞ²ĞµÑ€Ğ½Ğ¾. ĞŸĞ¾Ğ¿Ñ€Ğ¾Ğ±ÑƒĞ¹Ñ‚Ğµ Ğ·Ğ°Ğ½Ğ¾Ğ²Ğ¾" << endl;
+            cout << "|/\\| Ğ¸Ğ»Ğ¸ Ğ²Ğ²ĞµĞ´Ğ¸Ñ‚Ğµ \"/\" Ğ´Ğ»Ñ Ğ²Ñ‹Ñ…Ğ¾Ğ´Ğ° Ğ² Ğ¼ĞµĞ½Ñ." << endl;
             cin.clear();
             cin.ignore(cin.rdbuf()->in_avail(),'\n');
             continue;
         }
         else if (!is_pass_exists(DB, pass)) {
-            cout << "[X] Òàêîé ïàññàæèğ íå çàğåãèñòğèğîâàí." << endl;
+            cout << "[X] Ğ¢Ğ°ĞºĞ¾Ğ¹ Ğ¿Ğ°ÑÑĞ°Ğ¶Ğ¸Ñ€ Ğ½Ğµ Ğ·Ğ°Ñ€ĞµĞ³Ğ¸ÑÑ‚Ñ€Ğ¸Ñ€Ğ¾Ğ²Ğ°Ğ½." << endl;
             continue;
         }
         pass.erase(4, 1);
-        cout << "Ââåäèòå íîìåğ àâèàğåéñà â ôîğìàòå \"AAA-NNN\":" << endl;
+        cout << "Ğ’Ğ²ĞµĞ´Ğ¸Ñ‚Ğµ Ğ½Ğ¾Ğ¼ĞµÑ€ Ğ°Ğ²Ğ¸Ğ°Ñ€ĞµĞ¹ÑĞ° Ğ² Ñ„Ğ¾Ñ€Ğ¼Ğ°Ñ‚Ğµ \"AAA-NNN\":" << endl;
         string avia;
         cin.clear();
         cin.ignore(cin.rdbuf()->in_avail(),'\n');
         getline(cin, avia);
         while (!is_avianum_correct(avia, DB->avianum_size)) {
-            cout << "|\\/| Íîìåğ àâèàğåéñà ââåä¸í íåâåğíî. Ïîïğîáóéòå çàíîâî" << endl;
-            cout << "|/\\| èëè ââåäèòå \"/\" äëÿ âûõîäà â ìåíş." << endl;
+            cout << "|\\/| ĞĞ¾Ğ¼ĞµÑ€ Ğ°Ğ²Ğ¸Ğ°Ñ€ĞµĞ¹ÑĞ° Ğ²Ğ²ĞµĞ´Ñ‘Ğ½ Ğ½ĞµĞ²ĞµÑ€Ğ½Ğ¾. ĞŸĞ¾Ğ¿Ñ€Ğ¾Ğ±ÑƒĞ¹Ñ‚Ğµ Ğ·Ğ°Ğ½Ğ¾Ğ²Ğ¾" << endl;
+            cout << "|/\\| Ğ¸Ğ»Ğ¸ Ğ²Ğ²ĞµĞ´Ğ¸Ñ‚Ğµ \"/\" Ğ´Ğ»Ñ Ğ²Ñ‹Ñ…Ğ¾Ğ´Ğ° Ğ² Ğ¼ĞµĞ½Ñ." << endl;
             cin.clear();
             cin.ignore(cin.rdbuf()->in_avail(),'\n');
             getline(cin, avia);
         }
         if (!is_exists(DB->flights, avia)) {
-            cout << "[X] Òàêîé àâèğåéñ íå çàğåãèñòğèğîâàí." << endl;
+            cout << "[X] Ğ¢Ğ°ĞºĞ¾Ğ¹ Ğ°Ğ²Ğ¸Ñ€ĞµĞ¹Ñ Ğ½Ğµ Ğ·Ğ°Ñ€ĞµĞ³Ğ¸ÑÑ‚Ñ€Ğ¸Ñ€Ğ¾Ğ²Ğ°Ğ½." << endl;
             continue;
         }
         avia.erase(3, 1); // AAANNN
         if (!is_copy(DB->tickets, pass, avia)) {
             push_ticket(DB->tickets, pass, avia);
-            cout << "Èíôîğìàöèÿ î ïîêóïêå áèëåòà äîáàâëåíà." << endl;
+            cout << "Ğ˜Ğ½Ñ„Ğ¾Ñ€Ğ¼Ğ°Ñ†Ğ¸Ñ Ğ¾ Ğ¿Ğ¾ĞºÑƒĞ¿ĞºĞµ Ğ±Ğ¸Ğ»ĞµÑ‚Ğ° Ğ´Ğ¾Ğ±Ğ°Ğ²Ğ»ĞµĞ½Ğ°." << endl;
             sort(DB->tickets);
         }
         else {
-            cout << "[X] Òàêîé áèëåò óæå çàğåãèñòğèğîâàí." << endl;
+            cout << "[X] Ğ¢Ğ°ĞºĞ¾Ğ¹ Ğ±Ğ¸Ğ»ĞµÑ‚ ÑƒĞ¶Ğµ Ğ·Ğ°Ñ€ĞµĞ³Ğ¸ÑÑ‚Ñ€Ğ¸Ñ€Ğ¾Ğ²Ğ°Ğ½." << endl;
         }
         break;
     }
@@ -139,56 +139,56 @@ int menu_reg_ticket(database* const DB) {
 
 int menu_ref_ticket(database* const DB) {
     if (is_list_empty(DB->tickets)) {
-        cout << "Áàçà äàííûõ ñ áèëåòàìè ïóñòà. Îïåğàöèÿ íå âûïîëíåíà." << endl;
+        cout << "Ğ‘Ğ°Ğ·Ğ° Ğ´Ğ°Ğ½Ğ½Ñ‹Ñ… Ñ Ğ±Ğ¸Ğ»ĞµÑ‚Ğ°Ğ¼Ğ¸ Ğ¿ÑƒÑÑ‚Ğ°. ĞĞ¿ĞµÑ€Ğ°Ñ†Ğ¸Ñ Ğ½Ğµ Ğ²Ñ‹Ğ¿Ğ¾Ğ»Ğ½ĞµĞ½Ğ°." << endl;
         return 1;
     }
     while (true) {
-        cout << "Âîçâğàò áèëåòà." << endl;
-        cout << "Ââåäèòå ïàñïîğò ïàññàæèğà â ôîğìàòå \"NNNN-NNNNNN\":" << endl;
+        cout << "Ğ’Ğ¾Ğ·Ğ²Ñ€Ğ°Ñ‚ Ğ±Ğ¸Ğ»ĞµÑ‚Ğ°." << endl;
+        cout << "Ğ’Ğ²ĞµĞ´Ğ¸Ñ‚Ğµ Ğ¿Ğ°ÑĞ¿Ğ¾Ñ€Ñ‚ Ğ¿Ğ°ÑÑĞ°Ğ¶Ğ¸Ñ€Ğ° Ğ² Ñ„Ğ¾Ñ€Ğ¼Ğ°Ñ‚Ğµ \"NNNN-NNNNNN\":" << endl;
         string pass;
         int flag = 0;
         cin.clear();
         cin.ignore(cin.rdbuf()->in_avail(),'\n');
         getline(cin, pass);
         if (strcmp(pass.c_str(), "/") == 0) {
-            cout << "Âîçâğàùåíèå â ìåíş." << endl;
+            cout << "Ğ’Ğ¾Ğ·Ğ²Ñ€Ğ°Ñ‰ĞµĞ½Ğ¸Ğµ Ğ² Ğ¼ĞµĞ½Ñ." << endl;
             break;
         }
         if (!is_key_correct(pass, DB->passnum_size)) {
-            cout << "|\\/| Ïàññïîğò ââåä¸í íåâåğíî. Ïîïğîáóéòå çàíîâî" << endl;
-            cout << "|/\\| èëè ââåäèòå \"/\" äëÿ âûõîäà â ìåíş." << endl;
+            cout << "|\\/| ĞŸĞ°ÑÑĞ¿Ğ¾Ñ€Ñ‚ Ğ²Ğ²ĞµĞ´Ñ‘Ğ½ Ğ½ĞµĞ²ĞµÑ€Ğ½Ğ¾. ĞŸĞ¾Ğ¿Ñ€Ğ¾Ğ±ÑƒĞ¹Ñ‚Ğµ Ğ·Ğ°Ğ½Ğ¾Ğ²Ğ¾" << endl;
+            cout << "|/\\| Ğ¸Ğ»Ğ¸ Ğ²Ğ²ĞµĞ´Ğ¸Ñ‚Ğµ \"/\" Ğ´Ğ»Ñ Ğ²Ñ‹Ñ…Ğ¾Ğ´Ğ° Ğ² Ğ¼ĞµĞ½Ñ." << endl;
             cin.clear();
             cin.ignore(cin.rdbuf()->in_avail(),'\n');
             continue;
         }
         //else if (!is_pass_exists(sheet, pass, passnum_size, sheet_size)) {
-        //    cout << "Òàêîé ïàññàæèğ íå çàğåãèñòğèğîâàí." << endl;
+        //    cout << "Ğ¢Ğ°ĞºĞ¾Ğ¹ Ğ¿Ğ°ÑÑĞ°Ğ¶Ğ¸Ñ€ Ğ½Ğµ Ğ·Ğ°Ñ€ĞµĞ³Ğ¸ÑÑ‚Ñ€Ğ¸Ñ€Ğ¾Ğ²Ğ°Ğ½." << endl;
         //    continue;
         //}
         pass.erase(4, 1);
-        cout << "Ââåäèòå íîìåğ àâèàğåéñà â ôîğìàòå \"AAA-NNN\":" << endl;
+        cout << "Ğ’Ğ²ĞµĞ´Ğ¸Ñ‚Ğµ Ğ½Ğ¾Ğ¼ĞµÑ€ Ğ°Ğ²Ğ¸Ğ°Ñ€ĞµĞ¹ÑĞ° Ğ² Ñ„Ğ¾Ñ€Ğ¼Ğ°Ñ‚Ğµ \"AAA-NNN\":" << endl;
         string avia;
         cin.clear();
         cin.ignore(cin.rdbuf()->in_avail(),'\n');
         getline(cin, avia);
         while (!is_avianum_correct(avia, DB->avianum_size)) {
-            cout << "Íîìåğ àâèàğåéñà ââåä¸í íåâåğíî. Ïîïğîáóéòå çàíîâî." << endl;
+            cout << "ĞĞ¾Ğ¼ĞµÑ€ Ğ°Ğ²Ğ¸Ğ°Ñ€ĞµĞ¹ÑĞ° Ğ²Ğ²ĞµĞ´Ñ‘Ğ½ Ğ½ĞµĞ²ĞµÑ€Ğ½Ğ¾. ĞŸĞ¾Ğ¿Ñ€Ğ¾Ğ±ÑƒĞ¹Ñ‚Ğµ Ğ·Ğ°Ğ½Ğ¾Ğ²Ğ¾." << endl;
             cin.clear();
             cin.ignore(cin.rdbuf()->in_avail(),'\n');
             getline(cin, avia);
         }
         //if (!is_exists(flights, avia)) {
-        //    cout << "Òàêîé àâèğåéñ íå çàğåãèñòğèğîâàí." << endl;
+        //    cout << "Ğ¢Ğ°ĞºĞ¾Ğ¹ Ğ°Ğ²Ğ¸Ñ€ĞµĞ¹Ñ Ğ½Ğµ Ğ·Ğ°Ñ€ĞµĞ³Ğ¸ÑÑ‚Ñ€Ğ¸Ñ€Ğ¾Ğ²Ğ°Ğ½." << endl;
         //    continue;
         //}
         avia.erase(3, 1); // AAANNN
         flag = pop_ticket(DB->tickets, pass, avia);
         if (flag == 0) {
-            cout << "Áèëåò óäàë¸í èç áàçû." << endl;
+            cout << "Ğ‘Ğ¸Ğ»ĞµÑ‚ ÑƒĞ´Ğ°Ğ»Ñ‘Ğ½ Ğ¸Ğ· Ğ±Ğ°Ğ·Ñ‹." << endl;
             sort(DB->tickets);
         }
         else if (flag == 2){
-            cout << "[X] Òàêîãî áèëåòà íå çàğåãåñòğèğîâàíî." << endl;
+            cout << "[X] Ğ¢Ğ°ĞºĞ¾Ğ³Ğ¾ Ğ±Ğ¸Ğ»ĞµÑ‚Ğ° Ğ½Ğµ Ğ·Ğ°Ñ€ĞµĞ³ĞµÑÑ‚Ñ€Ğ¸Ñ€Ğ¾Ğ²Ğ°Ğ½Ğ¾." << endl;
         }
         break;
     }
@@ -197,17 +197,17 @@ int menu_ref_ticket(database* const DB) {
 
 void menu_show_tickets(const database* const DB) {
     if (DB->tickets == nullptr) {
-        cout << "Ñïèñîê áèëåòîâ ïóñò. Îïåğàöèÿ íå âûïîëíåíà." << endl;
+        cout << "Ğ¡Ğ¿Ğ¸ÑĞ¾Ğº Ğ±Ğ¸Ğ»ĞµÑ‚Ğ¾Ğ² Ğ¿ÑƒÑÑ‚. ĞĞ¿ĞµÑ€Ğ°Ñ†Ğ¸Ñ Ğ½Ğµ Ğ²Ñ‹Ğ¿Ğ¾Ğ»Ğ½ĞµĞ½Ğ°." << endl;
     }
     else {
-        cout << "Ñïèñîê áèëåòîâ:" << endl;
+        cout << "Ğ¡Ğ¿Ğ¸ÑĞ¾Ğº Ğ±Ğ¸Ğ»ĞµÑ‚Ğ¾Ğ²:" << endl;
         show_list(DB->tickets, DB->passnum_size, DB->avianum_size);
     }
 }
 
 int menu_load_data(database* const DB) {
     int flag = 0;
-    cout << "Çàãğóçêà äàííûõ èç ôàéëà." << endl;
+    cout << "Ğ—Ğ°Ğ³Ñ€ÑƒĞ·ĞºĞ° Ğ´Ğ°Ğ½Ğ½Ñ‹Ñ… Ğ¸Ğ· Ñ„Ğ°Ğ¹Ğ»Ğ°." << endl;
     //string path = EXPAND(UNITTESTPRJ);
     //path.erase(0, 1);
     //path.erase(path.length() - 2);
@@ -223,7 +223,7 @@ int menu_load_data(database* const DB) {
     cout << path << endl;
     file.open(path + "_passengers.txt");
     if (!file.is_open()) {
-        cout << "[X] Ôàéë 1 íå íàéäåí." << endl;
+        cout << "[X] Ğ¤Ğ°Ğ¹Ğ» 1 Ğ½Ğµ Ğ½Ğ°Ğ¹Ğ´ĞµĞ½." << endl;
     }
     else {
         flag = load_pass(file, DB);
@@ -231,7 +231,7 @@ int menu_load_data(database* const DB) {
     file.close();
     file.open(path + "_flights.txt");
     if (!file.is_open()) {
-        cout << "[X] Ôàéë 2 íå íàéäåí." << endl;
+        cout << "[X] Ğ¤Ğ°Ğ¹Ğ» 2 Ğ½Ğµ Ğ½Ğ°Ğ¹Ğ´ĞµĞ½." << endl;
     }
     else {
         flag = load_avia(file, DB);
@@ -239,14 +239,14 @@ int menu_load_data(database* const DB) {
     file.close();
     file.open(path + "_tickets.txt");
     if (!file.is_open()) {
-        cout << "[X] Ôàéë 3 íå íàéäåí." << endl;
+        cout << "[X] Ğ¤Ğ°Ğ¹Ğ» 3 Ğ½Ğµ Ğ½Ğ°Ğ¹Ğ´ĞµĞ½." << endl;
     }
     else {
         flag = load_tickets(file, DB);
     }
     file.close();
     if (!flag) {
-        cout << "Çàãğóçêà çàâåğøåíà." << endl;
+        cout << "Ğ—Ğ°Ğ³Ñ€ÑƒĞ·ĞºĞ° Ğ·Ğ°Ğ²ĞµÑ€ÑˆĞµĞ½Ğ°." << endl;
     }
     return 0;
 }
@@ -295,7 +295,7 @@ int load_pass(ifstream& file, database* const DB) {
         }
         if (o < DB->sheet_size) {
             if (strcmp(DB->passengers[hashed].passport, data[0].c_str()) == 0) {
-                //cout << "Òàêîé ïàññàæèğ óæå ñóùåñòâóåò." << endl;
+                //cout << "Ğ¢Ğ°ĞºĞ¾Ğ¹ Ğ¿Ğ°ÑÑĞ°Ğ¶Ğ¸Ñ€ ÑƒĞ¶Ğµ ÑÑƒÑ‰ĞµÑÑ‚Ğ²ÑƒĞµÑ‚." << endl;
                 break;
             }
             strcpy_s(DB->passengers[hashed].passport, data[0].c_str());
@@ -411,14 +411,14 @@ int menu_pass(database* const DB) {
 
     menu_help_psg();
     while (cycle) {
-        cout << "Ââåäèòå êîìàíäó:" << endl;
+        cout << "Ğ’Ğ²ĞµĞ´Ğ¸Ñ‚Ğµ ĞºĞ¾Ğ¼Ğ°Ğ½Ğ´Ñƒ:" << endl;
         while(input_int(num)) {
-            cout << "[X] Îøèáêà ââîäà. Ïîïğîáóéòå çàíîâî: ";
+            cout << "[X] ĞÑˆĞ¸Ğ±ĞºĞ° Ğ²Ğ²Ğ¾Ğ´Ğ°. ĞŸĞ¾Ğ¿Ñ€Ğ¾Ğ±ÑƒĞ¹Ñ‚Ğµ Ğ·Ğ°Ğ½Ğ¾Ğ²Ğ¾: ";
         }
         switch(num) {
             case 0: {
                 cycle = false;
-                cout << "Âîçâğàò â ãëàâíîå ìåíş." << endl;
+                cout << "Ğ’Ğ¾Ğ·Ğ²Ñ€Ğ°Ñ‚ Ğ² Ğ³Ğ»Ğ°Ğ²Ğ½Ğ¾Ğµ Ğ¼ĞµĞ½Ñ." << endl;
                 break;
             }
             case 1: {
@@ -442,21 +442,21 @@ int menu_pass(database* const DB) {
                 break;
             }
             case 6: {
-                cout << "Âû óâåğåíû, ÷òî õîòèòå î÷èñòèòü ñïèñîê ïàññàæèğîâ? " << endl;
-                cout << "(1 - äà, 2 - íåò)" << endl;
+                cout << "Ğ’Ñ‹ ÑƒĞ²ĞµÑ€ĞµĞ½Ñ‹, Ñ‡Ñ‚Ğ¾ Ñ…Ğ¾Ñ‚Ğ¸Ñ‚Ğµ Ğ¾Ñ‡Ğ¸ÑÑ‚Ğ¸Ñ‚ÑŒ ÑĞ¿Ğ¸ÑĞ¾Ğº Ğ¿Ğ°ÑÑĞ°Ğ¶Ğ¸Ñ€Ğ¾Ğ²? " << endl;
+                cout << "(1 - Ğ´Ğ°, 2 - Ğ½ĞµÑ‚)" << endl;
                 int ex_des = 0;
                 while(input_int(ex_des)) {
-                    cout << "[X] Îøèáêà ââîäà. Ïîïğîáóéòå çàíîâî: ";
+                    cout << "[X] ĞÑˆĞ¸Ğ±ĞºĞ° Ğ²Ğ²Ğ¾Ğ´Ğ°. ĞŸĞ¾Ğ¿Ñ€Ğ¾Ğ±ÑƒĞ¹Ñ‚Ğµ Ğ·Ğ°Ğ½Ğ¾Ğ²Ğ¾: ";
                 }
                 if (ex_des == 1) {
-                    cout << "Î÷èñòêà." << endl;
+                    cout << "ĞÑ‡Ğ¸ÑÑ‚ĞºĞ°." << endl;
                     clear_sheet(DB->passengers, DB->sheet_size);
                 }
                 else if (ex_des == 2) {
-                    cout << "Âîçâğàùåíèå â ìåíş." << endl;
+                    cout << "Ğ’Ğ¾Ğ·Ğ²Ñ€Ğ°Ñ‰ĞµĞ½Ğ¸Ğµ Ğ² Ğ¼ĞµĞ½Ñ." << endl;
                 }
                 else {
-                    cout << "Êîìàíäà íå ğàñïîçíàíà. Âîçâğàùåíèå â ìåíş." << endl;
+                    cout << "ĞšĞ¾Ğ¼Ğ°Ğ½Ğ´Ğ° Ğ½Ğµ Ñ€Ğ°ÑĞ¿Ğ¾Ğ·Ğ½Ğ°Ğ½Ğ°. Ğ’Ğ¾Ğ·Ğ²Ñ€Ğ°Ñ‰ĞµĞ½Ğ¸Ğµ Ğ² Ğ¼ĞµĞ½Ñ." << endl;
                 }
                 break;
             }
@@ -464,7 +464,7 @@ int menu_pass(database* const DB) {
                 menu_help_psg();
             }
             default: {
-                cout << "Êîìàíäà íå ğàñïîçíàíà." << endl;
+                cout << "ĞšĞ¾Ğ¼Ğ°Ğ½Ğ´Ğ° Ğ½Ğµ Ñ€Ğ°ÑĞ¿Ğ¾Ğ·Ğ½Ğ°Ğ½Ğ°." << endl;
             }
         }
     }
@@ -473,15 +473,15 @@ int menu_pass(database* const DB) {
 }
 
 void menu_help_psg() {
-    cout << "[ÏÀÑÑÀÆÈĞÛ] Êîìàíäû:" << endl;
-    cout << "0 - âîçâğàò íàçàä;" << endl;
-    cout << "1 - äîáàâèòü ïàññàæèğà;" << endl;
-    cout << "2 - óäàëèòü ïàññàæèğà;" << endl;
-    cout << "3 - íàéòè ïàññàæèğà ïî ïàñïîğòó;" << endl;
-    cout << "4 - íàéòè ïàññàæèğà ïî åãî ÔÈÎ;" << endl;
-    cout << "5 - âûâîä âñåõ ïàññàæèğîâ;" << endl;
-    cout << "6 - î÷èñòêà âñåõ äàííûõ î ïàññàæèğàõ;" << endl;
-    cout << "7 - ïîìîùü ïî êîìàíäàì;" << endl;
+    cout << "[ĞŸĞĞ¡Ğ¡ĞĞ–Ğ˜Ğ Ğ«] ĞšĞ¾Ğ¼Ğ°Ğ½Ğ´Ñ‹:" << endl;
+    cout << "0 - Ğ²Ğ¾Ğ·Ğ²Ñ€Ğ°Ñ‚ Ğ½Ğ°Ğ·Ğ°Ğ´;" << endl;
+    cout << "1 - Ğ´Ğ¾Ğ±Ğ°Ğ²Ğ¸Ñ‚ÑŒ Ğ¿Ğ°ÑÑĞ°Ğ¶Ğ¸Ñ€Ğ°;" << endl;
+    cout << "2 - ÑƒĞ´Ğ°Ğ»Ğ¸Ñ‚ÑŒ Ğ¿Ğ°ÑÑĞ°Ğ¶Ğ¸Ñ€Ğ°;" << endl;
+    cout << "3 - Ğ½Ğ°Ğ¹Ñ‚Ğ¸ Ğ¿Ğ°ÑÑĞ°Ğ¶Ğ¸Ñ€Ğ° Ğ¿Ğ¾ Ğ¿Ğ°ÑĞ¿Ğ¾Ñ€Ñ‚Ñƒ;" << endl;
+    cout << "4 - Ğ½Ğ°Ğ¹Ñ‚Ğ¸ Ğ¿Ğ°ÑÑĞ°Ğ¶Ğ¸Ñ€Ğ° Ğ¿Ğ¾ ĞµĞ³Ğ¾ Ğ¤Ğ˜Ğ;" << endl;
+    cout << "5 - Ğ²Ñ‹Ğ²Ğ¾Ğ´ Ğ²ÑĞµÑ… Ğ¿Ğ°ÑÑĞ°Ğ¶Ğ¸Ñ€Ğ¾Ğ²;" << endl;
+    cout << "6 - Ğ¾Ñ‡Ğ¸ÑÑ‚ĞºĞ° Ğ²ÑĞµÑ… Ğ´Ğ°Ğ½Ğ½Ñ‹Ñ… Ğ¾ Ğ¿Ğ°ÑÑĞ°Ğ¶Ğ¸Ñ€Ğ°Ñ…;" << endl;
+    cout << "7 - Ğ¿Ğ¾Ğ¼Ğ¾Ñ‰ÑŒ Ğ¿Ğ¾ ĞºĞ¾Ğ¼Ğ°Ğ½Ğ´Ğ°Ğ¼;" << endl;
 }
 
 int menu_avia(database* const DB) {
@@ -491,14 +491,14 @@ int menu_avia(database* const DB) {
 
     menu_help_avr();
     while (cycle) {
-        cout << "Ââåäèòå êîìàíäó:" << endl;
+        cout << "Ğ’Ğ²ĞµĞ´Ğ¸Ñ‚Ğµ ĞºĞ¾Ğ¼Ğ°Ğ½Ğ´Ñƒ:" << endl;
         while(input_int(num)) {
-            cout << "Îøèáêà ââîäà. Ïîïğîáóéòå çàíîâî: ";
+            cout << "ĞÑˆĞ¸Ğ±ĞºĞ° Ğ²Ğ²Ğ¾Ğ´Ğ°. ĞŸĞ¾Ğ¿Ñ€Ğ¾Ğ±ÑƒĞ¹Ñ‚Ğµ Ğ·Ğ°Ğ½Ğ¾Ğ²Ğ¾: ";
         }
         switch(num) {
             case 0: {
                 cycle = false;
-                cout << "Âîçâğàò â ãëàâíîå ìåíş." << endl;
+                cout << "Ğ’Ğ¾Ğ·Ğ²Ñ€Ğ°Ñ‚ Ğ² Ğ³Ğ»Ğ°Ğ²Ğ½Ğ¾Ğµ Ğ¼ĞµĞ½Ñ." << endl;
                 break;
             }
             case 1: {
@@ -522,21 +522,21 @@ int menu_avia(database* const DB) {
                 break;
             }
             case 6: {
-                cout << "Âû óâåğåíû, ÷òî õîòèòå î÷èñòèòü ñïèñîê àâèàğåéñîâ? " << endl;
-                cout << "(1 - äà, 2 - íåò)" << endl;
+                cout << "Ğ’Ñ‹ ÑƒĞ²ĞµÑ€ĞµĞ½Ñ‹, Ñ‡Ñ‚Ğ¾ Ñ…Ğ¾Ñ‚Ğ¸Ñ‚Ğµ Ğ¾Ñ‡Ğ¸ÑÑ‚Ğ¸Ñ‚ÑŒ ÑĞ¿Ğ¸ÑĞ¾Ğº Ğ°Ğ²Ğ¸Ğ°Ñ€ĞµĞ¹ÑĞ¾Ğ²? " << endl;
+                cout << "(1 - Ğ´Ğ°, 2 - Ğ½ĞµÑ‚)" << endl;
                 int ex_des = 0;
                 while(input_int(ex_des)) {
-                    cout << "Îøèáêà ââîäà. Ïîïğîáóéòå çàíîâî: ";
+                    cout << "ĞÑˆĞ¸Ğ±ĞºĞ° Ğ²Ğ²Ğ¾Ğ´Ğ°. ĞŸĞ¾Ğ¿Ñ€Ğ¾Ğ±ÑƒĞ¹Ñ‚Ğµ Ğ·Ğ°Ğ½Ğ¾Ğ²Ğ¾: ";
                 }
                 if (ex_des == 1) {
-                    cout << "Î÷èñòêà." << endl;
+                    cout << "ĞÑ‡Ğ¸ÑÑ‚ĞºĞ°." << endl;
                     clear_flights(DB->flights);
                 }
                 else if (ex_des == 2) {
-                    cout << "Âîçâğàùåíèå â ìåíş." << endl;
+                    cout << "Ğ’Ğ¾Ğ·Ğ²Ñ€Ğ°Ñ‰ĞµĞ½Ğ¸Ğµ Ğ² Ğ¼ĞµĞ½Ñ." << endl;
                 }
                 else {
-                    cout << "Êîìàíäà íå ğàñïîçíàíà. Âîçâğàùåíèå â ìåíş." << endl;
+                    cout << "ĞšĞ¾Ğ¼Ğ°Ğ½Ğ´Ğ° Ğ½Ğµ Ñ€Ğ°ÑĞ¿Ğ¾Ğ·Ğ½Ğ°Ğ½Ğ°. Ğ’Ğ¾Ğ·Ğ²Ñ€Ğ°Ñ‰ĞµĞ½Ğ¸Ğµ Ğ² Ğ¼ĞµĞ½Ñ." << endl;
                 }
                 break;
             }
@@ -551,7 +551,7 @@ int menu_avia(database* const DB) {
                 break;
             }
             default: {
-                cout << "Êîìàíäà íå ğàñïîçíàíà." << endl;
+                cout << "ĞšĞ¾Ğ¼Ğ°Ğ½Ğ´Ğ° Ğ½Ğµ Ñ€Ğ°ÑĞ¿Ğ¾Ğ·Ğ½Ğ°Ğ½Ğ°." << endl;
             }
         }
     }
@@ -560,15 +560,15 @@ int menu_avia(database* const DB) {
 }
 
 void menu_help_avr() {
-    cout << "[ÀÂÈÀĞÅÉÑÛ] Êîìàíäû:" << endl;
-    cout << "0 - âîçâğàò íàçàä;" << endl;
-    cout << "1 - äîáàâèòü àâèàğåéñ;" << endl;
-    cout << "2 - óäàëèòü àâèàğåéñ;" << endl;
-    cout << "3 - íàéòè àâèàğåéñ ïî åãî íîìåğó;" << endl;
-    cout << "4 - íàéòè àâèàğåéñ ïî íàçâàíèş àığîïîğòà ïğèáûòèÿ;" << endl;
-    cout << "5 - âûâîä âñåõ àâèàğåéñîâ;" << endl;
-    cout << "6 - î÷èñòêà âñåõ äàííûõ îá àâèàğåéñàõ;" << endl;
-    cout << "7 - ïîìîùü ïî êîìàíäàì;" << endl;
+    cout << "[ĞĞ’Ğ˜ĞĞ Ğ•Ğ™Ğ¡Ğ«] ĞšĞ¾Ğ¼Ğ°Ğ½Ğ´Ñ‹:" << endl;
+    cout << "0 - Ğ²Ğ¾Ğ·Ğ²Ñ€Ğ°Ñ‚ Ğ½Ğ°Ğ·Ğ°Ğ´;" << endl;
+    cout << "1 - Ğ´Ğ¾Ğ±Ğ°Ğ²Ğ¸Ñ‚ÑŒ Ğ°Ğ²Ğ¸Ğ°Ñ€ĞµĞ¹Ñ;" << endl;
+    cout << "2 - ÑƒĞ´Ğ°Ğ»Ğ¸Ñ‚ÑŒ Ğ°Ğ²Ğ¸Ğ°Ñ€ĞµĞ¹Ñ;" << endl;
+    cout << "3 - Ğ½Ğ°Ğ¹Ñ‚Ğ¸ Ğ°Ğ²Ğ¸Ğ°Ñ€ĞµĞ¹Ñ Ğ¿Ğ¾ ĞµĞ³Ğ¾ Ğ½Ğ¾Ğ¼ĞµÑ€Ñƒ;" << endl;
+    cout << "4 - Ğ½Ğ°Ğ¹Ñ‚Ğ¸ Ğ°Ğ²Ğ¸Ğ°Ñ€ĞµĞ¹Ñ Ğ¿Ğ¾ Ğ½Ğ°Ğ·Ğ²Ğ°Ğ½Ğ¸Ñ Ğ°ÑÑ€Ğ¾Ğ¿Ğ¾Ñ€Ñ‚Ğ° Ğ¿Ñ€Ğ¸Ğ±Ñ‹Ñ‚Ğ¸Ñ;" << endl;
+    cout << "5 - Ğ²Ñ‹Ğ²Ğ¾Ğ´ Ğ²ÑĞµÑ… Ğ°Ğ²Ğ¸Ğ°Ñ€ĞµĞ¹ÑĞ¾Ğ²;" << endl;
+    cout << "6 - Ğ¾Ñ‡Ğ¸ÑÑ‚ĞºĞ° Ğ²ÑĞµÑ… Ğ´Ğ°Ğ½Ğ½Ñ‹Ñ… Ğ¾Ğ± Ğ°Ğ²Ğ¸Ğ°Ñ€ĞµĞ¹ÑĞ°Ñ…;" << endl;
+    cout << "7 - Ğ¿Ğ¾Ğ¼Ğ¾Ñ‰ÑŒ Ğ¿Ğ¾ ĞºĞ¾Ğ¼Ğ°Ğ½Ğ´Ğ°Ğ¼;" << endl;
 }
 
 int input_int(int& num) {
@@ -589,13 +589,13 @@ int input_int(int& num) {
 int menu_add_psg(database* const DB) {
     int hashed = 0;
     while (true) {
-        cout << "Äîáàâëåíèå. Ââåäèòå ïàñïîğò â ôîğìàòå \"NNNN-NNNNNN\":" << endl;
+        cout << "Ğ”Ğ¾Ğ±Ğ°Ğ²Ğ»ĞµĞ½Ğ¸Ğµ. Ğ’Ğ²ĞµĞ´Ğ¸Ñ‚Ğµ Ğ¿Ğ°ÑĞ¿Ğ¾Ñ€Ñ‚ Ğ² Ñ„Ğ¾Ñ€Ğ¼Ğ°Ñ‚Ğµ \"NNNN-NNNNNN\":" << endl;
         string inp;
         cin.clear();
         cin.ignore(cin.rdbuf()->in_avail(),'\n');
         getline(cin, inp);
         if (strcmp(inp.c_str(), "/") == 0) {
-            cout << "Âîçâğàùåíèå â ìåíş." << endl;
+            cout << "Ğ’Ğ¾Ğ·Ğ²Ñ€Ğ°Ñ‰ĞµĞ½Ğ¸Ğµ Ğ² Ğ¼ĞµĞ½Ñ." << endl;
             break;
         }
         if (is_key_correct(inp, DB->passnum_size)) {
@@ -613,49 +613,49 @@ int menu_add_psg(database* const DB) {
             }
             if (o < DB->sheet_size) {
                 if (strcmp(DB->passengers[hashed].passport, inp.c_str()) == 0) {
-                    cout << "Òàêîé ïàññàæèğ óæå ñóùåñòâóåò." << endl;
+                    cout << "Ğ¢Ğ°ĞºĞ¾Ğ¹ Ğ¿Ğ°ÑÑĞ°Ğ¶Ğ¸Ñ€ ÑƒĞ¶Ğµ ÑÑƒÑ‰ĞµÑÑ‚Ğ²ÑƒĞµÑ‚." << endl;
                     break;
                 }
                 strcpy_s(DB->passengers[hashed].passport, inp.c_str());
                 string longinp;
                 //cout << DB->passengers[hashed].passport << endl;
-                cout << "Ââåäèòå ìåñòî è äàòó âûäà÷è ïàñïîğòà." << endl;
-                cout << "Äàòà îò ìåñòà âûäà÷è äîëæíà îòäåëÿòüñÿ ïğîáåëîì:" << endl;
+                cout << "Ğ’Ğ²ĞµĞ´Ğ¸Ñ‚Ğµ Ğ¼ĞµÑÑ‚Ğ¾ Ğ¸ Ğ´Ğ°Ñ‚Ñƒ Ğ²Ñ‹Ğ´Ğ°Ñ‡Ğ¸ Ğ¿Ğ°ÑĞ¿Ğ¾Ñ€Ñ‚Ğ°." << endl;
+                cout << "Ğ”Ğ°Ñ‚Ğ° Ğ¾Ñ‚ Ğ¼ĞµÑÑ‚Ğ° Ğ²Ñ‹Ğ´Ğ°Ñ‡Ğ¸ Ğ´Ğ¾Ğ»Ğ¶Ğ½Ğ° Ğ¾Ñ‚Ğ´ĞµĞ»ÑÑ‚ÑŒÑÑ Ğ¿Ñ€Ğ¾Ğ±ĞµĞ»Ğ¾Ğ¼:" << endl;
                 getline(cin, longinp);
                 while (!validate_name(longinp.substr(0, longinp.rfind(' '))) ||
                        !validate_date(longinp.substr(longinp.rfind(' ') + 1))) {
-                    cout << "[X] Îøèáêà ââîäà. Ïîïğîáóéòå çàíîâî:" << endl;
+                    cout << "[X] ĞÑˆĞ¸Ğ±ĞºĞ° Ğ²Ğ²Ğ¾Ğ´Ğ°. ĞŸĞ¾Ğ¿Ñ€Ğ¾Ğ±ÑƒĞ¹Ñ‚Ğµ Ğ·Ğ°Ğ½Ğ¾Ğ²Ğ¾:" << endl;
                     getline(cin, longinp);
                 }
                 DB->passengers[hashed].issuance = longinp;
                 //cout << DB->passengers[hashed].passport << endl;
-                cout << "Ââåäèòå ÔÈÎ ïàññàæèğà:" << endl;
+                cout << "Ğ’Ğ²ĞµĞ´Ğ¸Ñ‚Ğµ Ğ¤Ğ˜Ğ Ğ¿Ğ°ÑÑĞ°Ğ¶Ğ¸Ñ€Ğ°:" << endl;
                 getline(cin, longinp);
                 format_fio(longinp);
                 while (!validate_name(longinp, true)) {
-                    cout << "[X] Îøèáêà ââîäà. Ïîïğîáóéòå çàíîâî:" << endl;
+                    cout << "[X] ĞÑˆĞ¸Ğ±ĞºĞ° Ğ²Ğ²Ğ¾Ğ´Ğ°. ĞŸĞ¾Ğ¿Ñ€Ğ¾Ğ±ÑƒĞ¹Ñ‚Ğµ Ğ·Ğ°Ğ½Ğ¾Ğ²Ğ¾:" << endl;
                     getline(cin, longinp);
                     format_fio(longinp);
                 }
                 DB->passengers[hashed].fio = longinp;
                 
-                cout << "Ââåäèòå äàòó ğîæäåíèÿ ïàññàæèğà (DD.MM.YYYY):" << endl;
+                cout << "Ğ’Ğ²ĞµĞ´Ğ¸Ñ‚Ğµ Ğ´Ğ°Ñ‚Ñƒ Ñ€Ğ¾Ğ¶Ğ´ĞµĞ½Ğ¸Ñ Ğ¿Ğ°ÑÑĞ°Ğ¶Ğ¸Ñ€Ğ° (DD.MM.YYYY):" << endl;
                 getline(cin, longinp);
                 while(!validate_date(longinp, true)) {
-                    cout << "[X] Äàòà ğîæäåíèÿ ââåäåíà íåâåğíî. ïîïğîáóéòå çàíîâî:" << endl;
+                    cout << "[X] Ğ”Ğ°Ñ‚Ğ° Ñ€Ğ¾Ğ¶Ğ´ĞµĞ½Ğ¸Ñ Ğ²Ğ²ĞµĞ´ĞµĞ½Ğ° Ğ½ĞµĞ²ĞµÑ€Ğ½Ğ¾. Ğ¿Ğ¾Ğ¿Ñ€Ğ¾Ğ±ÑƒĞ¹Ñ‚Ğµ Ğ·Ğ°Ğ½Ğ¾Ğ²Ğ¾:" << endl;
                     getline(cin, longinp);
                 }
                 strcpy_s(DB->passengers[hashed].birth, longinp.c_str());
-                cout << "Ïàññàæèğ äîáàâëåí." << endl;
+                cout << "ĞŸĞ°ÑÑĞ°Ğ¶Ğ¸Ñ€ Ğ´Ğ¾Ğ±Ğ°Ğ²Ğ»ĞµĞ½." << endl;
             }
             else {
-                cout << "[X] Íå óäàëîñü äîáàâèòü ïàññàæèğà." << endl;
+                cout << "[X] ĞĞµ ÑƒĞ´Ğ°Ğ»Ğ¾ÑÑŒ Ğ´Ğ¾Ğ±Ğ°Ğ²Ğ¸Ñ‚ÑŒ Ğ¿Ğ°ÑÑĞ°Ğ¶Ğ¸Ñ€Ğ°." << endl;
             }
             break;
         }
         else {
-            cout << "|\\/| Ïàñïîğò ââåä¸í íåâåğíî. Ïîïğîáóéòå çàíîâî" << endl;
-            cout << "|/\\| èëè ââåäèòå \"/\" äëÿ âûõîäà â ìåíş:" << endl;
+            cout << "|\\/| ĞŸĞ°ÑĞ¿Ğ¾Ñ€Ñ‚ Ğ²Ğ²ĞµĞ´Ñ‘Ğ½ Ğ½ĞµĞ²ĞµÑ€Ğ½Ğ¾. ĞŸĞ¾Ğ¿Ñ€Ğ¾Ğ±ÑƒĞ¹Ñ‚Ğµ Ğ·Ğ°Ğ½Ğ¾Ğ²Ğ¾" << endl;
+            cout << "|/\\| Ğ¸Ğ»Ğ¸ Ğ²Ğ²ĞµĞ´Ğ¸Ñ‚Ğµ \"/\" Ğ´Ğ»Ñ Ğ²Ñ‹Ñ…Ğ¾Ğ´Ğ° Ğ² Ğ¼ĞµĞ½Ñ:" << endl;
             cin.clear();
             cin.ignore(cin.rdbuf()->in_avail(),'\n');
             continue;
@@ -665,7 +665,7 @@ int menu_add_psg(database* const DB) {
 }
 
 int menu_del_psg(database* const DB) {
-    cout << "Óäàëåíèå. Ââåäèòå ïàñïîğò:" << endl;
+    cout << "Ğ£Ğ´Ğ°Ğ»ĞµĞ½Ğ¸Ğµ. Ğ’Ğ²ĞµĞ´Ğ¸Ñ‚Ğµ Ğ¿Ğ°ÑĞ¿Ğ¾Ñ€Ñ‚:" << endl;
     int hashed = 0;
     while (true) {
         string inp;
@@ -673,7 +673,7 @@ int menu_del_psg(database* const DB) {
         cin.ignore(cin.rdbuf()->in_avail(),'\n');
         getline(cin, inp);
         if (strcmp(inp.c_str(), "/") == 0) {
-            cout << "Âîçâğàùåíèå â ìåíş." << endl;
+            cout << "Ğ’Ğ¾Ğ·Ğ²Ñ€Ğ°Ñ‰ĞµĞ½Ğ¸Ğµ Ğ² Ğ¼ĞµĞ½Ñ." << endl;
             break;
         }
         if (is_key_correct(inp, DB->passnum_size)) {
@@ -682,7 +682,7 @@ int menu_del_psg(database* const DB) {
             if (strcmp(DB->passengers[hashed].passport, inp.c_str()) == 0) {
                 char emptys[12]{};
                 strcpy_s(DB->passengers[hashed].passport, (const char*)emptys);
-                cout << "Ïàññàæèğ óäàë¸í âìåñòå ñ åãî áèëåòàìè." << endl;
+                cout << "ĞŸĞ°ÑÑĞ°Ğ¶Ğ¸Ñ€ ÑƒĞ´Ğ°Ğ»Ñ‘Ğ½ Ğ²Ğ¼ĞµÑÑ‚Ğµ Ñ ĞµĞ³Ğ¾ Ğ±Ğ¸Ğ»ĞµÑ‚Ğ°Ğ¼Ğ¸." << endl;
                 del_tickets_byPass(DB->tickets, inp.c_str());
             }
             else {
@@ -699,17 +699,17 @@ int menu_del_psg(database* const DB) {
                 if (o < DB->sheet_size && strcmp(DB->passengers[hashed].passport, inp.c_str()) == 0) {
                     char emptys[12]{};
                     strcpy_s(DB->passengers[hashed].passport, (const char*)emptys);
-                    cout << "Ïàññàæèğ óäàë¸í." << endl;
+                    cout << "ĞŸĞ°ÑÑĞ°Ğ¶Ğ¸Ñ€ ÑƒĞ´Ğ°Ğ»Ñ‘Ğ½." << endl;
                 }
                 else {
-                    cout << "[X] Íå óäàëîñü óäàëèòü ïàññàæèğà." << endl;
+                    cout << "[X] ĞĞµ ÑƒĞ´Ğ°Ğ»Ğ¾ÑÑŒ ÑƒĞ´Ğ°Ğ»Ğ¸Ñ‚ÑŒ Ğ¿Ğ°ÑÑĞ°Ğ¶Ğ¸Ñ€Ğ°." << endl;
                 }
             }
             break;
         }
         else {
-            cout << "|\\/| Ïàñïîğò ïàññàæèğà ââåä¸í íåâåğíî. Ïîïğîáóéòå çàíîâî" << endl;
-            cout << "|/\\| èëè ââåäèòå \"/\" äëÿ âûõîäà â ìåíş:" << endl;
+            cout << "|\\/| ĞŸĞ°ÑĞ¿Ğ¾Ñ€Ñ‚ Ğ¿Ğ°ÑÑĞ°Ğ¶Ğ¸Ñ€Ğ° Ğ²Ğ²ĞµĞ´Ñ‘Ğ½ Ğ½ĞµĞ²ĞµÑ€Ğ½Ğ¾. ĞŸĞ¾Ğ¿Ñ€Ğ¾Ğ±ÑƒĞ¹Ñ‚Ğµ Ğ·Ğ°Ğ½Ğ¾Ğ²Ğ¾" << endl;
+            cout << "|/\\| Ğ¸Ğ»Ğ¸ Ğ²Ğ²ĞµĞ´Ğ¸Ñ‚Ğµ \"/\" Ğ´Ğ»Ñ Ğ²Ñ‹Ñ…Ğ¾Ğ´Ğ° Ğ² Ğ¼ĞµĞ½Ñ:" << endl;
             cin.clear();
             cin.ignore(cin.rdbuf()->in_avail(),'\n');
             continue;
@@ -719,7 +719,7 @@ int menu_del_psg(database* const DB) {
 }
 
 int menu_find_num_psg(database* const DB) {
-    cout << "Ïîèñê. Ââåäèòå íîìåğ ïàñïîğòà ïàññàæèğà:" << endl;
+    cout << "ĞŸĞ¾Ğ¸ÑĞº. Ğ’Ğ²ĞµĞ´Ğ¸Ñ‚Ğµ Ğ½Ğ¾Ğ¼ĞµÑ€ Ğ¿Ğ°ÑĞ¿Ğ¾Ñ€Ñ‚Ğ° Ğ¿Ğ°ÑÑĞ°Ğ¶Ğ¸Ñ€Ğ°:" << endl;
     int hashed = 0;
     char* passport = new char[DB->passnum_size + 1] {};
     while (true) {
@@ -728,7 +728,7 @@ int menu_find_num_psg(database* const DB) {
         cin.ignore(cin.rdbuf()->in_avail(),'\n');
         getline(cin, inp);
         if (strcmp(inp.c_str(), "/") == 0) {
-            cout << "Âîçâğàùåíèå â ìåíş." << endl;
+            cout << "Ğ’Ğ¾Ğ·Ğ²Ñ€Ğ°Ñ‰ĞµĞ½Ğ¸Ğµ Ğ² Ğ¼ĞµĞ½Ñ." << endl;
             break;
         }
         if (is_key_correct(inp, DB->passnum_size)) {
@@ -744,25 +744,25 @@ int menu_find_num_psg(database* const DB) {
                 }
             }
             if (o < DB->sheet_size) {
-                cout << "Ïàññàæèğ íàéäåí(¹" << hashed << "). Èíôîğìàöèÿ î í¸ì:" << endl;
+                cout << "ĞŸĞ°ÑÑĞ°Ğ¶Ğ¸Ñ€ Ğ½Ğ°Ğ¹Ğ´ĞµĞ½(â„–" << hashed << "). Ğ˜Ğ½Ñ„Ğ¾Ñ€Ğ¼Ğ°Ñ†Ğ¸Ñ Ğ¾ Ğ½Ñ‘Ğ¼:" << endl;
                 extend_passport(DB->passengers[hashed].passport, passport, DB->passnum_size);
-                cout << setw(16) << left << "Ïàñïîğò ¹" << passport << endl;
-                cout << setw(16) << left << "Âûäàí " << DB->passengers[hashed].issuance << endl;
-                cout << setw(16) << left << "Ô.È.Î. " << DB->passengers[hashed].fio << endl;
-                cout << setw(16) << left << "Äàòà ğîæäåíèÿ " <<DB->passengers[hashed].birth << endl;
-                cout << setw(16) << left << "Âîçâğàùåíèå â ìåíş." << endl;
+                cout << setw(16) << left << "ĞŸĞ°ÑĞ¿Ğ¾Ñ€Ñ‚ â„–" << passport << endl;
+                cout << setw(16) << left << "Ğ’Ñ‹Ğ´Ğ°Ğ½ " << DB->passengers[hashed].issuance << endl;
+                cout << setw(16) << left << "Ğ¤.Ğ˜.Ğ. " << DB->passengers[hashed].fio << endl;
+                cout << setw(16) << left << "Ğ”Ğ°Ñ‚Ğ° Ñ€Ğ¾Ğ¶Ğ´ĞµĞ½Ğ¸Ñ " <<DB->passengers[hashed].birth << endl;
+                cout << setw(16) << left << "Ğ’Ğ¾Ğ·Ğ²Ñ€Ğ°Ñ‰ĞµĞ½Ğ¸Ğµ Ğ² Ğ¼ĞµĞ½Ñ." << endl;
                 break;
             }
             else {
-                cout << "|\\/| Íå óäàëîñü íàéòè ïàññàæèğà. Ïîïğîáóéòå çàíîâî"<< endl;
-                cout << "|/\\| èëè ââåäèòå \"/\" äëÿ âûõîäà â ìåíş:" << endl;
+                cout << "|\\/| ĞĞµ ÑƒĞ´Ğ°Ğ»Ğ¾ÑÑŒ Ğ½Ğ°Ğ¹Ñ‚Ğ¸ Ğ¿Ğ°ÑÑĞ°Ğ¶Ğ¸Ñ€Ğ°. ĞŸĞ¾Ğ¿Ñ€Ğ¾Ğ±ÑƒĞ¹Ñ‚Ğµ Ğ·Ğ°Ğ½Ğ¾Ğ²Ğ¾"<< endl;
+                cout << "|/\\| Ğ¸Ğ»Ğ¸ Ğ²Ğ²ĞµĞ´Ğ¸Ñ‚Ğµ \"/\" Ğ´Ğ»Ñ Ğ²Ñ‹Ñ…Ğ¾Ğ´Ğ° Ğ² Ğ¼ĞµĞ½Ñ:" << endl;
                 cin.clear();
                 cin.ignore(cin.rdbuf()->in_avail(),'\n');
                 continue;
             }
         }
         else {
-            cout << "[X] Ïàñïîğò ââåä¸í íåâåğíî. Ïîïğîáóéòå çàíîâî." << endl;
+            cout << "[X] ĞŸĞ°ÑĞ¿Ğ¾Ñ€Ñ‚ Ğ²Ğ²ĞµĞ´Ñ‘Ğ½ Ğ½ĞµĞ²ĞµÑ€Ğ½Ğ¾. ĞŸĞ¾Ğ¿Ñ€Ğ¾Ğ±ÑƒĞ¹Ñ‚Ğµ Ğ·Ğ°Ğ½Ğ¾Ğ²Ğ¾." << endl;
             cin.clear();
             cin.ignore(cin.rdbuf()->in_avail(),'\n');
             continue;
@@ -775,14 +775,14 @@ int menu_find_num_psg(database* const DB) {
 int menu_find_fio_psg(database* const DB) {
     
     found_passengers* fpas = nullptr;
-    cout << "Ïîèñê. Ââåäèòå ÔÈÎ ïàññàæèğà:" << endl;
+    cout << "ĞŸĞ¾Ğ¸ÑĞº. Ğ’Ğ²ĞµĞ´Ğ¸Ñ‚Ğµ Ğ¤Ğ˜Ğ Ğ¿Ğ°ÑÑĞ°Ğ¶Ğ¸Ñ€Ğ°:" << endl;
     while (true) {
         string inp;
         cin.clear();
         cin.ignore(cin.rdbuf()->in_avail(),'\n');
         getline(cin, inp);
         if (strcmp(inp.c_str(), "/") == 0) {
-            cout << "Âîçâğàùåíèå â ìåíş." << endl;
+            cout << "Ğ’Ğ¾Ğ·Ğ²Ñ€Ğ°Ñ‰ĞµĞ½Ğ¸Ğµ Ğ² Ğ¼ĞµĞ½Ñ." << endl;
             break;
         }
         format_fio(inp);
@@ -793,14 +793,14 @@ int menu_find_fio_psg(database* const DB) {
             }
         }
         if (fpas != nullptr) {
-            std::cout << "Ïàññàæèğ(û) íàéäåí(û). Èíôîğìàöèÿ:" << std::endl;
+            std::cout << "ĞŸĞ°ÑÑĞ°Ğ¶Ğ¸Ñ€(Ñ‹) Ğ½Ğ°Ğ¹Ğ´ĞµĞ½(Ñ‹). Ğ˜Ğ½Ñ„Ğ¾Ñ€Ğ¼Ğ°Ñ†Ğ¸Ñ:" << std::endl;
             output_passengers(fpas);
             clear_list(fpas);
             break;
         }
         else {
-            cout << "|\\/| Íå óäàëîñü íàéòè ïàññàæèğîâ ñ òàêèìè ÔÈÎ. Ïîïğîáóéòå çàíîâî"<< endl;
-            cout << "|/\\| èëè ââåäèòå \"/\" äëÿ âûõîäà â ìåíş:" << endl;
+            cout << "|\\/| ĞĞµ ÑƒĞ´Ğ°Ğ»Ğ¾ÑÑŒ Ğ½Ğ°Ğ¹Ñ‚Ğ¸ Ğ¿Ğ°ÑÑĞ°Ğ¶Ğ¸Ñ€Ğ¾Ğ² Ñ Ñ‚Ğ°ĞºĞ¸Ğ¼Ğ¸ Ğ¤Ğ˜Ğ. ĞŸĞ¾Ğ¿Ñ€Ğ¾Ğ±ÑƒĞ¹Ñ‚Ğµ Ğ·Ğ°Ğ½Ğ¾Ğ²Ğ¾"<< endl;
+            cout << "|/\\| Ğ¸Ğ»Ğ¸ Ğ²Ğ²ĞµĞ´Ğ¸Ñ‚Ğµ \"/\" Ğ´Ğ»Ñ Ğ²Ñ‹Ñ…Ğ¾Ğ´Ğ° Ğ² Ğ¼ĞµĞ½Ñ:" << endl;
             cin.clear();
             cin.ignore(cin.rdbuf()->in_avail(),'\n');
             continue;
@@ -812,42 +812,42 @@ int menu_find_fio_psg(database* const DB) {
 
 void menu_show_psg(database* const DB) {
     if (!is_sheet_empty(DB->passengers, DB->sheet_size)) {
-        cout << "Òàáëèöà ïàññàæèğîâ: " << endl;
+        cout << "Ğ¢Ğ°Ğ±Ğ»Ğ¸Ñ†Ğ° Ğ¿Ğ°ÑÑĞ°Ğ¶Ğ¸Ñ€Ğ¾Ğ²: " << endl;
         char* passport = new char[DB->passnum_size + 1]{};
         for (int i = 0; i < DB->sheet_size; i++) {
             if (strcmp(DB->passengers[i].passport, "\0") != 0) {
                 extend_passport(DB->passengers[i].passport, passport, DB->passnum_size);
                 cout << left << setw(2) << "+-" << setfill('-') << setw(29) << right << '<' << setfill(' ') << endl;
-                cout << left << setw(2) << "|" << setw(16) << "Ïàñïîğò ¹" << passport << endl;
-                cout << left << setw(2) << "|" << setw(16) << "Âûäàí " << DB->passengers[i].issuance << endl;
-                cout << left << setw(2) << "|" << setw(16) << "Ô.È.Î. " << DB->passengers[i].fio << endl;
-                cout << left << setw(2) << "|" << setw(16) << "Äàòà ğîæäåíèÿ: " << DB->passengers[i].birth << endl;
+                cout << left << setw(2) << "|" << setw(16) << "ĞŸĞ°ÑĞ¿Ğ¾Ñ€Ñ‚ â„–" << passport << endl;
+                cout << left << setw(2) << "|" << setw(16) << "Ğ’Ñ‹Ğ´Ğ°Ğ½ " << DB->passengers[i].issuance << endl;
+                cout << left << setw(2) << "|" << setw(16) << "Ğ¤.Ğ˜.Ğ. " << DB->passengers[i].fio << endl;
+                cout << left << setw(2) << "|" << setw(16) << "Ğ”Ğ°Ñ‚Ğ° Ñ€Ğ¾Ğ¶Ğ´ĞµĞ½Ğ¸Ñ: " << DB->passengers[i].birth << endl;
             }
         }
         cout << left << setw(2) << "+-" << setfill('-') << setw(29) << right << '<' << setfill(' ') << endl;
         delete[] passport;
     }
     else {
-        cout << "Òàáëèöà ïàññàæèğîâ ïóñòà." << endl;
+        cout << "Ğ¢Ğ°Ğ±Ğ»Ğ¸Ñ†Ğ° Ğ¿Ğ°ÑÑĞ°Ğ¶Ğ¸Ñ€Ğ¾Ğ² Ğ¿ÑƒÑÑ‚Ğ°." << endl;
     }
-    cout << "Âîçâğàùåíèå â ìåíş." << endl;
+    cout << "Ğ’Ğ¾Ğ·Ğ²Ñ€Ğ°Ñ‰ĞµĞ½Ğ¸Ğµ Ğ² Ğ¼ĞµĞ½Ñ." << endl;
 }
 
 int menu_add_avr(database* const DB) {
     while (true) {
-        cout << "Äîáàâëåíèå. Ââåäèòå íîìåğ ğåéñà â ôîğìàòå \"AAA-NNN\":" << endl;
+        cout << "Ğ”Ğ¾Ğ±Ğ°Ğ²Ğ»ĞµĞ½Ğ¸Ğµ. Ğ’Ğ²ĞµĞ´Ğ¸Ñ‚Ğµ Ğ½Ğ¾Ğ¼ĞµÑ€ Ñ€ĞµĞ¹ÑĞ° Ğ² Ñ„Ğ¾Ñ€Ğ¼Ğ°Ñ‚Ğµ \"AAA-NNN\":" << endl;
         string inp;
         cin.clear();
         cin.ignore(cin.rdbuf()->in_avail(),'\n');
         getline(cin, inp);
         if (strcmp(inp.c_str(), "/") == 0) {
-            cout << "Âîçâğàùåíèå â ìåíş." << endl;
+            cout << "Ğ’Ğ¾Ğ·Ğ²Ñ€Ğ°Ñ‰ĞµĞ½Ğ¸Ğµ Ğ² Ğ¼ĞµĞ½Ñ." << endl;
             break;
         }
         if (is_avianum_correct(inp, DB->avianum_size)) {
             if (is_exists(DB->flights, (const string)inp)) {
-                cout << "|\\/| Òàêîé ğåéñ óæå ñóùåñòâóåò. Ïîïğîáóéòå çàíîâî" << endl;
-                cout << "|/\\| èëè ââåäèòå \"/\" äëÿ âûõîäà â ìåíş:" << endl;
+                cout << "|\\/| Ğ¢Ğ°ĞºĞ¾Ğ¹ Ñ€ĞµĞ¹Ñ ÑƒĞ¶Ğµ ÑÑƒÑ‰ĞµÑÑ‚Ğ²ÑƒĞµÑ‚. ĞŸĞ¾Ğ¿Ñ€Ğ¾Ğ±ÑƒĞ¹Ñ‚Ğµ Ğ·Ğ°Ğ½Ğ¾Ğ²Ğ¾" << endl;
+                cout << "|/\\| Ğ¸Ğ»Ğ¸ Ğ²Ğ²ĞµĞ´Ğ¸Ñ‚Ğµ \"/\" Ğ´Ğ»Ñ Ğ²Ñ‹Ñ…Ğ¾Ğ´Ğ° Ğ² Ğ¼ĞµĞ½Ñ:" << endl;
                 cin.clear();
                 cin.ignore(cin.rdbuf()->in_avail(),'\n');
                 continue;
@@ -857,32 +857,32 @@ int menu_add_avr(database* const DB) {
             int places = 0;
             inp.erase(3, 1);
             strcpy_s(newflight->number, inp.c_str());
-            cout << "Ââåäèòå êîìïàíèş ğåéñà:" << endl;
+            cout << "Ğ’Ğ²ĞµĞ´Ğ¸Ñ‚Ğµ ĞºĞ¾Ğ¼Ğ¿Ğ°Ğ½Ğ¸Ñ Ñ€ĞµĞ¹ÑĞ°:" << endl;
             getline(cin, longinp);
             longinp.shrink_to_fit();
             newflight->company = longinp;
-            cout << "Ââåäèòå ìåñòî îòïğàâëåíèÿ ğåéñà:" << endl;
+            cout << "Ğ’Ğ²ĞµĞ´Ğ¸Ñ‚Ğµ Ğ¼ĞµÑÑ‚Ğ¾ Ğ¾Ñ‚Ğ¿Ñ€Ğ°Ğ²Ğ»ĞµĞ½Ğ¸Ñ Ñ€ĞµĞ¹ÑĞ°:" << endl;
             getline(cin, longinp);
             longinp.shrink_to_fit();
             newflight->departure = longinp;
-            cout << "Ââåäèòå ìåñòî ïğèáûòèÿ ğåéñà:" << endl;
+            cout << "Ğ’Ğ²ĞµĞ´Ğ¸Ñ‚Ğµ Ğ¼ĞµÑÑ‚Ğ¾ Ğ¿Ñ€Ğ¸Ğ±Ñ‹Ñ‚Ğ¸Ñ Ñ€ĞµĞ¹ÑĞ°:" << endl;
             getline(cin, longinp);
             longinp.shrink_to_fit();
             newflight->arriving = longinp;
-            cout << "Ââåäèòå âğåìÿ îòïğàâëåíèÿ ğåéñà:" << endl;
+            cout << "Ğ’Ğ²ĞµĞ´Ğ¸Ñ‚Ğµ Ğ²Ñ€ĞµĞ¼Ñ Ğ¾Ñ‚Ğ¿Ñ€Ğ°Ğ²Ğ»ĞµĞ½Ğ¸Ñ Ñ€ĞµĞ¹ÑĞ°:" << endl;
             getline(cin, longinp);
             while (!validate_dateNtime(longinp)) {
-                cout << "[X] Âğåìÿ îòïğàâëåíèÿ ââåäåíî íåâåğíî. Ïîïğîáóéòå çàíîâî:" << endl;
+                cout << "[X] Ğ’Ñ€ĞµĞ¼Ñ Ğ¾Ñ‚Ğ¿Ñ€Ğ°Ğ²Ğ»ĞµĞ½Ğ¸Ñ Ğ²Ğ²ĞµĞ´ĞµĞ½Ğ¾ Ğ½ĞµĞ²ĞµÑ€Ğ½Ğ¾. ĞŸĞ¾Ğ¿Ñ€Ğ¾Ğ±ÑƒĞ¹Ñ‚Ğµ Ğ·Ğ°Ğ½Ğ¾Ğ²Ğ¾:" << endl;
                 cin.clear();
                 cin.ignore(cin.rdbuf()->in_avail(), '\n');
                 getline(cin, longinp);
             }
             longinp.shrink_to_fit();
             newflight->dep_time = longinp;
-            cout << "Ââåäèòå âğåìÿ ïğèáûòèÿ ğåéñà (DD.MM.YYYY HH:MM):" << endl;
+            cout << "Ğ’Ğ²ĞµĞ´Ğ¸Ñ‚Ğµ Ğ²Ñ€ĞµĞ¼Ñ Ğ¿Ñ€Ğ¸Ğ±Ñ‹Ñ‚Ğ¸Ñ Ñ€ĞµĞ¹ÑĞ° (DD.MM.YYYY HH:MM):" << endl;
             getline(cin, longinp);
             while (!validate_dateNtime(longinp)) {
-                cout << "[X] Âğåìÿ ïğèáûòèÿ ââåäåíî íåâåğíî. Ïîïğîáóéòå çàíîâî:" << endl;
+                cout << "[X] Ğ’Ñ€ĞµĞ¼Ñ Ğ¿Ñ€Ğ¸Ğ±Ñ‹Ñ‚Ğ¸Ñ Ğ²Ğ²ĞµĞ´ĞµĞ½Ğ¾ Ğ½ĞµĞ²ĞµÑ€Ğ½Ğ¾. ĞŸĞ¾Ğ¿Ñ€Ğ¾Ğ±ÑƒĞ¹Ñ‚Ğµ Ğ·Ğ°Ğ½Ğ¾Ğ²Ğ¾:" << endl;
                 cin.clear();
                 cin.ignore(cin.rdbuf()->in_avail(), '\n');
                 getline(cin, longinp);
@@ -890,27 +890,27 @@ int menu_add_avr(database* const DB) {
             longinp.shrink_to_fit();
             newflight->arv_time = longinp;
             if (is_copy(DB->flights, newflight)) {
-                cout << "[X] Ğåéñ ÿâëÿåòñÿ êîïèåé ñóùåñòâóşùåãî." << endl;
+                cout << "[X] Ğ ĞµĞ¹Ñ ÑĞ²Ğ»ÑĞµÑ‚ÑÑ ĞºĞ¾Ğ¿Ğ¸ĞµĞ¹ ÑÑƒÑ‰ĞµÑÑ‚Ğ²ÑƒÑÑ‰ĞµĞ³Ğ¾." << endl;
                 break;
             }
-            cout << "Ââåäèòå êîëè÷åñòâî ìåñò â ñàìîë¸òå:" << endl;
+            cout << "Ğ’Ğ²ĞµĞ´Ğ¸Ñ‚Ğµ ĞºĞ¾Ğ»Ğ¸Ñ‡ĞµÑÑ‚Ğ²Ğ¾ Ğ¼ĞµÑÑ‚ Ğ² ÑĞ°Ğ¼Ğ¾Ğ»Ñ‘Ñ‚Ğµ:" << endl;
             while(input_int(places) || places < 1) {
-                cout << "[X] Îøèáêà ââîäà. Ïîïğîáóéòå çàíîâî: ";
+                cout << "[X] ĞÑˆĞ¸Ğ±ĞºĞ° Ğ²Ğ²Ğ¾Ğ´Ğ°. ĞŸĞ¾Ğ¿Ñ€Ğ¾Ğ±ÑƒĞ¹Ñ‚Ğµ Ğ·Ğ°Ğ½Ğ¾Ğ²Ğ¾: ";
             }
             newflight->places = places;
-            cout << "Ââåäèòå êîëè÷åñòâî ñâîáîäíûõ ìåñò:" << endl;
+            cout << "Ğ’Ğ²ĞµĞ´Ğ¸Ñ‚Ğµ ĞºĞ¾Ğ»Ğ¸Ñ‡ĞµÑÑ‚Ğ²Ğ¾ ÑĞ²Ğ¾Ğ±Ğ¾Ğ´Ğ½Ñ‹Ñ… Ğ¼ĞµÑÑ‚:" << endl;
             while(input_int(places) || places < 0 || places > newflight->places) {
-                cout << "[X] Îøèáêà ââîäà. Ïîïğîáóéòå çàíîâî: ";
+                cout << "[X] ĞÑˆĞ¸Ğ±ĞºĞ° Ğ²Ğ²Ğ¾Ğ´Ğ°. ĞŸĞ¾Ğ¿Ñ€Ğ¾Ğ±ÑƒĞ¹Ñ‚Ğµ Ğ·Ğ°Ğ½Ğ¾Ğ²Ğ¾: ";
             }
             newflight->free = places;
             add_element(DB->flights, *newflight);
             delete newflight;
-            cout << "Àâèàğåéñ äîáàâëåí." << endl;
+            cout << "ĞĞ²Ğ¸Ğ°Ñ€ĞµĞ¹Ñ Ğ´Ğ¾Ğ±Ğ°Ğ²Ğ»ĞµĞ½." << endl;
             break;
         }
         else {
-            cout << "|\\/| Íîìåğ ââåä¸í íåâåğíî. Ïîïğîáóéòå çàíîâî" << endl;
-            cout << "|/\\| èëè ââåäèòå \"/\" äëÿ âûõîäà â ìåíş:" << endl;
+            cout << "|\\/| ĞĞ¾Ğ¼ĞµÑ€ Ğ²Ğ²ĞµĞ´Ñ‘Ğ½ Ğ½ĞµĞ²ĞµÑ€Ğ½Ğ¾. ĞŸĞ¾Ğ¿Ñ€Ğ¾Ğ±ÑƒĞ¹Ñ‚Ğµ Ğ·Ğ°Ğ½Ğ¾Ğ²Ğ¾" << endl;
+            cout << "|/\\| Ğ¸Ğ»Ğ¸ Ğ²Ğ²ĞµĞ´Ğ¸Ñ‚Ğµ \"/\" Ğ´Ğ»Ñ Ğ²Ñ‹Ñ…Ğ¾Ğ´Ğ° Ğ² Ğ¼ĞµĞ½Ñ:" << endl;
             cin.clear();
             cin.ignore(cin.rdbuf()->in_avail(),'\n');
             continue;
@@ -921,29 +921,29 @@ int menu_add_avr(database* const DB) {
 
 int menu_del_avr(database* const DB) {
     if (DB->flights == nullptr) {
-        cout << "Ñïèñîê àâèàğåéñîâ ïóñò. Îïåğàöèÿ íå âûïîëíåíà." << endl;
+        cout << "Ğ¡Ğ¿Ğ¸ÑĞ¾Ğº Ğ°Ğ²Ğ¸Ğ°Ñ€ĞµĞ¹ÑĞ¾Ğ² Ğ¿ÑƒÑÑ‚. ĞĞ¿ĞµÑ€Ğ°Ñ†Ğ¸Ñ Ğ½Ğµ Ğ²Ñ‹Ğ¿Ğ¾Ğ»Ğ½ĞµĞ½Ğ°." << endl;
         return 1;
     }
     while (true) {
-        cout << "Óäàëåíèå. Ââåäèòå íîìåğ ğåéñà:" << endl;
+        cout << "Ğ£Ğ´Ğ°Ğ»ĞµĞ½Ğ¸Ğµ. Ğ’Ğ²ĞµĞ´Ğ¸Ñ‚Ğµ Ğ½Ğ¾Ğ¼ĞµÑ€ Ñ€ĞµĞ¹ÑĞ°:" << endl;
         string inp;
         cin.clear();
         cin.ignore(cin.rdbuf()->in_avail(),'\n');
         getline(cin, inp);
         if (strcmp(inp.c_str(), "/") == 0) {
-            cout << "Âîçâğàùåíèå â ìåíş." << endl;
+            cout << "Ğ’Ğ¾Ğ·Ğ²Ñ€Ğ°Ñ‰ĞµĞ½Ğ¸Ğµ Ğ² Ğ¼ĞµĞ½Ñ." << endl;
             break;
         }
         if (is_avianum_correct(inp, DB->avianum_size)) {
             if (delete_element(DB->flights, inp.erase(3, 1).c_str()) == 2) {
-                cout << "|\\/| Àâèàğåéñ íå íàéäåí. Ïîïğîáóéòå çàíîâî" << endl;
-                cout << "|/\\| èëè ââåäèòå \"/\" äëÿ âûõîäà â ìåíş:" << endl;
+                cout << "|\\/| ĞĞ²Ğ¸Ğ°Ñ€ĞµĞ¹Ñ Ğ½Ğµ Ğ½Ğ°Ğ¹Ğ´ĞµĞ½. ĞŸĞ¾Ğ¿Ñ€Ğ¾Ğ±ÑƒĞ¹Ñ‚Ğµ Ğ·Ğ°Ğ½Ğ¾Ğ²Ğ¾" << endl;
+                cout << "|/\\| Ğ¸Ğ»Ğ¸ Ğ²Ğ²ĞµĞ´Ğ¸Ñ‚Ğµ \"/\" Ğ´Ğ»Ñ Ğ²Ñ‹Ñ…Ğ¾Ğ´Ğ° Ğ² Ğ¼ĞµĞ½Ñ:" << endl;
                 continue;
             }
             else {
-                cout << "Àâèàğåéñ óäàë¸í." << endl;
-                cout << "«Óâàæàåìûå ïàññàæèğû. Ğåéñ ¹" << inp << " îòìåíåí¸í."
-                    " Çà äîïîëíèòåëüíîé èíôîğìàöèåé îáğàùàéòåñü ê ïğåäñòàâèòåëş àâèàêîìïàíèè.»" << endl;
+                cout << "ĞĞ²Ğ¸Ğ°Ñ€ĞµĞ¹Ñ ÑƒĞ´Ğ°Ğ»Ñ‘Ğ½." << endl;
+                cout << "Â«Ğ£Ğ²Ğ°Ğ¶Ğ°ĞµĞ¼Ñ‹Ğµ Ğ¿Ğ°ÑÑĞ°Ğ¶Ğ¸Ñ€Ñ‹. Ğ ĞµĞ¹Ñ â„–" << inp << " Ğ¾Ñ‚Ğ¼ĞµĞ½ĞµĞ½Ñ‘Ğ½."
+                    " Ğ—Ğ° Ğ´Ğ¾Ğ¿Ğ¾Ğ»Ğ½Ğ¸Ñ‚ĞµĞ»ÑŒĞ½Ğ¾Ğ¹ Ğ¸Ğ½Ñ„Ğ¾Ñ€Ğ¼Ğ°Ñ†Ğ¸ĞµĞ¹ Ğ¾Ğ±Ñ€Ğ°Ñ‰Ğ°Ğ¹Ñ‚ĞµÑÑŒ Ğº Ğ¿Ñ€ĞµĞ´ÑÑ‚Ğ°Ğ²Ğ¸Ñ‚ĞµĞ»Ñ Ğ°Ğ²Ğ¸Ğ°ĞºĞ¾Ğ¼Ğ¿Ğ°Ğ½Ğ¸Ğ¸.Â»" << endl;
                 del_tickets_byAvr(DB->tickets, inp.c_str());
                 break;
             }
@@ -954,17 +954,17 @@ int menu_del_avr(database* const DB) {
 
 int menu_find_num_avr(database* const DB) {
     if (DB->flights == nullptr) {
-        cout << "Ñïèñîê àâèàğåéñîâ ïóñò. Îïåğàöèÿ íå âûïîëíåíà." << endl;
+        cout << "Ğ¡Ğ¿Ğ¸ÑĞ¾Ğº Ğ°Ğ²Ğ¸Ğ°Ñ€ĞµĞ¹ÑĞ¾Ğ² Ğ¿ÑƒÑÑ‚. ĞĞ¿ĞµÑ€Ğ°Ñ†Ğ¸Ñ Ğ½Ğµ Ğ²Ñ‹Ğ¿Ğ¾Ğ»Ğ½ĞµĞ½Ğ°." << endl;
         return 1;
     }
     while (true) {
-        cout << "Ïîèñê ğåéñà. Ââåäèòå íîìåğ ğåéñà:" << endl;
+        cout << "ĞŸĞ¾Ğ¸ÑĞº Ñ€ĞµĞ¹ÑĞ°. Ğ’Ğ²ĞµĞ´Ğ¸Ñ‚Ğµ Ğ½Ğ¾Ğ¼ĞµÑ€ Ñ€ĞµĞ¹ÑĞ°:" << endl;
         string inp;
         cin.clear();
         cin.ignore(cin.rdbuf()->in_avail(),'\n');
         getline(cin, inp);
         if (strcmp(inp.c_str(), "/") == 0) {
-            cout << "Âîçâğàùåíèå â ìåíş." << endl;
+            cout << "Ğ’Ğ¾Ğ·Ğ²Ñ€Ğ°Ñ‰ĞµĞ½Ğ¸Ğµ Ğ² Ğ¼ĞµĞ½Ñ." << endl;
             break;
         }
         if (is_avianum_correct(inp, DB->avianum_size)) {
@@ -972,27 +972,27 @@ int menu_find_num_avr(database* const DB) {
             inp.erase(3, 1);
             found = find_element(DB->flights, inp.c_str());
             if (found == nullptr) {
-                cout << "|\\/| Àâèàğåéñ íå íàéäåí. Ïîïğîáóéòå çàíîâî" << endl;
-                cout << "|/\\| èëè ââåäèòå \"/\" äëÿ âûõîäà â ìåíş:" << endl;
+                cout << "|\\/| ĞĞ²Ğ¸Ğ°Ñ€ĞµĞ¹Ñ Ğ½Ğµ Ğ½Ğ°Ğ¹Ğ´ĞµĞ½. ĞŸĞ¾Ğ¿Ñ€Ğ¾Ğ±ÑƒĞ¹Ñ‚Ğµ Ğ·Ğ°Ğ½Ğ¾Ğ²Ğ¾" << endl;
+                cout << "|/\\| Ğ¸Ğ»Ğ¸ Ğ²Ğ²ĞµĞ´Ğ¸Ñ‚Ğµ \"/\" Ğ´Ğ»Ñ Ğ²Ñ‹Ñ…Ğ¾Ğ´Ğ° Ğ² Ğ¼ĞµĞ½Ñ:" << endl;
                 cin.clear();
                 cin.ignore(cin.rdbuf()->in_avail(),'\n');
                 continue;
             }
             else {
-                cout << "Àâèàğåéñ íàéäåí. Èíôîğìàöèÿ î í¸ì:" << endl;
-                std::cout << "Ğåéñ ¹" << found->number << std::endl;
-                std::cout << "Êîìïàíèÿ: " << found->company << std::endl;
-                std::cout << "Îòïğàâëÿåòñÿ èç: " << found->departure << std::endl;
-                std::cout << "Â: " << found->arriving << std::endl;
-                std::cout << "Âğåìÿ îòïğàâëåíèÿ: " << found->dep_time << std::endl;
-                std::cout << "Âğåìÿ ïğèáûòèÿ: " << found->arv_time << std::endl;
-                std::cout << "Âñåãî " << found->places << " ìåñò, èç êîòîğûõ " << found->free << "ñâîáîäíî." << std::endl;
+                cout << "ĞĞ²Ğ¸Ğ°Ñ€ĞµĞ¹Ñ Ğ½Ğ°Ğ¹Ğ´ĞµĞ½. Ğ˜Ğ½Ñ„Ğ¾Ñ€Ğ¼Ğ°Ñ†Ğ¸Ñ Ğ¾ Ğ½Ñ‘Ğ¼:" << endl;
+                std::cout << "Ğ ĞµĞ¹Ñ â„–" << found->number << std::endl;
+                std::cout << "ĞšĞ¾Ğ¼Ğ¿Ğ°Ğ½Ğ¸Ñ: " << found->company << std::endl;
+                std::cout << "ĞÑ‚Ğ¿Ñ€Ğ°Ğ²Ğ»ÑĞµÑ‚ÑÑ Ğ¸Ğ·: " << found->departure << std::endl;
+                std::cout << "Ğ’: " << found->arriving << std::endl;
+                std::cout << "Ğ’Ñ€ĞµĞ¼Ñ Ğ¾Ñ‚Ğ¿Ñ€Ğ°Ğ²Ğ»ĞµĞ½Ğ¸Ñ: " << found->dep_time << std::endl;
+                std::cout << "Ğ’Ñ€ĞµĞ¼Ñ Ğ¿Ñ€Ğ¸Ğ±Ñ‹Ñ‚Ğ¸Ñ: " << found->arv_time << std::endl;
+                std::cout << "Ğ’ÑĞµĞ³Ğ¾ " << found->places << " Ğ¼ĞµÑÑ‚, Ğ¸Ğ· ĞºĞ¾Ñ‚Ğ¾Ñ€Ñ‹Ñ… " << found->free << "ÑĞ²Ğ¾Ğ±Ğ¾Ğ´Ğ½Ğ¾." << std::endl;
                 break;
             }
         }
         else {
-            cout << "|\\/| Íîìåğ ââåä¸í íåâåğíî. Ïîïğîáóéòå çàíîâî" << endl;
-            cout << "|/\\| èëè ââåäèòå \"/\" äëÿ âûõîäà â ìåíş:" << endl;
+            cout << "|\\/| ĞĞ¾Ğ¼ĞµÑ€ Ğ²Ğ²ĞµĞ´Ñ‘Ğ½ Ğ½ĞµĞ²ĞµÑ€Ğ½Ğ¾. ĞŸĞ¾Ğ¿Ñ€Ğ¾Ğ±ÑƒĞ¹Ñ‚Ğµ Ğ·Ğ°Ğ½Ğ¾Ğ²Ğ¾" << endl;
+            cout << "|/\\| Ğ¸Ğ»Ğ¸ Ğ²Ğ²ĞµĞ´Ğ¸Ñ‚Ğµ \"/\" Ğ´Ğ»Ñ Ğ²Ñ‹Ñ…Ğ¾Ğ´Ğ° Ğ² Ğ¼ĞµĞ½Ñ:" << endl;
             cin.clear();
             cin.ignore(cin.rdbuf()->in_avail(), '\n');
             continue;
@@ -1003,30 +1003,30 @@ int menu_find_num_avr(database* const DB) {
 
 int menu_find_dest_avr(database* const DB) {
     if (DB->flights == nullptr) {
-        cout << "Ñïèñîê àâèàğåéñîâ ïóñò. Îïåğàöèÿ íå âûïîëíåíà." << endl;
+        cout << "Ğ¡Ğ¿Ğ¸ÑĞ¾Ğº Ğ°Ğ²Ğ¸Ğ°Ñ€ĞµĞ¹ÑĞ¾Ğ² Ğ¿ÑƒÑÑ‚. ĞĞ¿ĞµÑ€Ğ°Ñ†Ğ¸Ñ Ğ½Ğµ Ğ²Ñ‹Ğ¿Ğ¾Ğ»Ğ½ĞµĞ½Ğ°." << endl;
         return 1;
     }
     while (true) {
-        cout << "Ïîèñê ğåéñîâ. Ââåäèòå ïóíêò íàçíà÷åíèÿ:" << endl;
+        cout << "ĞŸĞ¾Ğ¸ÑĞº Ñ€ĞµĞ¹ÑĞ¾Ğ². Ğ’Ğ²ĞµĞ´Ğ¸Ñ‚Ğµ Ğ¿ÑƒĞ½ĞºÑ‚ Ğ½Ğ°Ğ·Ğ½Ğ°Ñ‡ĞµĞ½Ğ¸Ñ:" << endl;
         string inp;
         cin.clear();
         cin.ignore(cin.rdbuf()->in_avail(),'\n');
         getline(cin, inp);
         if (strcmp(inp.c_str(), "/") == 0) {
-            cout << "Âîçâğàùåíèå â ìåíş." << endl;
+            cout << "Ğ’Ğ¾Ğ·Ğ²Ñ€Ğ°Ñ‰ĞµĞ½Ğ¸Ğµ Ğ² Ğ¼ĞµĞ½Ñ." << endl;
             break;
         }
         found_flights* found = nullptr;
         find_elements_bytext(DB->flights, found, inp);
         if (found == nullptr) {
-            cout << "|\\/| Àâèàğåéñ íå íàéäåí. Ïîïğîáóéòå çàíîâî" << endl;
-            cout << "|/\\| èëè ââåäèòå \"/\" äëÿ âûõîäà â ìåíş:" << endl;
+            cout << "|\\/| ĞĞ²Ğ¸Ğ°Ñ€ĞµĞ¹Ñ Ğ½Ğµ Ğ½Ğ°Ğ¹Ğ´ĞµĞ½. ĞŸĞ¾Ğ¿Ñ€Ğ¾Ğ±ÑƒĞ¹Ñ‚Ğµ Ğ·Ğ°Ğ½Ğ¾Ğ²Ğ¾" << endl;
+            cout << "|/\\| Ğ¸Ğ»Ğ¸ Ğ²Ğ²ĞµĞ´Ğ¸Ñ‚Ğµ \"/\" Ğ´Ğ»Ñ Ğ²Ñ‹Ñ…Ğ¾Ğ´Ğ° Ğ² Ğ¼ĞµĞ½Ñ:" << endl;
             cin.clear();
             cin.ignore(cin.rdbuf()->in_avail(),'\n');
             continue;
         }
         else {
-            cout << "Àâèàğåéñ(û) ñ óêàçàííûìè ôğàãìåíòàìè íàçâàíèÿ àığîïîğòà ïğèáûòèÿ:" << endl;
+            cout << "ĞĞ²Ğ¸Ğ°Ñ€ĞµĞ¹Ñ(Ñ‹) Ñ ÑƒĞºĞ°Ğ·Ğ°Ğ½Ğ½Ñ‹Ğ¼Ğ¸ Ñ„Ñ€Ğ°Ğ³Ğ¼ĞµĞ½Ñ‚Ğ°Ğ¼Ğ¸ Ğ½Ğ°Ğ·Ğ²Ğ°Ğ½Ğ¸Ñ Ğ°ÑÑ€Ğ¾Ğ¿Ğ¾Ñ€Ñ‚Ğ° Ğ¿Ñ€Ğ¸Ğ±Ñ‹Ñ‚Ğ¸Ñ:" << endl;
             output_flights(found);
             clear_list(found);
             break;
@@ -1037,10 +1037,10 @@ int menu_find_dest_avr(database* const DB) {
 
 void menu_show_avr(database* const DB) {
     if (DB->flights == nullptr) {
-        cout << "Ñïèñîê àâèàğåéñîâ ïóñò. Îïåğàöèÿ íå âûïîëíåíà." << endl;
+        cout << "Ğ¡Ğ¿Ğ¸ÑĞ¾Ğº Ğ°Ğ²Ğ¸Ğ°Ñ€ĞµĞ¹ÑĞ¾Ğ² Ğ¿ÑƒÑÑ‚. ĞĞ¿ĞµÑ€Ğ°Ñ†Ğ¸Ñ Ğ½Ğµ Ğ²Ñ‹Ğ¿Ğ¾Ğ»Ğ½ĞµĞ½Ğ°." << endl;
     }
     else {
-        cout << "Àâèàğåéñû:" << endl;
+        cout << "ĞĞ²Ğ¸Ğ°Ñ€ĞµĞ¹ÑÑ‹:" << endl;
         output_flights(DB->flights);
         cout << boolalpha << tree_accuracy(DB->flights) << endl;
     }
