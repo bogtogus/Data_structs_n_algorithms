@@ -45,7 +45,7 @@ bool compare_fragments(const std::string& line, const std::string& need) { // Бо
         }
         for (c2 = c1 + 1; c2 < nlen; c2++) { // если символ уже вычислялся
             if (need[c2] == need[c1]) {
-                stopsymb[c1] = stopsymb[c2];
+                stopsymb[c1] = stopsymb[c2]; // то записываем число в самом правом вхождении
                 break;
             }
         }
@@ -108,7 +108,7 @@ bool is_avianum_correct(const std::string number, const int num_size) { // AAA-N
     return true;
 }
 
-bool validate_date(const std::string date) {
+bool validate_date(const std::string date, bool birth) {
     std::string mask = "DD.MM.YYYY";
     
     if (date.length() > mask.length()) {
@@ -137,7 +137,7 @@ bool validate_date(const std::string date) {
         delete[] months;
         return false;
     }
-    else if (year < 2000 || year > 2023) {
+    else if (!birth && year < 2000 || year > 2023) {
         delete[] months;
         return false;
     }
@@ -214,9 +214,12 @@ bool validate_dateNtime(const std::string dateNtime) {
     return true;
 }
 
-bool validate_name(const std::string name) {
+bool validate_name(const std::string name, bool fio) {
     std::string nval = "1234567890!@#№\"\';$%^:&?*(){}[]|\\/_+=`~";
     if (name.find_first_of(nval) != std::string::npos) {
+        return false;
+    }
+    else if (fio && name.find('.') == std::string::npos) {
         return false;
     }
     return true;

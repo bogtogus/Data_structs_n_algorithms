@@ -191,6 +191,26 @@ bool is_exists(const flight* subroot, const string& number) {
     return false;
 }
 
+bool is_copy(const flight* subroot, const flight* compr) {
+    if (subroot != nullptr) {
+        if (is_copy(subroot->left, compr)) {
+            return true;
+        }
+        if (subroot->company == compr->company && 
+                subroot->departure == compr->departure && 
+                subroot->arriving == compr->arriving && 
+                subroot->dep_time == compr->dep_time && 
+                subroot->arv_time == compr->arv_time && 
+                subroot->dep_time == compr->dep_time) {
+            return true;
+        }
+        if (is_copy(subroot->right, compr)) {
+            return true;
+        }
+    }
+    return false;
+}
+
 flight* find_element(flight* root, const char* number) {
     flight* prev_joint = nullptr;
     flight* current_joint = root;
@@ -612,7 +632,7 @@ void output_flights(const flight* const subroot) {
     }
 }
 
-void output_flights(found_flights* a) {
+void output_flights(found_flights* const a) {
     if (a == nullptr) {
         return;
     }
@@ -637,3 +657,17 @@ void output_flights(found_flights* a) {
     delete[] nmbr;
 }
 
+void clear_list(found_flights*& head) {
+    if (head == nullptr) {
+        return;
+    }
+    found_flights* cur_flight = head;
+    found_flights* next_flight = cur_flight->next;
+    while (next_flight != nullptr) {
+        delete cur_flight;
+        cur_flight = next_flight;
+        next_flight = cur_flight->next;
+    }
+    delete cur_flight;
+    head = nullptr;
+}

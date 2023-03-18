@@ -24,8 +24,9 @@ struct found_flights {
 int add_element(flight*& root, const flight& data);
 int delete_element(flight*& root, const char* number);
 bool is_exists(const flight* root, const  std::string& number);
+bool is_copy(const flight* subroot, const flight* compr);
 void output_flights(const flight* const);
-void output_flights(found_flights*);
+void output_flights(found_flights* const);
 void output_tree_height(flight* subroot, long int n, const int direction, bool changed=false);
 flight* find_element(flight*, const char*);
 bool find_elements_bytext(flight* root, found_flights*&, const  std::string text);
@@ -44,3 +45,4 @@ bool is_balanced(const flight*);
 flight* to_root(flight*);
 void push_back(found_flights *&, flight*&);
 void copy_element(const flight&, flight*&);
+void clear_list(found_flights*& head);

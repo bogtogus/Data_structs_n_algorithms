@@ -13,6 +13,7 @@ void clear_list(ticket_trade*& head) {
         next_ticket = cur_ticket->next;
     }
     delete cur_ticket;
+    head = nullptr;
 }
 
 void show_list(ticket_trade* head, const int pass_size, const int avianum_size) {

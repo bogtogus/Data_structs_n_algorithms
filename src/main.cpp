@@ -1,20 +1,19 @@
-// 862
-// 4 - Продажа авиабилетов
-// 2 - Закрытое хеширование с квадратичным опробованием
-// 1 - сортировка Включением
-// 2 - список Циклический однонаправленный
-// 1 - обход дерева Обратный
-// 0 - поиск слова Боуера и Мура
+// Продажа авиабилетов
+// Закрытое хеширование с квадратичным опробованием
+// сортировка Включением
+// список Циклический однонаправленный
+// обход дерева Обратный
+// поиск слова Боуера и Мура
 
-#define _CRTDBG_MAP_ALLOC
-#include <stdlib.h>
-#include <crtdbg.h>
-#ifdef _DEBUG
-#ifndef DBG_NEW
-#define DBG_NEW new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )
-#define newDBG_NEW
-#endif
-#endif
+//#define _CRTDBG_MAP_ALLOC
+//#include <stdlib.h>
+//#include <crtdbg.h>
+//#ifdef _DEBUG
+//#ifndef DBG_NEW
+//#define DBG_NEW new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )
+//#define newDBG_NEW
+//#endif
+//#endif
 
 #include <main.h>
 #include <menu.h>
@@ -24,7 +23,6 @@
 #include <functionality.h>
 
 using namespace std;
-//13
 
 int main() {
     setlocale(LC_ALL, "1251");
@@ -47,12 +45,12 @@ int main() {
     clear_flights(DB->flights);
     delete DB;
 
-    _CrtSetReportMode(_CRT_WARN, _CRTDBG_MODE_FILE);
-    _CrtSetReportFile(_CRT_WARN, _CRTDBG_FILE_STDOUT);
-    _CrtSetReportMode(_CRT_ERROR, _CRTDBG_MODE_FILE);
-    _CrtSetReportFile(_CRT_ERROR, _CRTDBG_FILE_STDOUT);
-    _CrtSetReportMode(_CRT_ASSERT, _CRTDBG_MODE_FILE);
-    _CrtSetReportFile(_CRT_ASSERT, _CRTDBG_FILE_STDOUT);
-    _CrtDumpMemoryLeaks();
+    //_CrtSetReportMode(_CRT_WARN, _CRTDBG_MODE_FILE);
+    //_CrtSetReportFile(_CRT_WARN, _CRTDBG_FILE_STDOUT);
+    //_CrtSetReportMode(_CRT_ERROR, _CRTDBG_MODE_FILE);
+    //_CrtSetReportFile(_CRT_ERROR, _CRTDBG_FILE_STDOUT);
+    //_CrtSetReportMode(_CRT_ASSERT, _CRTDBG_MODE_FILE);
+    //_CrtSetReportFile(_CRT_ASSERT, _CRTDBG_FILE_STDOUT);
+    //_CrtDumpMemoryLeaks();
     return 0;
 }

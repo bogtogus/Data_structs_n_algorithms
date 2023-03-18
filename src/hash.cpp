@@ -1,5 +1,6 @@
 #include <main.h>
 #include <hash.h>
+#include <functionality.h>
 
 int hash_key(const std::string key, const int passnum_size, const int sheet_size) {
     unsigned long int result=((int)key[0]+1) * 11;
@@ -77,4 +78,60 @@ bool is_sheet_empty(const passenger* sheet, const int sheet_size) {
         }
     }
     return true;
+}
+
+void push_back(found_passengers*& fpas, passenger* const psg) {
+    found_passengers* new_fpas = new found_passengers;
+    found_passengers* cur_fpas = fpas;
+    new_fpas->psg = new passenger;
+    copy_element(*psg, new_fpas->psg);
+    if (fpas == nullptr) {
+        fpas = new_fpas;
+    }
+    else {
+        while (cur_fpas->next != nullptr) {
+            cur_fpas = cur_fpas->next;
+        }
+        cur_fpas->next = new_fpas;
+    }
+}
+
+void copy_element(const passenger& src, passenger*& dest) {
+    strcpy_s(dest->passport, src.passport);
+    dest->issuance = src.issuance;
+    dest->fio = src.fio;
+    strcpy_s(dest->birth, src.birth);
+}
+
+void output_passengers(found_passengers* const a) {
+    if (a == nullptr) {
+        return;
+    }
+    char* passport = new char[12]{};
+    found_passengers* b = a;
+    while(b != nullptr) {
+        extend_passport(b->psg->passport, passport, 11);
+        std::cout << std::setw(16) << std::left << "Паспорт №" << passport << std::endl;
+        std::cout << std::setw(16) << std::left << "Выдан " << b->psg->issuance << std::endl;
+        std::cout << std::setw(16) << std::left << "Ф.И.О. " << b->psg->fio << std::endl;
+        std::cout << std::setw(16) << std::left << "Дата рождения: " << b->psg->birth << std::endl;
+        std::cout << std::setw(16) << std::left << "Возвращение в меню." << std::endl;  
+        b = b->next;
+    }
+    delete[] passport;
+}
+
+void clear_list(found_passengers*& head) {
+    if (head == nullptr) {
+        return;
+    }
+    found_passengers* cur_passenger = head;
+    found_passengers* next_passenger = cur_passenger->next;
+    while (next_passenger != nullptr) {
+        delete cur_passenger;
+        cur_passenger = next_passenger;
+        next_passenger = cur_passenger->next;
+    }
+    delete cur_passenger;
+    head = nullptr;
 }

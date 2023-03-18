@@ -208,11 +208,19 @@ void menu_show_tickets(const database* const DB) {
 int menu_load_data(database* const DB) {
     int flag = 0;
     cout << "Загрузка данных из файла." << endl;
-    string path = EXPAND(UNITTESTPRJ);
-    path.erase(0, 1);
-    path.erase(path.length() - 2);
+    //string path = EXPAND(UNITTESTPRJ);
+    //path.erase(0, 1);
+    //path.erase(path.length() - 2);
+    char* locpath = new char[MAX_PATH]{};
+    GetModuleFileNameA(NULL, locpath, MAX_PATH);
+    string path = locpath;
+    while (path.find('\\') != string::npos) {
+        path.replace(path.find('\\'), 1, "/");
+    }
+    path.erase(path.rfind('/') + 1, 8);
+    delete[] locpath;
     ifstream file;
-    //cout << path << endl;
+    cout << path << endl;
     file.open(path + "_passengers.txt");
     if (!file.is_open()) {
         cout << "[X] Файл 1 не найден." << endl;
@@ -624,7 +632,7 @@ int menu_add_psg(database* const DB) {
                 cout << "Введите ФИО пассажира:" << endl;
                 getline(cin, longinp);
                 format_fio(longinp);
-                while (!validate_name(longinp)) {
+                while (!validate_name(longinp, true)) {
                     cout << "[X] Ошибка ввода. Попробуйте заново:" << endl;
                     getline(cin, longinp);
                     format_fio(longinp);
@@ -633,7 +641,7 @@ int menu_add_psg(database* const DB) {
                 
                 cout << "Введите дату рождения пассажира (DD.MM.YYYY):" << endl;
                 getline(cin, longinp);
-                while(!validate_date(longinp)) {
+                while(!validate_date(longinp, true)) {
                     cout << "[X] Дата рождения введена неверно. попробуйте заново:" << endl;
                     getline(cin, longinp);
                 }
@@ -765,7 +773,8 @@ int menu_find_num_psg(database* const DB) {
 }
 
 int menu_find_fio_psg(database* const DB) {
-    char* passport = new char[DB->passnum_size + 1]{};
+    
+    found_passengers* fpas = nullptr;
     cout << "Поиск. Введите ФИО пассажира:" << endl;
     while (true) {
         string inp;
@@ -780,29 +789,24 @@ int menu_find_fio_psg(database* const DB) {
         int i = 0;
         for (i = 0; i < DB->sheet_size; i++) {
             if (strcmp(DB->passengers[i].fio.c_str(), inp.c_str()) == 0) {
-                break;
+                push_back(fpas, &DB->passengers[i]);
             }
         }
-        if (i < DB->sheet_size) {
-            cout << "Пассажир найден(№" << i << "). Информация о нём:" << endl;
-            extend_passport(DB->passengers[i].passport, passport, DB->passnum_size);
-            cout << setw(16) << left << "Паспорт №" << passport << endl;
-            cout << setw(16) << left << "Выдан " << DB->passengers[i].issuance << endl;
-            cout << setw(16) << left << "Ф.И.О. " << DB->passengers[i].fio << endl;
-            cout << setw(16) << left << "Дата рождения: " << DB->passengers[i].birth << endl;
-            cout << setw(16) << left << "Возвращение в меню." << endl;
-            
+        if (fpas != nullptr) {
+            std::cout << "Пассажир(ы) найден(ы). Информация:" << std::endl;
+            output_passengers(fpas);
+            clear_list(fpas);
             break;
         }
         else {
-            cout << "|\\/| Не удалось найти пассажира. Попробуйте заново"<< endl;
+            cout << "|\\/| Не удалось найти пассажиров с такими ФИО. Попробуйте заново"<< endl;
             cout << "|/\\| или введите \"/\" для выхода в меню:" << endl;
             cin.clear();
             cin.ignore(cin.rdbuf()->in_avail(),'\n');
             continue;
         }
     }
-    delete[] passport;
+    
     return 0;
 }
 
@@ -831,7 +835,7 @@ void menu_show_psg(database* const DB) {
 
 int menu_add_avr(database* const DB) {
     while (true) {
-        cout << "Добавление. Введите номер рейса в формате \"NNN-NNN\":" << endl;
+        cout << "Добавление. Введите номер рейса в формате \"AAA-NNN\":" << endl;
         string inp;
         cin.clear();
         cin.ignore(cin.rdbuf()->in_avail(),'\n');
@@ -885,13 +889,17 @@ int menu_add_avr(database* const DB) {
             }
             longinp.shrink_to_fit();
             newflight->arv_time = longinp;
+            if (is_copy(DB->flights, newflight)) {
+                cout << "[X] Рейс является копией существующего." << endl;
+                break;
+            }
             cout << "Введите количество мест в самолёте:" << endl;
-            while(input_int(places)) {
+            while(input_int(places) || places < 1) {
                 cout << "[X] Ошибка ввода. Попробуйте заново: ";
             }
             newflight->places = places;
             cout << "Введите количество свободных мест:" << endl;
-            while(input_int(places) || places > newflight->places) {
+            while(input_int(places) || places < 0 || places > newflight->places) {
                 cout << "[X] Ошибка ввода. Попробуйте заново: ";
             }
             newflight->free = places;
@@ -1020,6 +1028,7 @@ int menu_find_dest_avr(database* const DB) {
         else {
             cout << "Авиарейс(ы) с указанными фрагментами названия аэропорта прибытия:" << endl;
             output_flights(found);
+            clear_list(found);
             break;
         }
     }

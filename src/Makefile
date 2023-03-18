@@ -10,7 +10,7 @@ main.o: main.cpp $(ohdr)/functionality.h $(ohdr)/main.h $(ohdr)/menu.h $(ohdr)/h
 	@echo "<...> main.o"
 	@g++ -c main.cpp -g -I $(ohdr)
 
-functionality.o: functionality.cpp
+functionality.o: functionality.cpp $(ohdr)/functionality.h
 	@echo "<...> functionality.o"
 	@g++ -c functionality.cpp -g -I $(ohdr) 
 
@@ -18,7 +18,7 @@ menu.o: menu.cpp $(ohdr)/functionality.h $(ohdr)/menu.h $(ohdr)/hash.h $(ohdr)/t
 	@echo "<...> menu.o"
 	@g++ -c menu.cpp -g -I $(ohdr) 
 
-hash.o: hash.cpp $(ohdr)/hash.h
+hash.o: hash.cpp $(ohdr)/hash.h $(ohdr)/functionality.h
 	@echo "<...> hash.o"
 	@g++ -c hash.cpp -g -I $(ohdr) 
 
