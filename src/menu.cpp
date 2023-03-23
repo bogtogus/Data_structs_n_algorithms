@@ -591,6 +591,7 @@ int menu_add_psg(database* const DB) {
     while (true) {
         cout << "Добавление. Введите паспорт в формате \"NNNN-NNNNNN\":" << endl;
         string inp;
+        string issuance;
         cin.clear();
         cin.ignore(cin.rdbuf()->in_avail(),'\n');
         getline(cin, inp);
@@ -628,6 +629,7 @@ int menu_add_psg(database* const DB) {
                     getline(cin, longinp);
                 }
                 DB->passengers[hashed].issuance = longinp;
+                issuance = longinp;
                 //cout << DB->passengers[hashed].passport << endl;
                 cout << "Введите ФИО пассажира:" << endl;
                 getline(cin, longinp);
@@ -640,10 +642,17 @@ int menu_add_psg(database* const DB) {
                 DB->passengers[hashed].fio = longinp;
                 
                 cout << "Введите дату рождения пассажира (DD.MM.YYYY):" << endl;
-                getline(cin, longinp);
-                while(!validate_date(longinp, true)) {
-                    cout << "[X] Дата рождения введена неверно. попробуйте заново:" << endl;
+                while (true) {
                     getline(cin, longinp);
+                    while(!validate_date(longinp, true)) {
+                        cout << "[X] Дата рождения введена неверно. Попробуйте заново:" << endl;
+                        getline(cin, longinp);
+                    }
+                    if (cmp_datas_gt(longinp, get_isuance_date(issuance))) {
+                        break;
+                    }
+                    cout << "[X] Дата рождения должна быть раньше, чем дата выдачи паспорта. ";
+                    cout << "Попробуйте заново:" << endl;
                 }
                 strcpy_s(DB->passengers[hashed].birth, longinp.c_str());
                 cout << "Пассажир добавлен." << endl;
@@ -869,7 +878,7 @@ int menu_add_avr(database* const DB) {
             getline(cin, longinp);
             longinp.shrink_to_fit();
             newflight->arriving = longinp;
-            cout << "Введите время отправления рейса:" << endl;
+            cout << "Введите время отправления рейса (DD.MM.YYYY HH:MM):" << endl;
             getline(cin, longinp);
             while (!validate_dateNtime(longinp)) {
                 cout << "[X] Время отправления введено неверно. Попробуйте заново:" << endl;
@@ -880,12 +889,19 @@ int menu_add_avr(database* const DB) {
             longinp.shrink_to_fit();
             newflight->dep_time = longinp;
             cout << "Введите время прибытия рейса (DD.MM.YYYY HH:MM):" << endl;
-            getline(cin, longinp);
-            while (!validate_dateNtime(longinp)) {
-                cout << "[X] Время прибытия введено неверно. Попробуйте заново:" << endl;
-                cin.clear();
-                cin.ignore(cin.rdbuf()->in_avail(), '\n');
+            while (true) {
                 getline(cin, longinp);
+                while (!validate_dateNtime(longinp)) {
+                    cout << "[X] Время прибытия введено неверно. Попробуйте заново:" << endl;
+                    cin.clear();
+                    cin.ignore(cin.rdbuf()->in_avail(), '\n');
+                    getline(cin, longinp);
+                }
+                if (cmp_dataNtimes_gt(longinp, newflight->dep_time)) {
+                    break;
+                }
+                cout << "[X] Время прибытия должно быть позже времени отправления.";
+                cout << "Попробуйте заново:" << endl;
             }
             longinp.shrink_to_fit();
             newflight->arv_time = longinp;

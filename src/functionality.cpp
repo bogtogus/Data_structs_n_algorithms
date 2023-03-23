@@ -108,7 +108,7 @@ bool is_avianum_correct(const std::string number, const int num_size) { // AAA-N
     return true;
 }
 
-bool validate_date(const std::string date, bool birth) {
+bool validate_date(const std::string& date, bool birth) {
     std::string mask = "DD.MM.YYYY";
     
     if (date.length() > mask.length()) {
@@ -157,7 +157,7 @@ bool validate_date(const std::string date, bool birth) {
     return true;
 }
 
-bool validate_dateNtime(const std::string dateNtime) {
+bool validate_dateNtime(const std::string& dateNtime) {
     std::string mask = "DD.MM.YYYY HH:MM";
     if (dateNtime.length() > mask.length()) {
         return false;
@@ -202,7 +202,7 @@ bool validate_dateNtime(const std::string dateNtime) {
     delete[] months;
     ind = dateNtime.find(' ', ind + 1) + 1;
     int hour = stoi((dateNtime).substr(ind, ind + 2));
-    ind = dateNtime.find(' ', ind + 1) + 1;
+    ind = dateNtime.find(':', ind + 1) + 1;
     int min = stoi((dateNtime).substr(ind, ind + 2));
     if (hour < 0 || hour > 23) {
         return false;
@@ -212,6 +212,103 @@ bool validate_dateNtime(const std::string dateNtime) {
     }
     
     return true;
+}
+
+bool cmp_datas_gt(const std::string& first, const std::string& second) {
+    std::string::size_type ind = 0;
+    int day1 = 0;
+    int month1 = 0;
+    int year1 = 0;
+    int day2 = 0;
+    int month2 = 0;
+    int year2 = 0;
+    try {
+        day1 = stoi((first).substr(ind, ind + 2));
+        ind = first.find('.', ind + 1) + 1;
+        month1 = stoi((first).substr(ind, ind + 2));
+        ind = first.find('.', ind + 1) + 1;
+        year1 = stoi((first).substr(ind, ind + 4));
+        ind = 0;
+        day2 = stoi((second).substr(ind, ind + 2));
+        ind = second.find('.', ind + 1) + 1;
+        month2 = stoi((second).substr(ind, ind + 2));
+        ind = second.find('.', ind + 1) + 1;
+        year2 = stoi((second).substr(ind, ind + 4));
+    }
+    catch (std::invalid_argument){
+        return false;
+    }
+    if (year1 == year2) {
+        if (month1 == month2) {
+            return (bool)(day1 > day2);
+        }
+        return (bool)(month1 > month2);
+    }
+    return (bool)(year1 > year2);
+}
+
+bool cmp_dataNtimes_gt(const std::string& first, const std::string& second) {
+    std::string::size_type ind = 0;
+    int day1 = 0;
+    int month1 = 0;
+    int year1 = 0;
+    int day2 = 0;
+    int month2 = 0;
+    int year2 = 0;
+    int hour1 = 0;
+    int min1 = 0;
+    int hour2 = 0;
+    int min2 = 0;
+    try {
+        day1 = stoi((first).substr(ind, ind + 2));
+        ind = first.find('.', ind + 1) + 1;
+        month1 = stoi((first).substr(ind, ind + 2));
+        ind = first.find('.', ind + 1) + 1;
+        year1 = stoi((first).substr(ind, ind + 4));
+        ind = 0;
+        day2 = stoi((second).substr(ind, ind + 2));
+        ind = second.find('.', ind + 1) + 1;
+        month2 = stoi((second).substr(ind, ind + 2));
+        ind = second.find('.', ind + 1) + 1;
+        year2 = stoi((second).substr(ind, ind + 4));
+        ind = first.find(' ', ind + 1) + 1;
+        hour1 = stoi((first).substr(ind, ind + 2));
+        ind = first.find(':', ind + 1) + 1;
+        min1 = stoi((first).substr(ind, ind + 2));
+        ind = second.find(' ', ind + 1) + 1;
+        hour2 = stoi((second).substr(ind, ind + 2));
+        ind = second.find(':', ind + 1) + 1;
+        min2 = stoi((second).substr(ind, ind + 2));
+    }
+    catch (std::invalid_argument){
+        return false;
+    }
+    if (year1 == year2) {
+        if (month1 == month2) {
+            if (day1 < day2) {
+                return false;
+            }
+        }
+        if (month1 < month2) {
+            return false;
+        }
+    }
+    if (year1 < year2) {
+        return false;
+    }
+    if (hour1 == hour2) {
+        return (bool)(min1 > min2);
+    }
+    return (bool)(hour1 > hour2);
+}
+
+std::string get_isuance_date(const std::string& issuance) {
+    std::string issd = "";
+    if (issuance.rfind(' ') == std::string::npos) {
+        return issd;
+    }
+    issd = issuance.substr(issuance.rfind(' ') + 1);
+    return issd;
 }
 
 bool validate_name(const std::string name, bool fio) {
