@@ -3,7 +3,7 @@ current_dir := $(patsubst %/,%,$(dir $(mkpath)))
 hdr := $(current_dir)/include
 src := $(current_dir)/src
 enc = "-finput-charset=UTF-8 -fexec-charset=cp1251"
-objects = $(src)/main.o $(src)/functionality.o $(src)/menu.o $(src)/hash.o $(src)/tree.o $(src)/list.o
+objects = $(src)/main.o $(src)/functionality.o $(src)/menu.o $(src)/hash.o $(src)/tree.o $(src)/list.o $(src)/sqlite3.o
 
 all: 
 	@echo "Building..."

@@ -301,3 +301,17 @@ void del_tickets_byPass(ticket_trade*& head, const char* passport) {
         }
     }
 }
+
+int get_list_db(void* pointer, int argc, char** argv, char** azColName) {
+    ticket_trade** tickets = (ticket_trade**) pointer;
+    string passport = argv[1];
+    passport.erase(4, 1);
+    string flight = argv[2];
+    flight.erase(3, 1);
+    char* tnum = encode_ticket(stoi(argv[0]));
+    if (!is_exists(*tickets, tnum)) {
+        push_ticket_ff(*tickets, passport, flight, argv[0]);
+    }
+    delete[] tnum;
+    return 0;
+}

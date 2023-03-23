@@ -12,3 +12,5 @@ void format_fio(std::string& fio);
 void downcase_word(std::string& word);
 bool is_letter_upper(const char ch);
 char uppercase(const char ch);
+std::string utf8_to_cp1251(const std::string& str);
+std::string cp1251_to_utf8(const std::string& str);

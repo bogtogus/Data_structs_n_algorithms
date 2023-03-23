@@ -24,3 +24,4 @@ void copy_element(const passenger& src, passenger*& dest);
 void push_back(found_passengers*& fpas, passenger* const psg);
 void output_passengers(found_passengers* const a);
 void clear_list(found_passengers*& head);
+int get_pass_db(void* pointer, int argc, char** argv, char** azColName);

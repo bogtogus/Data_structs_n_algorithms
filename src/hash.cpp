@@ -1,3 +1,4 @@
+#include <string.h>
 #include <main.h>
 #include <hash.h>
 #include <functionality.h>
@@ -134,4 +135,32 @@ void clear_list(found_passengers*& head) {
     }
     delete cur_passenger;
     head = nullptr;
+}
+
+int get_pass_db(void* pointer, int argc, char** argv, char** azColName) {
+    if (argc != 4) {
+        //return 1;
+    }
+    passenger* passengers = (passenger*) pointer; 
+    std::string passport = argv[0];
+    passport.erase(4, 1);
+    int hashed = hash_key(passport, 11, 2000);
+    int o = 1;
+    //cout << (DB->passengers[hashed] == nullptr) << endl;
+    while (strcmp(passengers[hashed].passport, passport.c_str()) != 0 &&
+            strcmp(passengers[hashed].passport, "\0") != 0) {
+        hashed += 3*o + 7*(int)pow(o, 2);
+        hashed %= 2000;
+        o++;
+        if (o == 2000) {
+            break;
+        }
+    }
+    if (o < 2000 && strcmp(passengers[hashed].passport, passport.c_str()) != 0) {
+        strcpy_s(passengers[hashed].passport, passport.c_str());
+        passengers[hashed].issuance = utf8_to_cp1251(argv[1]);
+        passengers[hashed].fio = utf8_to_cp1251(argv[2]);
+        strcpy_s(passengers[hashed].birth, argv[3]);
+    }
+    return 0;
 }

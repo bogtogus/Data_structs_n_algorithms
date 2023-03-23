@@ -13,6 +13,7 @@ int menu_reg_ticket(database* const);
 int menu_ref_ticket(database* const);
 void menu_show_tickets(const database* const);
 int menu_load_data(database* const);
+int menu_load_data_DB(database* const);
 int load_pass(std::ifstream& file, database* const);
 int load_avia(std::ifstream& file, database* const);
 int load_tickets(std::ifstream& file, database* const);

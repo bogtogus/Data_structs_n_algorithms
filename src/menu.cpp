@@ -40,8 +40,11 @@ int menu(database* const DB) {
                 menu_help();
                 break;
             }
-            case 7: {
-                menu_load_data(DB);
+            case 7: {// load tickets
+                break;
+            }
+            case 8: { // load all
+                menu_load_data_DB(DB);
                 break;
             }
             case 0: {
@@ -79,7 +82,8 @@ void menu_help() {
     cout << "4 - зарегистрировать возврат билета;" << endl;
     cout << "5 - вывести список всех билетов;" << endl;
     cout << "6 - помощь по командам;" << endl;
-    cout << "7 - загрузка всех данных из файла;" << endl;
+    cout << "7 - загрузка билетов из Базы данных;" << endl;
+    cout << "8 - загрузка всех данных из Базы данных;"  << endl;
     cout << "0 - выход из меню;" << endl;
 }
 
@@ -401,6 +405,59 @@ int load_tickets(ifstream& file, database* const DB) {
     //show_list(tickets, passnum_size, 7);
     sort(DB->tickets);
     if(!something_read) return 1;
+    return 0;
+}
+
+int menu_load_data_DB(database* const DB) {
+    sqlite3* dbase = nullptr;
+    int flag = 0;
+    char* error = nullptr;
+    string inppath;
+    string abspath;
+    string path;
+    char* locpath = new char[MAX_PATH]{};
+    GetModuleFileNameA(NULL, locpath, MAX_PATH);
+    abspath = locpath;
+    delete[] locpath;
+    while (abspath.find('\\') != string::npos) {
+        abspath.replace(abspath.find('\\'), 1, "/");
+    }
+    abspath.erase(abspath.rfind('/') + 1, 8);
+    while (true) {
+        cout << "Загрузка данных из БД." << endl;
+        cout << "Введите локальный или полный путь к Базе Данных:" << endl;
+        cin.clear();
+        cin.ignore(cin.rdbuf()->in_avail(), '\n');
+        getline(cin, inppath);
+        if (inppath.find(':') == (size_t)1) { // введён абсолютный путь
+            path = inppath;
+        }
+        else {
+            path = abspath + inppath;
+        }
+        flag = sqlite3_open(path.c_str(), &dbase);
+        if (flag != SQLITE_OK) {
+            cout << "[X] Ошибка открытия Базы данных. Попробуйте заново." << endl;
+            continue;
+        }
+        flag = sqlite3_exec(dbase, "SELECT * FROM passengers", get_pass_db, DB->passengers, &error);
+        if (flag != SQLITE_OK) {
+            cout << "[X] Ошибка чтения Базы данных (пассажиры). " << error << endl;
+            break;
+        }
+        flag = sqlite3_exec(dbase, "SELECT * FROM flights", get_flights_db, &DB->flights, &error);
+        if (flag != SQLITE_OK) {
+            cout << "[X] Ошибка чтения Базы данных (рейсы). " << error << endl;
+            break;
+        }
+        flag = sqlite3_exec(dbase, "SELECT * FROM tickets", get_list_db, &DB->tickets, &error);
+        if (flag != SQLITE_OK) {
+            cout << "[X] Ошибка чтения Базы данных (билеты). " << error << endl;
+            break;
+        }
+        cout << "Чтение произведено. " << endl;
+        break;
+    }
     return 0;
 }
 

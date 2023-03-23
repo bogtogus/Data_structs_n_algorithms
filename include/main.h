@@ -7,6 +7,7 @@
 #include <iomanip>
 #include <string>
 #include <cstring>
+#include <sqlite3.h>
 
 struct database {
 	struct passenger* passengers = nullptr;

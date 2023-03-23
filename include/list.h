@@ -22,3 +22,4 @@ bool is_list_empty(ticket_trade*& head);
 void sort(ticket_trade*& head);
 void del_tickets_byAvr(ticket_trade*& head, const char* number);
 void del_tickets_byPass(ticket_trade*& head, const char* passport);
+int get_list_db(void* pointer, int argc, char** argv, char** azColName);

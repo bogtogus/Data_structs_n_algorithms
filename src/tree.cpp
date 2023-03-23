@@ -3,6 +3,9 @@
 using namespace std;
 
 int add_element(flight*& root, const flight& data) {
+    if (data.number[0] == '\0') {
+        return 1;
+    }
     flight* new_joint = new flight{};
     strcpy_s(new_joint->number, data.number);
     new_joint->company = data.company;
@@ -670,4 +673,23 @@ void clear_list(found_flights*& head) {
     }
     delete cur_flight;
     head = nullptr;
+}
+
+int get_flights_db(void* pointer, int argc, char** argv, char** azColName) {
+    flight** flights = (flight**) pointer;
+    flight* new_fl = new flight;
+    string number = argv[0];
+    number.erase(3, 1);
+    number.resize(6);
+    strcpy_s(new_fl->number, 7, number.c_str());
+    new_fl->company = utf8_to_cp1251(argv[1]);
+    new_fl->departure = utf8_to_cp1251(argv[2]);
+    new_fl->arriving = utf8_to_cp1251(argv[3]);
+    new_fl->dep_time = argv[4];
+    new_fl->arv_time = argv[5];
+    new_fl->places = stoi(argv[6]);
+    new_fl->free = stoi(argv[7]);
+    add_element(*flights, *new_fl);
+    delete new_fl;
+    return 0;
 }

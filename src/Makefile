@@ -1,4 +1,4 @@
-objects = main.o functionality.o menu.o hash.o tree.o list.o
+objects = main.o functionality.o menu.o hash.o tree.o list.o sqlite3.o
 
 all: main
 
@@ -29,6 +29,10 @@ tree.o: tree.cpp $(ohdr)/tree.h
 list.o: list.cpp $(ohdr)/list.h $(ohdr)/functionality.h
 	@echo "<...> list.o"
 	@g++ -c list.cpp $(oenc) -g -I $(ohdr) 
+
+sqlite3.o: sqlite3.c $(ohdr)/sqlite3.h
+	@echo "<...> sqlite3.o"
+	@gcc -c sqlite3.c $(oenc) -g -I $(ohdr) 
 
 #clean:
 #	@echo

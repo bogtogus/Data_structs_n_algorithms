@@ -25,9 +25,15 @@
 using namespace std;
 
 int main() {
-    setlocale(LC_ALL, "Russian");
-    SetConsoleCP(1251);
-    SetConsoleOutputCP(1251);
+    if (setlocale(LC_ALL, "Russian") == NULL) {
+        cout << "[!] Failed to set encoding." << endl;
+    }
+    if (!SetConsoleCP(1251)) {
+        cout << "[!] Failed to set consoleCP." << endl;
+    }
+    if (!SetConsoleOutputCP(1251)) {
+        cout << "[!] Failed to set consoleOutputCP." << endl;
+    }
     cin.sync_with_stdio(false);
     srand(time(0));
 

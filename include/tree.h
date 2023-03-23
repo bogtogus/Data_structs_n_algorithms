@@ -46,3 +46,4 @@ flight* to_root(flight*);
 void push_back(found_flights *&, flight*&);
 void copy_element(const flight&, flight*&);
 void clear_list(found_flights*& head);
+int get_flights_db(void* pointer, int argc, char** argv, char** azColName);
